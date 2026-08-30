@@ -182,6 +182,10 @@ class EpsilonEngine:
                 self.vram_guard.release_budget(tier)
 
         # Final PII Redaction and Session Wipe
+        rule_code = None
+        rule_name = None
+        vehicle_data = None
+
         if not answer_text:
             # Deterministic answer router
             from src.query.engine import GroundedQueryEngine
@@ -190,6 +194,9 @@ class EpsilonEngine:
             answer_text = det_res["answer"]
             citations = det_res["citations"]
             is_sufficient = det_res["is_sufficient"]
+            rule_code = det_res.get("rule_code")
+            rule_name = det_res.get("rule_name")
+            vehicle_data = det_res.get("vehicle_data")
         else:
             citations = candidate_citations
             is_sufficient = "insufficient data" not in answer_text.lower()
@@ -202,7 +209,10 @@ class EpsilonEngine:
             "answer": sanitized_answer,
             "citations": citations,
             "is_sufficient": is_sufficient,
-            "tier_used": tier
+            "tier_used": tier,
+            "rule_code": rule_code,
+            "rule_name": rule_name,
+            "vehicle_data": vehicle_data
         }
 
     def _resolve_model_for_tier(self, tier: str) -> str:

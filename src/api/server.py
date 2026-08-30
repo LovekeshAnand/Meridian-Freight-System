@@ -227,7 +227,7 @@ async def analyze_ticket_document(
     temp_adapted.write_text(json.dumps(records), encoding="utf-8")
 
     pipeline = BreakdownPipeline(context_store=context_store)
-    pipeline_res = pipeline.process_ticket_queue(temp_adapted)
+    pipeline_res = pipeline.process_ticket_queue(temp_adapted, force_reprocess=True)
 
     all_wos = _read_jsonl(WORK_ORDERS_FILE)
     all_quars = _read_jsonl(QUARANTINE_FILE)
@@ -243,19 +243,32 @@ async def analyze_ticket_document(
         matched_comms = next((c for c in reversed(all_comms) if c.get("ticket_id") == tkt_id), None)
 
         rep_veh = matched_wo.get("replacement_vehicle") if matched_wo else None
+        assigned_hub = matched_wo.get("assigned_hub") if matched_wo else t.get("origin_hub")
         
         # Build prompt for LLM explanation
         llm_prompt = (
-            f"A breakdown ticket was processed: Client: {t.get('client')}, Vehicle: {t.get('vehicle')}, "
-            f"Route: {t.get('origin_hub')} to {t.get('destination')}, Incident: {t.get('issue')}, "
-            f"Distance: {t.get('km_from_origin_hub')} km from origin.\n"
+            f"An emergency breakdown ticket was processed by the dispatch automation system:\n"
+            f"- Incident ID: {tkt_id}\n"
+            f"- Client: {t.get('client')}\n"
+            f"- Broken Vehicle: {t.get('vehicle')}\n"
+            f"- Trip Route: {t.get('origin_hub')} to {t.get('destination')} (Breakdown Distance: {t.get('km_from_origin_hub')} km from origin hub)\n"
+            f"- Incident Defect: {t.get('issue')}\n"
         )
         if rep_veh:
-            llm_prompt += f"System Assigned Replacement Truck: {rep_veh} at hub {matched_wo.get('assigned_hub')}. Rationale: {matched_wo.get('selection_rationale')}.\n"
+            llm_prompt += (
+                f"- Automated Resolution: Assigned Replacement Truck **{rep_veh}** from **{assigned_hub}** hub.\n"
+                f"- Selection Rationale: {matched_wo.get('selection_rationale')}\n"
+            )
         elif matched_quarantine:
-            llm_prompt += f"Ticket Quarantined: Reason: {matched_quarantine.get('reason')}.\n"
+            llm_prompt += f"- Ticket Quarantined: Reason: {matched_quarantine.get('quarantine_reason', matched_quarantine.get('reason'))}\n"
 
-        llm_prompt += "Explain the dispatch resolution strategy, cite governing rules, verify SLA compliance, and provide operational instructions."
+        llm_prompt += (
+            f"\nAs Rajender's Brain, provide a comprehensive dispatch resolution summary:\n"
+            f"1. Explain why replacement vehicle {rep_veh or 'selection'} was dispatched from {assigned_hub} under RULE-DISP-01 (50km Origin Rule).\n"
+            f"2. Confirm SLA compliance for {t.get('client')} (e.g. 36-hour window).\n"
+            f"3. Note any policy violations found with the broken truck ({t.get('vehicle')}).\n"
+            f"4. Provide concrete operational instructions for field teams."
+        )
 
         llm_res = local_llm.query(llm_prompt)
 

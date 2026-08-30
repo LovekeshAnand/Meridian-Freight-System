@@ -123,29 +123,34 @@ class BreakdownPipeline:
 
         log.info(f"Loaded {len(raw_tickets)} raw records from queue.")
 
-        # Use drift adapter if queue came via surprise path
-        from src.surprise.drift_adapter import SurpriseDriftAdapter
-        if queue_file_path and queue_file_path != TICKETS_FILE:
-            adapted, drift_alerts = SurpriseDriftAdapter.adapt_file(queue_file_path)
-            if adapted:
-                raw_tickets = adapted
-                log.info(f"Surprise file adapted: {len(raw_tickets)} records, {len(drift_alerts)} drift alerts.")
+    def process_ticket_queue(self, queue_path: Path, force_reprocess: bool = False) -> Dict[str, Any]:
+        """
+        Executes the full pipeline on a given ticket queue file.
+        Idempotent: Skips tickets that were already processed in previous runs unless force_reprocess is True.
+        """
+        raw_tickets, err = _load_queue_file(queue_path)
+        if err and not raw_tickets:
+            log.warn(f"Queue file issue: {err}")
+            return {"status": "error", "error": err, "total_in_queue": 0, "work_orders_generated": 0}
 
-        seen_ticket_ids = set()
+        seen_ticket_ids: set = set()
         valid_processed: List[str] = []
-        quarantined: List[Dict] = []
-        work_orders: List[Dict] = []
-        pending_comms: List[Dict] = []
+        quarantined: List[Dict[str, Any]] = []
+        work_orders: List[Dict[str, Any]] = []
+        pending_comms: List[Dict[str, Any]] = []
 
         for raw_ticket in raw_tickets:
             if self._interrupted:
-                log.alert("Pipeline interrupted by user signal. Flushing outputs.", alert_type="SIGINT")
                 break
-
             try:
                 self._process_single_ticket(
-                    raw_ticket, seen_ticket_ids,
-                    valid_processed, quarantined, work_orders, pending_comms
+                    raw_ticket,
+                    seen_ticket_ids,
+                    valid_processed,
+                    quarantined,
+                    work_orders,
+                    pending_comms,
+                    force_reprocess=force_reprocess
                 )
             except KeyboardInterrupt:
                 self._interrupted = True
@@ -199,6 +204,7 @@ class BreakdownPipeline:
         quarantined: List,
         work_orders: List,
         pending_comms: List,
+        force_reprocess: bool = False
     ):
         """Processes one ticket through all 7 steps."""
         ticket_id = str(raw_ticket.get("ticket_id", "")).strip() if isinstance(raw_ticket, dict) else ""
@@ -213,8 +219,8 @@ class BreakdownPipeline:
             )
             return
 
-        # Skip if already processed in a previous run (idempotency guard)
-        if ticket_id and self.state_manager.is_ticket_processed(ticket_id):
+        # Skip if already processed in a previous run (idempotency guard, unless forced)
+        if not force_reprocess and ticket_id and self.state_manager.is_ticket_processed(ticket_id):
             log.info(f"Ticket {ticket_id} already processed in previous run — skipping.", ticket_id=ticket_id)
             return
 

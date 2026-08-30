@@ -39,6 +39,7 @@ KEY_SYNONYMS = {
     "vehicle": [
         "vehicle", "vehicle_reg", "plate", "plate_no", "truck", "truck_id",
         "reg_no", "registration", "registration_number", "veh_reg", "vehicle_number",
+        "broken_truck", "broken_vehicle", "faulty_truck", "truck_plate"
     ],
     "driver_id": [
         "driver_id", "driver", "drv_id", "pilot_id", "operator_id", "emp_id",
@@ -50,17 +51,22 @@ KEY_SYNONYMS = {
     "km_from_origin_hub": [
         "km_from_origin_hub", "distance_km", "km_from_origin", "km_out",
         "dist_from_origin", "distance", "km", "dist_km", "breakdown_distance",
+        "dist_travelled_km", "travelled_km", "distance_from_origin"
     ],
     "destination": [
         "destination", "dest", "dest_hub", "to_hub", "target_hub",
         "delivery_point", "drop_point", "to", "unloading_point",
+        "to_destination", "destination_hub", "target"
     ],
     "issue": [
         "issue", "breakdown_reason", "problem", "fault", "defect",
         "breakdown_type", "failure_type", "reason", "breakdown_cause",
+        "incident_type", "error", "description", "issue_description",
+        "incident_details", "field_mechanic_notes"
     ],
     "severity": [
         "severity", "priority", "urgency_level", "urgency", "impact_level",
+        "severity_level", "criticality", "level"
     ],
     "client": [
         "client", "customer", "account", "client_name", "company",

@@ -1,0 +1,14 @@
+[
+  {
+    "incident_id": "INC-2026-CRIT-992",
+    "client_name": "shakti cement plant ltd",
+    "broken_truck": "UP 40 IM 3144",
+    "from_hub": "Gurgaon Depot",
+    "to_destination": "ludhiana central hub",
+    "dist_travelled_km": "43.5",
+    "timestamp": "30-08-2026 16:45:00",
+    "severity_level": "CRITICAL_BREAKDOWN",
+    "issue_description": "Truck had violent transmission seizure and heavy smoke on NH44 highway. Vehicle is completely disabled on shoulder with 28 metric tons of high-grade cement.",
+    "field_mechanic_notes": "Mechanic Guddu attempted emergency patch 2 days ago but vehicle missed required permanent overhaul. Driver states clutch burnt out completely."
+  }
+]

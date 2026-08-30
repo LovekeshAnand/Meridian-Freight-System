@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { Play, Plus, RefreshCw, AlertCircle, CheckCircle, ChevronRight, X, Clock, MapPin, Truck, FileText } from 'lucide-react';
+import { Play, Plus, RefreshCw, AlertCircle, CheckCircle, ChevronRight, X, Clock, MapPin, Truck, FileText, ShieldCheck } from 'lucide-react';
 
-export default function BreakdownCockpit({ apiBase = 'http://127.0.0.1:8000' }) {
+export default function BreakdownCockpit({ apiBase = 'http://127.0.0.1:8000', setActiveTab }) {
   const [results, setResults] = useState({ work_orders: [], comms_pending: [], comms_sent: [], quarantine: [] });
   const [loading, setLoading] = useState(false);
   const [selectedWO, setSelectedWO] = useState(null);
@@ -83,6 +83,15 @@ export default function BreakdownCockpit({ apiBase = 'http://127.0.0.1:8000' }) 
         </div>
 
         <div className="flex items-center gap-2">
+          {results.comms_pending.length > 0 && setActiveTab && (
+            <button
+              onClick={() => setActiveTab('approval')}
+              className="px-3.5 py-1.5 rounded-md bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-semibold flex items-center gap-1.5 transition-all shadow-xs"
+            >
+              <ShieldCheck className="w-3.5 h-3.5" />
+              <span>Review Drafts ({results.comms_pending.length}) →</span>
+            </button>
+          )}
           <button
             onClick={() => setShowManualModal(true)}
             className="px-3 py-1.5 rounded-md bg-[#ffffff] border border-[#d3d3d0] hover:bg-[#f1f1ef] text-xs font-medium text-[#242424] flex items-center gap-1.5 transition-all shadow-sm"
@@ -109,9 +118,17 @@ export default function BreakdownCockpit({ apiBase = 'http://127.0.0.1:8000' }) 
           <div className="text-[10px] text-[#787774] font-mono mt-0.5">outputs/work_orders.jsonl</div>
         </div>
 
-        <div className="notion-card p-3.5">
-          <div className="text-[10px] font-mono text-[#787774] uppercase tracking-wider">PENDING GATE</div>
-          <div className="text-xl font-bold text-[#b45309] mt-1">{results.comms_pending.length}</div>
+        <div
+          onClick={() => setActiveTab && setActiveTab('approval')}
+          className={`notion-card p-3.5 transition-all group ${
+            setActiveTab ? 'cursor-pointer hover:border-indigo-300 hover:bg-indigo-50/40' : ''
+          }`}
+        >
+          <div className="flex items-center justify-between">
+            <div className="text-[10px] font-mono text-indigo-700 font-bold uppercase tracking-wider">PENDING GATE</div>
+            <span className="text-[9px] font-mono text-indigo-600 opacity-0 group-hover:opacity-100 transition-opacity">CLICK TO OPEN →</span>
+          </div>
+          <div className="text-xl font-bold text-indigo-700 mt-1">{results.comms_pending.length}</div>
           <div className="text-[10px] text-[#787774] font-mono mt-0.5">Awaiting Human Sign-off</div>
         </div>
 

@@ -40,12 +40,12 @@ export default function App() {
       />
 
       <main className="flex-1 p-4 sm:p-6 lg:p-8 max-w-6xl mx-auto w-full">
-        {activeTab === 'brain' && <RajenderBrain apiBase={API_BASE} />}
-        {activeTab === 'cockpit' && <BreakdownCockpit apiBase={API_BASE} />}
-        {activeTab === 'approval' && <ApprovalGate apiBase={API_BASE} />}
-        {activeTab === 'fleet' && <FleetExplorer apiBase={API_BASE} />}
-        {activeTab === 'audit' && <AuditLedger apiBase={API_BASE} />}
-        {activeTab === 'sandbox' && <AdversarialSandbox apiBase={API_BASE} />}
+        {activeTab === 'brain' && <RajenderBrain apiBase={API_BASE} setActiveTab={setActiveTab} />}
+        {activeTab === 'cockpit' && <BreakdownCockpit apiBase={API_BASE} setActiveTab={setActiveTab} />}
+        {activeTab === 'approval' && <ApprovalGate apiBase={API_BASE} setActiveTab={setActiveTab} />}
+        {activeTab === 'fleet' && <FleetExplorer apiBase={API_BASE} setActiveTab={setActiveTab} />}
+        {activeTab === 'audit' && <AuditLedger apiBase={API_BASE} setActiveTab={setActiveTab} />}
+        {activeTab === 'sandbox' && <AdversarialSandbox apiBase={API_BASE} setActiveTab={setActiveTab} />}
       </main>
 
       <footer className="border-t border-[#e8e8e6] py-5 text-center text-xs text-[#787774] font-mono">

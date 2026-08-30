@@ -49,13 +49,29 @@ Enforces 12 strict operational rules:
 ### Installation & Prerequisites
 ```powershell
 # Python 3.11+
-pip install -r requirements.txt # (or standard library + requests, numpy, openpyxl, pytest)
+pip install -r requirements.txt
+
+# Frontend dependencies (one-time)
+cd frontend
+npm install
+cd ..
 ```
 
-### Running the Pipeline
+### 1-Command Full-Stack Launch (Backend + Web UI)
+Simply run:
 ```powershell
-# 1. Run the unattended breakdown pipeline
 python run.py
+```
+This automatically launches both:
+- ⚡ **FastAPI Backend**: `http://127.0.0.1:8000` (Docs at `/docs`)
+- 💻 **Dispatch Web UI**: `http://localhost:5173`
+
+---
+
+### Headless CLI Modes
+```powershell
+# 1. Run unattended queue processor on tickets.json
+python run.py --cli
 
 # 2. Run pipeline and auto-approve all client communications
 python run.py --approve-all
@@ -63,11 +79,14 @@ python run.py --approve-all
 # 3. Ask grounded operational questions with source citations
 python run.py --query "What is Shakti Cement's delivery window?"
 
-# 4. Ingest and process a surprise format queue file
+# 4. Ingest and process a surprise format queue file (CSV, Excel, TSV, JSON)
 python run.py --surprise path/to/surprise_tickets.csv
 
-# 5. Launch interactive human approval dashboard
+# 5. Launch terminal human approval dashboard
 python run.py --dashboard
+
+# 6. Run full 92-test automated verification suite
+python run.py --test
 ```
 
 ---

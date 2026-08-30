@@ -121,7 +121,7 @@ class ContextInjector:
                 parts.append("Vehicles with Temporary Guddu Jugaad: None active currently.")
             
             if overdue_list:
-                parts.append(f"Vehicles Grounded for Overdue Service (>150 days since last service, grounded until routine service is completed): {'; '.join(overdue_list[:15])} (Total {len(overdue_list)} vehicles overdue)")
+                parts.append(f"Vehicles Grounded for Overdue Service (>150 days since last service, strictly grounded until routine service is completed): {'; '.join(overdue_list)} (Total {len(overdue_list)} vehicles overdue)")
             
             if brake_list:
                 parts.append(f"Vehicles with Recent Brake Work (<30 days, cannot take hill routes, flat runs only): {'; '.join(brake_list[:10])}")

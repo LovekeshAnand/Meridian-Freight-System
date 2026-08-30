@@ -273,18 +273,18 @@ class EpsilonEngine:
         return TIER_MODELS.get(tier, "qwen2.5:1.5b")
 
     def _invoke_llm(self, prompt: str, system: str, model: str) -> str:
-        """Submits inference request to Ollama HTTP API."""
+        """Submits inference request to Ollama HTTP API with generous token budget."""
         payload = {
             "model": model,
             "prompt": prompt,
             "system": system,
             "stream": False,
             "options": {
-                "temperature": 0.0,
-                "num_predict": 256
+                "temperature": 0.1,
+                "num_predict": 2048
             }
         }
-        resp = requests.post(OLLAMA_API_URL, json=payload, timeout=12.0)
+        resp = requests.post(OLLAMA_API_URL, json=payload, timeout=45.0)
         if resp.status_code == 200:
             return resp.json().get("response", "").strip()
         return ""

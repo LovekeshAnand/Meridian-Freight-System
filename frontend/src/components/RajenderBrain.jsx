@@ -1,34 +1,39 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { Send, ArrowRight, CornerDownLeft, X, ShieldAlert, Truck, Info, RotateCcw } from 'lucide-react';
+import { Send, ArrowRight, CornerDownLeft, X, ShieldAlert, Truck, Info, RotateCcw, MessageSquare, Plus, Trash2, CheckCircle2, FileText, Database } from 'lucide-react';
 
-const TOPIC_CHIPS = [
-  { tag: 'S L A', title: 'Shakti Cement Protocol', query: "What is Shakti Cement's delivery window protocol?" },
-  { tag: 'W I N T E R', title: 'Delhi NCR BS Stage', query: "Can a BS4 truck homed in Jaipur take a load to Gurgaon or Noida during December?" },
-  { tag: 'H I L L S', title: 'Rudrapur / Nainital Route', query: "Can we dispatch a truck to Rudrapur in January if it had brake work 12 days ago?" },
-  { tag: 'J U G A A D', title: 'Guddu 7-Day Boundary', query: "If mechanic Guddu did a temporary patch on a vehicle in Lucknow, can it be dispatched to Ambala?" },
-  { tag: 'V E H I C L E', title: 'Vehicle UP40IM3144', query: "Why was UP40IM3144 grounded?" },
-  { tag: 'P H A R M A', title: 'Orion Pharma Audit Rules', query: "Can a 2018 model Tata Prima truck carry an Orion Pharma pharmaceutical consignment?" },
+const KNOWLEDGE_TEST_PROMPTS = [
+  { group: 'GREETINGS & INTRO', query: 'hi', desc: 'Assistant introduction & capabilities' },
+  { group: 'VEHICLE DIAGNOSTIC', query: 'Why was UP40IM3144 grounded?', desc: 'Overdue service grounding check (>30d)' },
+  { group: 'CLIENT SLA OVERRIDE', query: "What is Shakti Cement's delivery window protocol?", desc: '36h operational vs 48h paper contract' },
+  { group: 'WINTER POLLUTION BAN', query: 'Can a BS4 truck homed in Jaipur take a load to Gurgaon or Noida during December?', desc: 'Delhi NCR winter GRAP BS6 restriction' },
+  { group: 'HILL ROUTE & BRAKES', query: 'Can we dispatch a truck to Rudrapur in January if it had brake work 12 days ago?', desc: 'Engine heater + 30-day flat running rule' },
+  { group: 'MECHANIC PATCH LOCK', query: 'If mechanic Guddu did a temporary patch on a vehicle in Lucknow, can it be dispatched to Ambala?', desc: '7-day timer & home region restriction' },
+  { group: 'GATE CLOSING PROTOCOL', query: 'What happens if a Vertex Retail consignment will reach the Ludhiana warehouse gate at 6:30 PM?', desc: '6:00 PM gate hold & penalty prevention' },
+  { group: 'INCIDENT ROTATION', query: 'If a vehicle breaks down on an Apex Chemicals run, can we assign the same vehicle on their next shipment?', desc: 'Mandatory vehicle plate rotation' },
+  { group: 'COLD CHAIN & AGE', query: 'Can a 2018 model Tata Prima truck carry an Orion Pharma pharmaceutical consignment?', desc: '2020+ model year & cold chain rule' },
 ];
 
 const INITIAL_MESSAGE = {
   id: 'welcome',
   sender: 'assistant',
-  text: "Namaste. I am **Rajender's Dispatch Brain**.\n\nAsk me any question regarding dispatch precedence, vehicle eligibility, or client constraints. I provide concise, grounded answers with citations.",
+  text: "Namaste! I am **Rajender's Dispatch Brain**.\n\nI have ingested all 18 years of operational rules, client SLAs, mechanic logs, and fleet registers. Ask me any question or pick a verified test query from the sidebar.",
   citations: ["dispatcher_interview.txt", "fleet_master.csv", "maintenance_log.xlsx"],
   is_sufficient: true,
   timestamp: 'Active'
 };
 
 export default function RajenderBrain({ apiBase = 'http://127.0.0.1:8000' }) {
-  const [messages, setMessages] = useState(() => {
+  // Chat threads stored in state & localStorage
+  const [threads, setThreads] = useState(() => {
     try {
-      const saved = localStorage.getItem('meridian_chat_history');
-      return saved ? JSON.parse(saved) : [INITIAL_MESSAGE];
+      const saved = localStorage.getItem('meridian_threads_v2');
+      return saved ? JSON.parse(saved) : [{ id: 'default', title: 'Main Dispatch Session', messages: [INITIAL_MESSAGE], updatedAt: Date.now() }];
     } catch {
-      return [INITIAL_MESSAGE];
+      return [{ id: 'default', title: 'Main Dispatch Session', messages: [INITIAL_MESSAGE], updatedAt: Date.now() }];
     }
   });
 
+  const [activeThreadId, setActiveThreadId] = useState('default');
   const [input, setInput] = useState('');
   const [loading, setLoading] = useState(false);
   const [streamingMsgId, setStreamingMsgId] = useState(null);
@@ -37,19 +42,40 @@ export default function RajenderBrain({ apiBase = 'http://127.0.0.1:8000' }) {
   const [selectedRule, setSelectedRule] = useState(null);
   const chatEndRef = useRef(null);
 
-  useEffect(() => {
-    localStorage.setItem('meridian_chat_history', JSON.stringify(messages));
-    chatEndRef.current?.scrollIntoView({ behavior: 'smooth' });
-  }, [messages, displayedTexts]);
+  const activeThread = threads.find(t => t.id === activeThreadId) || threads[0];
 
-  const handleClearHistory = () => {
-    setMessages([INITIAL_MESSAGE]);
+  useEffect(() => {
+    localStorage.setItem('meridian_threads_v2', JSON.stringify(threads));
+    chatEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+  }, [threads, displayedTexts]);
+
+  const handleCreateNewThread = () => {
+    const newId = `thread_${Date.now()}`;
+    const newThread = {
+      id: newId,
+      title: `Session ${threads.length + 1}`,
+      messages: [INITIAL_MESSAGE],
+      updatedAt: Date.now()
+    };
+    setThreads(prev => [newThread, ...prev]);
+    setActiveThreadId(newId);
     setDisplayedTexts({});
-    localStorage.removeItem('meridian_chat_history');
+  };
+
+  const handleDeleteThread = (threadId, e) => {
+    e.stopPropagation();
+    if (threads.length <= 1) {
+      handleCreateNewThread();
+      return;
+    }
+    const remaining = threads.filter(t => t.id !== threadId);
+    setThreads(remaining);
+    if (activeThreadId === threadId) {
+      setActiveThreadId(remaining[0].id);
+    }
   };
 
   const streamText = (msgId, fullText) => {
-    let index = 0;
     setStreamingMsgId(msgId);
     setDisplayedTexts(prev => ({ ...prev, [msgId]: '' }));
 
@@ -66,7 +92,7 @@ export default function RajenderBrain({ apiBase = 'http://127.0.0.1:8000' }) {
         setStreamingMsgId(null);
         setDisplayedTexts(prev => ({ ...prev, [msgId]: fullText }));
       }
-    }, 45); // Smooth ChatGPT-style word streaming
+    }, 35); // Smooth word stream
   };
 
   const handleSend = async (queryText = input) => {
@@ -80,15 +106,26 @@ export default function RajenderBrain({ apiBase = 'http://127.0.0.1:8000' }) {
       timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
     };
 
-    const updatedMessages = [...messages, userMsg];
-    setMessages(updatedMessages);
+    const currentMessages = activeThread.messages || [];
+    const updatedMessages = [...currentMessages, userMsg];
+
+    // Update thread in state
+    setThreads(prev => prev.map(t => {
+      if (t.id === activeThread.id) {
+        return {
+          ...t,
+          title: t.title === 'Main Dispatch Session' || t.title.startsWith('Session') ? (text.slice(0, 24) + (text.length > 24 ? '...' : '')) : t.title,
+          messages: updatedMessages,
+          updatedAt: Date.now()
+        };
+      }
+      return t;
+    }));
+
     setInput('');
     setLoading(true);
 
-    const startTime = Date.now();
-
     try {
-      // Build conversation history payload for contextual resolution
       const historyPayload = updatedMessages.slice(-6).map(m => ({
         sender: m.sender,
         text: m.text
@@ -100,7 +137,7 @@ export default function RajenderBrain({ apiBase = 'http://127.0.0.1:8000' }) {
         body: JSON.stringify({ question: text, history: historyPayload })
       }).then(r => r.json());
 
-      // Ensure minimum 1.8 second typing animation delay
+      // 1.8s realistic typing indicator
       const minDelayPromise = new Promise(resolve => setTimeout(resolve, 1800));
 
       const [data] = await Promise.all([fetchPromise, minDelayPromise]);
@@ -118,98 +155,156 @@ export default function RajenderBrain({ apiBase = 'http://127.0.0.1:8000' }) {
         timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
       };
 
-      setMessages(prev => [...prev, botMsg]);
-      setLoading(false);
+      setThreads(prev => prev.map(t => {
+        if (t.id === activeThread.id) {
+          return {
+            ...t,
+            messages: [...updatedMessages, botMsg],
+            updatedAt: Date.now()
+          };
+        }
+        return t;
+      }));
 
-      // Start ChatGPT-style stream
+      setLoading(false);
       streamText(botMsgId, botMsg.text);
 
     } catch (err) {
-      await new Promise(r => setTimeout(r, 1200));
+      await new Promise(r => setTimeout(r, 1000));
       setLoading(false);
-      setMessages(prev => [
-        ...prev,
-        {
-          id: (Date.now() + 1).toString(),
-          sender: 'assistant',
-          text: `Unable to connect to backend: ${err.message}.`,
-          citations: [],
-          is_sufficient: false,
-          timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+      const errorMsg = {
+        id: (Date.now() + 1).toString(),
+        sender: 'assistant',
+        text: `Unable to connect to backend: ${err.message}. Please ensure the server is running on port 8000.`,
+        citations: [],
+        is_sufficient: false,
+        timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+      };
+
+      setThreads(prev => prev.map(t => {
+        if (t.id === activeThread.id) {
+          return { ...t, messages: [...updatedMessages, errorMsg] };
         }
-      ]);
+        return t;
+      }));
     }
   };
 
   return (
-    <div className="max-w-4xl mx-auto space-y-8 py-2">
-      {/* Notion Avatar & Welcome Section */}
-      <div className="flex items-start justify-between">
-        <div className="space-y-3">
-          <div className="w-14 h-14 rounded-full bg-[#f1f1ef] border border-[#e8e8e6] flex items-center justify-center text-2xl shadow-xs">
-            👨🏽‍💼
+    <div className="max-w-7xl mx-auto flex flex-col md:flex-row gap-6 py-2">
+      {/* ── Left Sidebar (Sessions & Knowledge Test Explorer) ────────────────── */}
+      <aside className="w-full md:w-72 shrink-0 space-y-4">
+        {/* New Session Button */}
+        <button
+          onClick={handleCreateNewThread}
+          className="w-full py-2 px-3 rounded-md bg-[#242424] hover:bg-[#111111] text-white text-xs font-medium flex items-center justify-between transition-all shadow-xs"
+        >
+          <span className="flex items-center gap-1.5">
+            <Plus className="w-3.5 h-3.5" />
+            <span>New Dispatch Thread</span>
+          </span>
+          <span className="text-[10px] font-mono text-slate-400">Ctrl+N</span>
+        </button>
+
+        {/* Sessions List */}
+        <div className="notion-card p-3 space-y-2">
+          <div className="text-[10px] font-mono font-semibold tracking-wider text-[#787774] uppercase flex items-center justify-between">
+            <span>SAVED SESSIONS</span>
+            <span className="text-[9px]">{threads.length}</span>
           </div>
 
-          <div>
-            <h1 className="text-3xl font-bold tracking-tight text-[#191919] serif-heading">
-              Hi, there!
-            </h1>
-            <p className="text-sm text-[#2f2f2f] mt-1 font-normal leading-relaxed">
-              I'm <strong className="font-semibold text-[#111827]">Rajender's Dispatch Brain</strong>, preserving 18 years of unwritten freight logistics heuristics, dispatcher interview transcripts, and fleet maintenance memory.
-            </p>
+          <div className="space-y-1 max-h-48 overflow-y-auto pr-1">
+            {threads.map(t => {
+              const isSelected = t.id === activeThreadId;
+              return (
+                <div
+                  key={t.id}
+                  onClick={() => {
+                    setActiveThreadId(t.id);
+                    setDisplayedTexts({});
+                  }}
+                  className={`p-2 rounded-md text-xs cursor-pointer flex items-center justify-between group transition-all ${
+                    isSelected
+                      ? 'bg-[#f1f1ef] text-[#191919] font-medium'
+                      : 'text-[#5a5a58] hover:bg-[#fbfbfa] hover:text-[#191919]'
+                  }`}
+                >
+                  <div className="flex items-center gap-2 truncate pr-1">
+                    <MessageSquare className="w-3.5 h-3.5 text-[#787774] shrink-0" />
+                    <span className="truncate">{t.title}</span>
+                  </div>
+                  {threads.length > 1 && (
+                    <button
+                      onClick={(e) => handleDeleteThread(t.id, e)}
+                      className="opacity-0 group-hover:opacity-100 p-1 hover:text-[#be123c] rounded transition-opacity"
+                    >
+                      <Trash2 className="w-3 h-3" />
+                    </button>
+                  )}
+                </div>
+              );
+            })}
           </div>
         </div>
 
-        {messages.length > 1 && (
-          <button
-            onClick={handleClearHistory}
-            className="px-2.5 py-1 rounded bg-[#fbfbfa] border border-[#d3d3d0] hover:bg-[#f1f1ef] text-[#787774] hover:text-[#191919] text-xs font-mono flex items-center gap-1.5 transition-all mt-2"
-          >
-            <RotateCcw className="w-3 h-3" />
-            <span>Reset Context</span>
-          </button>
-        )}
-      </div>
+        {/* Verified Knowledge Test Prompts (1-Click Test Sandbox) */}
+        <div className="notion-card p-3 space-y-2">
+          <div className="text-[10px] font-mono font-semibold tracking-wider text-[#787774] uppercase">
+            VERIFIED GROUNDING PROMPTS
+          </div>
+          <p className="text-[11px] text-[#787774] leading-relaxed">
+            Click any operational test below to test Rajender's Brain over the ingested corpus:
+          </p>
 
-      {/* Quick Knowledge Topics Grid */}
-      <div>
-        <div className="text-[11px] font-mono font-semibold tracking-wider text-[#787774] uppercase mb-3">
-          QUICK OPERATIONAL KNOWLEDGE
+          <div className="space-y-1.5 max-h-72 overflow-y-auto pr-1">
+            {KNOWLEDGE_TEST_PROMPTS.map((item, idx) => (
+              <button
+                key={idx}
+                onClick={() => handleSend(item.query)}
+                className="w-full text-left p-2 rounded-md hover:bg-[#fbfbfa] border border-transparent hover:border-[#ededeb] transition-all group"
+              >
+                <div className="text-[9px] font-mono uppercase font-semibold text-[#787774] group-hover:text-[#191919]">
+                  {item.group}
+                </div>
+                <div className="text-xs text-[#242424] font-medium line-clamp-1 mt-0.5 group-hover:underline">
+                  {item.query}
+                </div>
+                <div className="text-[10px] text-[#9b9a97] line-clamp-1">
+                  {item.desc}
+                </div>
+              </button>
+            ))}
+          </div>
         </div>
+      </aside>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-2.5">
-          {TOPIC_CHIPS.map((chip, idx) => (
-            <button
-              key={idx}
-              onClick={() => handleSend(chip.query)}
-              className="notion-card p-3 text-left flex items-start justify-between group hover:border-[#9b9a97] transition-all"
-            >
-              <div className="space-y-1">
-                <span className="notion-tag text-[9px] font-mono uppercase tracking-wider">
-                  {chip.tag}
+      {/* ── Main Chat Area ─────────────────────────────────────────────────── */}
+      <main className="flex-1 space-y-6">
+        {/* Header Intro Banner */}
+        <div className="pb-4 border-b border-[#e8e8e6] flex items-center justify-between">
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 rounded-full bg-[#f1f1ef] border border-[#e8e8e6] flex items-center justify-center text-lg">
+              👨🏽‍💼
+            </div>
+            <div>
+              <div className="flex items-center gap-2">
+                <h2 className="text-lg font-bold text-[#191919] serif-heading">
+                  Rajender's Dispatch Brain
+                </h2>
+                <span className="notion-tag font-mono text-[9px] uppercase">
+                  Active Thread
                 </span>
-                <div className="text-xs font-semibold text-[#242424] group-hover:underline">
-                  {chip.title}
-                </div>
-                <div className="text-[11px] text-[#787774] line-clamp-1">
-                  {chip.query}
-                </div>
               </div>
-              <ArrowRight className="w-3.5 h-3.5 text-[#9b9a97] group-hover:text-[#242424] group-hover:translate-x-0.5 transition-all shrink-0 mt-1" />
-            </button>
-          ))}
-        </div>
-      </div>
-
-      {/* Main Conversation Feed */}
-      <div className="space-y-4 pt-2 border-t border-[#e8e8e6]">
-        <div className="text-[11px] font-mono font-semibold tracking-wider text-[#787774] uppercase flex items-center justify-between">
-          <span>GROUNDED CONVERSATION WITH CONTEXT RETENTION</span>
-          <span className="text-[10px] font-normal text-[#9b9a97]">{messages.length} messages</span>
+              <p className="text-xs text-[#787774]">
+                Multi-turn context retention active. Pronouns and follow-ups resolve automatically.
+              </p>
+            </div>
+          </div>
         </div>
 
-        <div className="space-y-3.5">
-          {messages.map(msg => {
+        {/* Conversation Feed */}
+        <div className="space-y-3.5 min-h-[360px]">
+          {(activeThread.messages || []).map(msg => {
             const isStreamingThis = streamingMsgId === msg.id;
             const textToRender = displayedTexts[msg.id] !== undefined ? displayedTexts[msg.id] : msg.text;
 
@@ -218,8 +313,8 @@ export default function RajenderBrain({ apiBase = 'http://127.0.0.1:8000' }) {
                 key={msg.id}
                 className={`p-4 rounded-lg transition-all ${
                   msg.sender === 'user'
-                    ? 'bg-[#f7f6f3] border border-[#ededeb] ml-8'
-                    : 'bg-[#ffffff] border border-[#e8e8e6] mr-8'
+                    ? 'bg-[#f7f6f3] border border-[#ededeb] ml-6'
+                    : 'bg-[#ffffff] border border-[#e8e8e6] mr-6 shadow-2xs'
                 }`}
               >
                 <div className="flex items-center justify-between mb-2">
@@ -243,7 +338,7 @@ export default function RajenderBrain({ apiBase = 'http://127.0.0.1:8000' }) {
 
                 {/* Interactive Rule Button & Vehicle Info Button (Appears once stream finishes) */}
                 {!isStreamingThis && (msg.rule_code || msg.vehicle_data) && (
-                  <div className="mt-3 pt-2.5 border-t border-[#ededeb] flex flex-wrap items-center gap-2 animate-fade-in">
+                  <div className="mt-3 pt-2.5 border-t border-[#ededeb] flex flex-wrap items-center gap-2">
                     {msg.rule_code && (
                       <button
                         onClick={() => setSelectedRule({ code: msg.rule_code, name: msg.rule_name })}
@@ -294,9 +389,9 @@ export default function RajenderBrain({ apiBase = 'http://127.0.0.1:8000' }) {
             );
           })}
 
-          {/* Clean 3-Dot Typing Animation (Shows for 2 seconds) */}
+          {/* Clean 3-Dot Typing Animation */}
           {loading && (
-            <div className="p-3.5 rounded-lg bg-[#fbfbfa] border border-[#ededeb] mr-8 w-fit flex items-center gap-1.5 shadow-xs">
+            <div className="p-3.5 rounded-lg bg-[#fbfbfa] border border-[#ededeb] mr-6 w-fit flex items-center gap-1.5 shadow-xs">
               <span className="w-2 h-2 rounded-full bg-[#191919] animate-bounce" style={{ animationDelay: '0ms' }} />
               <span className="w-2 h-2 rounded-full bg-[#191919] animate-bounce" style={{ animationDelay: '150ms' }} />
               <span className="w-2 h-2 rounded-full bg-[#191919] animate-bounce" style={{ animationDelay: '300ms' }} />
@@ -304,31 +399,31 @@ export default function RajenderBrain({ apiBase = 'http://127.0.0.1:8000' }) {
           )}
           <div ref={chatEndRef} />
         </div>
-      </div>
 
-      {/* Input Field */}
-      <div className="sticky bottom-4 bg-[#ffffff]/90 backdrop-blur-md pt-2">
-        <div className="border border-[#d3d3d0] focus-within:border-[#242424] rounded-lg p-1.5 bg-[#ffffff] shadow-sm flex items-center gap-2">
-          <input
-            type="text"
-            value={input}
-            onChange={e => setInput(e.target.value)}
-            onKeyDown={e => e.key === 'Enter' && handleSend()}
-            placeholder="Ask Rajender's Brain anything (or follow up on previous answers)..."
-            className="flex-1 px-3 py-2 text-xs text-[#191919] placeholder-[#9b9a97] bg-transparent focus:outline-none"
-          />
-          <button
-            onClick={() => handleSend()}
-            disabled={loading || !input.trim()}
-            className="px-3.5 py-1.5 rounded bg-[#242424] hover:bg-[#111111] disabled:opacity-30 text-white text-xs font-medium flex items-center gap-1.5 transition-all"
-          >
-            <span>Ask</span>
-            <CornerDownLeft className="w-3 h-3" />
-          </button>
+        {/* Input Bar */}
+        <div className="sticky bottom-4 bg-[#ffffff]/90 backdrop-blur-md pt-2">
+          <div className="border border-[#d3d3d0] focus-within:border-[#242424] rounded-lg p-1.5 bg-[#ffffff] shadow-sm flex items-center gap-2">
+            <input
+              type="text"
+              value={input}
+              onChange={e => setInput(e.target.value)}
+              onKeyDown={e => e.key === 'Enter' && handleSend()}
+              placeholder="Ask Rajender's Brain anything (or follow up on previous answers)..."
+              className="flex-1 px-3 py-2 text-xs text-[#191919] placeholder-[#9b9a97] bg-transparent focus:outline-none"
+            />
+            <button
+              onClick={() => handleSend()}
+              disabled={loading || !input.trim()}
+              className="px-3.5 py-1.5 rounded bg-[#242424] hover:bg-[#111111] disabled:opacity-30 text-white text-xs font-medium flex items-center gap-1.5 transition-all"
+            >
+              <span>Ask</span>
+              <CornerDownLeft className="w-3 h-3" />
+            </button>
+          </div>
         </div>
-      </div>
+      </main>
 
-      {/* Vehicle Info Drawer/Modal */}
+      {/* Vehicle Info Modal */}
       {selectedVehicle && (
         <div className="fixed inset-0 z-50 bg-[#191919]/40 backdrop-blur-xs flex items-center justify-center p-4">
           <div className="bg-[#ffffff] rounded-lg border border-[#d3d3d0] max-w-md w-full p-6 shadow-xl relative max-h-[85vh] overflow-y-auto">

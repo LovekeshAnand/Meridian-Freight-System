@@ -38,7 +38,28 @@ class GroundedQueryEngine:
                 if any(w in question.lower() for w in ["it", "its", "the truck", "this truck", "the vehicle", "this vehicle", "heater", "service", "grounded", "jugaad", "brake"]):
                     resolved_question = f"{question} for vehicle {prev_veh}"
 
-        q_lower = resolved_question.lower()
+        q_lower = resolved_question.lower().strip()
+
+        # 0. Conversational Greetings & Assistant Intros
+        if q_lower in ["hi", "hello", "hey", "h", "namaste", "hola", "greetings", "good morning", "good evening", "good afternoon", "who are you", "who are you?", "help", "what can you do", "what can you do?"]:
+            return {
+                "question": question,
+                "answer": (
+                    "Namaste! I am Rajender's Dispatch Brain — your AI Copilot for Meridian Freight. "
+                    "I have ingested all 18 years of operational rules, client SLAs, mechanic logs, and fleet registers. "
+                    "You can ask me about:\n"
+                    "• Vehicle maintenance & grounding status (e.g. 'Why was UP40IM3144 grounded?')\n"
+                    "• Client turnaround protocols (e.g. 'What is Shakti Cement's SLA?')\n"
+                    "• Winter pollution bans (e.g. 'Delhi NCR BS4 winter rules')\n"
+                    "• Hill route requirements (e.g. 'Rudrapur engine heater & brake rules')\n"
+                    "• Mechanic Guddu's 7-day roadside patch rules\n"
+                    "• Hub distance & 50km dispatch heuristics."
+                ),
+                "citations": ["dispatcher_interview.txt", "fleet_master.csv", "maintenance_log.xlsx"],
+                "is_sufficient": True,
+                "rule_code": "COPILOT-READY",
+                "rule_name": "Rajender Dispatch Heuristics Copilot"
+            }
 
         # 1. Specific Vehicle Grounding / Status Lookup (Check first if question mentions a specific vehicle plate)
         norm_veh, is_reg = extract_vehicle_reg_from_text(resolved_question)

@@ -130,8 +130,17 @@ class BreakdownPipeline:
             raw_tickets, err = _load_queue_file(target_path)
 
         if not raw_tickets:
-            log.warn(f"Queue file issue: no records loaded.")
-            return {"status": "error", "error": "No records in queue", "total_in_queue": 0, "work_orders_generated": 0}
+            log.warn(f"Queue file issue: {err or 'no records loaded.'}")
+            return {
+                "status": "error" if err else "empty",
+                "error": err or "No records in queue",
+                "message": err or "No records in queue",
+                "total_in_queue": 0,
+                "valid_processed": 0,
+                "quarantined": 0,
+                "work_orders_generated": 0,
+                "comms_pending": 0
+            }
 
         log.info(f"Loaded {len(raw_tickets)} raw records from queue.")
 

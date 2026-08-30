@@ -446,6 +446,40 @@ export default function RajenderBrain({ apiBase = 'http://127.0.0.1:8000' }) {
           "issue_description": "Duplicate Test Entry 3 of 3: Alternator failure (Sync fault duplicate)."
         }
       ], null, 2);
+    } else if (format === 'quarantine') {
+      sampleFilename = 'sample_quarantine_test.json';
+      sampleContent = JSON.stringify([
+        {
+          "ticket_id": "INC-QUAR-NEG-DISTANCE",
+          "client": "Shakti Cement",
+          "vehicle": "UP17GN7381",
+          "origin_hub": "Kanpur",
+          "destination": "Delhi",
+          "km_from_origin_hub": -95.0,
+          "created_at": "2026-08-30T14:45:00",
+          "issue": "GPS telemetry corrupt: negative distance reported from origin hub."
+        },
+        {
+          "ticket_id": "INC-QUAR-MISSING-HUB",
+          "client": "Vertex Retail",
+          "vehicle": "RJ43DD3546",
+          "origin_hub": null,
+          "destination": "Ludhiana",
+          "km_from_origin_hub": 24.5,
+          "created_at": "2026-08-30T14:50:00",
+          "issue": "Origin dispatch hub omitted in roadside emergency log."
+        },
+        {
+          "ticket_id": "INC-QUAR-INVALID-PLATE",
+          "client": "Apex Chemicals",
+          "vehicle": "CORRUPT_PLATE_99999",
+          "origin_hub": "Jaipur",
+          "destination": "Delhi",
+          "km_from_origin_hub": 32.0,
+          "created_at": "2026-08-30T14:55:00",
+          "issue": "Unregistered vehicle tag entered by mechanic."
+        }
+      ], null, 2);
     } else if (format === 'json') {
       sampleFilename = 'sample_breakdown_tkt.json';
       sampleContent = JSON.stringify([{
@@ -538,10 +572,22 @@ export default function RajenderBrain({ apiBase = 'http://127.0.0.1:8000' }) {
             >
               <div className="flex items-center gap-1.5">
                 <ShieldAlert className="w-3.5 h-3.5 text-emerald-700" />
-                <span>Resilience Batch (9 Tkts + 3x Dups)</span>
+                <span>Resilience Batch (9 Tkts)</span>
               </div>
               <span className="text-[9px] bg-emerald-200/80 px-1 py-0.2 rounded text-emerald-800">HOT</span>
             </button>
+
+            <button
+              onClick={() => handleLoadSampleTicket('quarantine')}
+              className="w-full px-2.5 py-1.5 rounded bg-rose-50 hover:bg-rose-100 border border-rose-200 text-[11px] font-mono text-rose-900 flex items-center justify-between transition-all font-semibold"
+            >
+              <div className="flex items-center gap-1.5">
+                <AlertOctagon className="w-3.5 h-3.5 text-rose-700" />
+                <span>Quarantine Test (3 Corrupt Tkts)</span>
+              </div>
+              <span className="text-[9px] bg-rose-200/80 px-1 py-0.2 rounded text-rose-800">ISOLATE</span>
+            </button>
+
             <div className="grid grid-cols-2 gap-1.5">
               <button
                 onClick={() => handleLoadSampleTicket('json')}

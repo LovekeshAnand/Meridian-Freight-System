@@ -190,9 +190,15 @@ export default function RajenderBrain({ apiBase = 'http://127.0.0.1:8000' }) {
           ))}
 
           {loading && (
-            <div className="p-4 rounded-lg bg-[#f7f6f3] border border-[#ededeb] mr-8 text-xs text-[#787774] flex items-center gap-2">
-              <span className="w-2 h-2 rounded-full bg-[#242424] animate-ping" />
-              <span>Analyzing 18 years of dispatch records and verifying citations...</span>
+            <div className="p-4 rounded-lg bg-[#fbfbfa] border border-[#ededeb] mr-8 text-xs text-[#787774] flex items-center gap-3 animate-pulse">
+              <div className="flex items-center gap-1">
+                <span className="w-2 h-2 rounded-full bg-[#191919] animate-bounce" style={{ animationDelay: '0ms' }} />
+                <span className="w-2 h-2 rounded-full bg-[#191919] animate-bounce" style={{ animationDelay: '150ms' }} />
+                <span className="w-2 h-2 rounded-full bg-[#191919] animate-bounce" style={{ animationDelay: '300ms' }} />
+              </div>
+              <span className="font-mono text-[11px] text-[#242424]">
+                Rajender's Brain is analyzing operational records & verifying citations...
+              </span>
             </div>
           )}
           <div ref={chatEndRef} />

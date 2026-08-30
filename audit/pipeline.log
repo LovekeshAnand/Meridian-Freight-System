@@ -1301,3 +1301,240 @@
 {"ts": "2026-08-30T14:07:09.943278", "level": "WARN", "msg": "Ticket INC-2026-CRIT-992 validated with 1 warning(s)", "ctx": {"ticket_id": "INC-2026-CRIT-992", "warnings": ["Date '30-08-2026 16:45:00' parsed via format '%d-%m-%Y %H:%M:%S'"]}}
 {"ts": "2026-08-30T14:07:09.956039", "level": "INFO", "msg": "Vehicle selected: HR16SP9238 from Gurgaon", "ctx": {"ticket_id": "INC-2026-CRIT-992", "vehicle": "HR16SP9238", "hub": "Gurgaon", "rejections": 3}}
 {"ts": "2026-08-30T14:07:22.552390", "level": "INFO", "msg": "Pipeline run complete.", "ctx": {"ticket_id": "", "status": "success", "total_in_queue": 1, "valid_processed": 1, "quarantined": 0, "work_orders_generated": 1, "comms_pending": 1}}
+{"ts": "2026-08-30T14:10:21.436239", "level": "INFO", "msg": "Loaded 40 email threads from emails/."}
+{"ts": "2026-08-30T14:10:21.437706", "level": "INFO", "msg": "ContextStore loaded: vehicles=100, drivers=60, maintenance_vehicles=93, trips=10000, emails=40, warnings=0"}
+{"ts": "2026-08-30T14:10:21.454641", "level": "INFO", "msg": "Epsilon Engine connected to local backend. Models available: ['qwen2.5:3b', 'qwen2.5:7b', 'qwen2.5:1.5b']"}
+{"ts": "2026-08-30T14:10:51.747375", "level": "ALERT", "msg": "Schema drift detected in surprise file: 9 mapping(s) applied.", "ctx": {"alert_type": "SCHEMA_DRIFT", "drifts": ["Remapped 'incident_id' -> 'ticket_id'", "Remapped 'broken_truck' -> 'vehicle'", "Remapped 'from_hub' -> 'origin_hub'", "Remapped 'dist_travelled_km' -> 'km_from_origin_hub'", "Remapped 'to_destination' -> 'destination'", "Remapped 'issue_description' -> 'issue'", "Remapped 'severity_level' -> 'severity'", "Remapped 'client_name' -> 'client'", "Remapped 'timestamp' -> 'created_at'"], "file": "d:\\meridian\\data\\uploads\\sample_bad_ticket.json"}}
+{"ts": "2026-08-30T14:10:51.748004", "level": "INFO", "msg": "Drift adapter processed surprise file: 1 records, 9 alert(s).", "ctx": {"ticket_id": "", "file": "d:\\meridian\\data\\uploads\\sample_bad_ticket.json"}}
+{"ts": "2026-08-30T14:10:52.303401", "level": "INFO", "msg": "Loaded 40 email threads from emails/."}
+{"ts": "2026-08-30T14:10:52.307498", "level": "INFO", "msg": "ContextStore loaded: vehicles=100, drivers=60, maintenance_vehicles=93, trips=10000, emails=40, warnings=0"}
+{"ts": "2026-08-30T14:10:52.336205", "level": "INFO", "msg": "Epsilon Engine connected to local backend. Models available: ['qwen2.5:3b', 'qwen2.5:7b', 'qwen2.5:1.5b']"}
+{"ts": "2026-08-30T14:10:52.350889", "level": "INFO", "msg": "Audit ledger loaded: 981 processed ticket entries, 35 unique tickets, 0 corrupt lines skipped."}
+{"ts": "2026-08-30T14:10:52.356025", "level": "WARN", "msg": "Ticket INC-2026-CRIT-992 validated with 1 warning(s)", "ctx": {"ticket_id": "INC-2026-CRIT-992", "warnings": ["Date '30-08-2026 16:45:00' parsed via format '%d-%m-%Y %H:%M:%S'"]}}
+{"ts": "2026-08-30T14:10:52.364034", "level": "INFO", "msg": "Vehicle selected: HR16SP9238 from Gurgaon", "ctx": {"ticket_id": "INC-2026-CRIT-992", "vehicle": "HR16SP9238", "hub": "Gurgaon", "rejections": 3}}
+{"ts": "2026-08-30T14:10:59.130390", "level": "INFO", "msg": "Pipeline run complete.", "ctx": {"ticket_id": "", "status": "success", "total_in_queue": 1, "valid_processed": 1, "quarantined": 0, "work_orders_generated": 1, "comms_pending": 1}}
+{"ts": "2026-08-30T14:16:28.040323", "level": "INFO", "msg": "Drift adapter processed surprise file: 1 records, 0 alert(s).", "ctx": {"ticket_id": "", "file": "C:\\Users\\ZBook\\AppData\\Local\\Temp\\tmptbvdrwqv.json"}}
+{"ts": "2026-08-30T14:16:28.044365", "level": "INFO", "msg": "Drift adapter processed surprise file: 1 records, 0 alert(s).", "ctx": {"ticket_id": "", "file": "C:\\Users\\ZBook\\AppData\\Local\\Temp\\tmpxzuo1xi5.jsonl"}}
+{"ts": "2026-08-30T14:16:28.046810", "level": "INFO", "msg": "Drift adapter processed surprise file: 1 records, 1 alert(s).", "ctx": {"ticket_id": "", "file": "C:\\Users\\ZBook\\AppData\\Local\\Temp\\tmpxtsn7prb.csv"}}
+{"ts": "2026-08-30T14:16:28.055415", "level": "INFO", "msg": "Drift adapter processed surprise file: 1 records, 1 alert(s).", "ctx": {"ticket_id": "", "file": "C:\\Users\\ZBook\\AppData\\Local\\Temp\\tmpv6__pk12.tsv"}}
+{"ts": "2026-08-30T14:16:28.058680", "level": "INFO", "msg": "Drift adapter processed surprise file: 1 records, 0 alert(s).", "ctx": {"ticket_id": "", "file": "C:\\Users\\ZBook\\AppData\\Local\\Temp\\tmp8w9lnn7s.json"}}
+{"ts": "2026-08-30T14:16:28.068359", "level": "INFO", "msg": "Drift adapter processed surprise file: 1 records, 1 alert(s).", "ctx": {"ticket_id": "", "file": "C:\\Users\\ZBook\\AppData\\Local\\Temp\\tmpuo6ylb0g.csv"}}
+{"ts": "2026-08-30T14:16:28.070394", "level": "ALERT", "msg": "Surprise file yielded zero parseable records.", "ctx": {"alert_type": "EMPTY_QUEUE", "file": "C:\\Users\\ZBook\\AppData\\Local\\Temp\\tmpw9tazkym.json"}}
+{"ts": "2026-08-30T14:16:28.071459", "level": "ALERT", "msg": "Surprise file not found: \\nonexistent\\path\\file.json", "ctx": {"alert_type": "FILE_MISSING"}}
+{"ts": "2026-08-30T14:16:28.074110", "level": "INFO", "msg": "Drift adapter processed surprise file: 1 records, 0 alert(s).", "ctx": {"ticket_id": "", "file": "C:\\Users\\ZBook\\AppData\\Local\\Temp\\tmpa6dxpv8e.json"}}
+{"ts": "2026-08-30T14:16:28.076478", "level": "ALERT", "msg": "Schema drift detected in surprise file: 1 mapping(s) applied.", "ctx": {"alert_type": "SCHEMA_DRIFT", "drifts": ["Unknown field 'tickets' preserved as '_extra_tickets'"], "file": "C:\\Users\\ZBook\\AppData\\Local\\Temp\\tmprcxf0lgx.json"}}
+{"ts": "2026-08-30T14:16:28.076748", "level": "INFO", "msg": "Drift adapter processed surprise file: 1 records, 1 alert(s).", "ctx": {"ticket_id": "", "file": "C:\\Users\\ZBook\\AppData\\Local\\Temp\\tmprcxf0lgx.json"}}
+{"ts": "2026-08-30T14:16:28.079113", "level": "INFO", "msg": "Drift adapter processed surprise file: 1 records, 0 alert(s).", "ctx": {"ticket_id": "", "file": "C:\\Users\\ZBook\\AppData\\Local\\Temp\\tmpr0rsehii.json"}}
+{"ts": "2026-08-30T14:16:28.081557", "level": "INFO", "msg": "Drift adapter processed surprise file: 1 records, 0 alert(s).", "ctx": {"ticket_id": "", "file": "C:\\Users\\ZBook\\AppData\\Local\\Temp\\tmpfltsckba.json"}}
+{"ts": "2026-08-30T14:16:28.084239", "level": "ALERT", "msg": "Schema drift detected in surprise file: 6 mapping(s) applied.", "ctx": {"alert_type": "SCHEMA_DRIFT", "drifts": ["Remapped 'tkt_id' -> 'ticket_id'", "Remapped 'plate_no' -> 'vehicle'", "Remapped 'source_hub' -> 'origin_hub'", "Remapped 'dist_from_origin' -> 'km_from_origin_hub'", "Remapped 'cust_name' -> 'client'", "Remapped 'timestamp' -> 'created_at'"], "file": "C:\\Users\\ZBook\\AppData\\Local\\Temp\\tmppdb3t2gv.json"}}
+{"ts": "2026-08-30T14:16:28.084522", "level": "INFO", "msg": "Drift adapter processed surprise file: 1 records, 6 alert(s).", "ctx": {"ticket_id": "", "file": "C:\\Users\\ZBook\\AppData\\Local\\Temp\\tmppdb3t2gv.json"}}
+{"ts": "2026-08-30T14:16:28.086867", "level": "ALERT", "msg": "Schema drift detected in surprise file: 1 mapping(s) applied.", "ctx": {"alert_type": "SCHEMA_DRIFT", "drifts": ["Unknown field 'custom_field_xyz' preserved as '_extra_custom_field_xyz'"], "file": "C:\\Users\\ZBook\\AppData\\Local\\Temp\\tmp8wurl_jd.json"}}
+{"ts": "2026-08-30T14:16:28.087140", "level": "INFO", "msg": "Drift adapter processed surprise file: 1 records, 1 alert(s).", "ctx": {"ticket_id": "", "file": "C:\\Users\\ZBook\\AppData\\Local\\Temp\\tmp8wurl_jd.json"}}
+{"ts": "2026-08-30T14:16:28.089834", "level": "INFO", "msg": "Drift adapter processed surprise file: 1 records, 2 alert(s).", "ctx": {"ticket_id": "", "file": "C:\\Users\\ZBook\\AppData\\Local\\Temp\\tmp0f_csl3_.json"}}
+{"ts": "2026-08-30T14:16:28.645755", "level": "INFO", "msg": "Loaded 40 email threads from emails/."}
+{"ts": "2026-08-30T14:16:28.647411", "level": "INFO", "msg": "ContextStore loaded: vehicles=100, drivers=60, maintenance_vehicles=93, trips=10000, emails=40, warnings=0"}
+{"ts": "2026-08-30T14:16:28.716989", "level": "INFO", "msg": "Epsilon Engine connected to local backend. Models available: ['qwen2.5:3b', 'qwen2.5:7b', 'qwen2.5:1.5b']"}
+{"ts": "2026-08-30T14:16:40.985083", "level": "INFO", "msg": "Loaded 40 email threads from emails/."}
+{"ts": "2026-08-30T14:16:40.987214", "level": "INFO", "msg": "ContextStore loaded: vehicles=100, drivers=60, maintenance_vehicles=93, trips=10000, emails=40, warnings=0"}
+{"ts": "2026-08-30T14:16:41.504236", "level": "INFO", "msg": "Loaded 40 email threads from emails/."}
+{"ts": "2026-08-30T14:16:41.505652", "level": "INFO", "msg": "ContextStore loaded: vehicles=100, drivers=60, maintenance_vehicles=93, trips=10000, emails=40, warnings=0"}
+{"ts": "2026-08-30T14:16:41.520641", "level": "INFO", "msg": "Epsilon Engine connected to local backend. Models available: ['qwen2.5:3b', 'qwen2.5:7b', 'qwen2.5:1.5b']"}
+{"ts": "2026-08-30T14:16:41.529811", "level": "INFO", "msg": "Audit ledger loaded: 987 processed ticket entries, 35 unique tickets, 0 corrupt lines skipped."}
+{"ts": "2026-08-30T14:16:41.530243", "level": "INFO", "msg": "Audit ledger loaded: 0 processed ticket entries, 0 unique tickets, 0 corrupt lines skipped."}
+{"ts": "2026-08-30T14:16:41.540423", "level": "INFO", "msg": "Vehicle selected: HR16SP9238 from Gurgaon", "ctx": {"ticket_id": "TKT-DUP-UNIQUE-001", "vehicle": "HR16SP9238", "hub": "Gurgaon", "rejections": 3}}
+{"ts": "2026-08-30T14:16:47.159077", "level": "INFO", "msg": "Pipeline run complete.", "ctx": {"ticket_id": "", "status": "success", "total_in_queue": 3, "valid_processed": 1, "quarantined": 0, "work_orders_generated": 1, "comms_pending": 1}}
+{"ts": "2026-08-30T14:16:47.707236", "level": "INFO", "msg": "Loaded 40 email threads from emails/."}
+{"ts": "2026-08-30T14:16:47.708583", "level": "INFO", "msg": "ContextStore loaded: vehicles=100, drivers=60, maintenance_vehicles=93, trips=10000, emails=40, warnings=0"}
+{"ts": "2026-08-30T14:16:48.225128", "level": "INFO", "msg": "Loaded 40 email threads from emails/."}
+{"ts": "2026-08-30T14:16:48.226454", "level": "INFO", "msg": "ContextStore loaded: vehicles=100, drivers=60, maintenance_vehicles=93, trips=10000, emails=40, warnings=0"}
+{"ts": "2026-08-30T14:16:48.247059", "level": "INFO", "msg": "Epsilon Engine connected to local backend. Models available: ['qwen2.5:3b', 'qwen2.5:7b', 'qwen2.5:1.5b']"}
+{"ts": "2026-08-30T14:16:48.253827", "level": "INFO", "msg": "Audit ledger loaded: 987 processed ticket entries, 35 unique tickets, 0 corrupt lines skipped."}
+{"ts": "2026-08-30T14:16:48.254258", "level": "INFO", "msg": "Audit ledger loaded: 0 processed ticket entries, 0 unique tickets, 0 corrupt lines skipped."}
+{"ts": "2026-08-30T14:16:48.262036", "level": "INFO", "msg": "Pipeline run complete.", "ctx": {"ticket_id": "", "status": "success", "total_in_queue": 0, "valid_processed": 0, "quarantined": 0, "work_orders_generated": 0, "comms_pending": 0}}
+{"ts": "2026-08-30T14:16:48.796879", "level": "INFO", "msg": "Loaded 40 email threads from emails/."}
+{"ts": "2026-08-30T14:16:48.798374", "level": "INFO", "msg": "ContextStore loaded: vehicles=100, drivers=60, maintenance_vehicles=93, trips=10000, emails=40, warnings=0"}
+{"ts": "2026-08-30T14:16:49.309288", "level": "INFO", "msg": "Loaded 40 email threads from emails/."}
+{"ts": "2026-08-30T14:16:49.310848", "level": "INFO", "msg": "ContextStore loaded: vehicles=100, drivers=60, maintenance_vehicles=93, trips=10000, emails=40, warnings=0"}
+{"ts": "2026-08-30T14:16:49.314532", "level": "INFO", "msg": "Epsilon Engine connected to local backend. Models available: ['qwen2.5:3b', 'qwen2.5:7b', 'qwen2.5:1.5b']"}
+{"ts": "2026-08-30T14:16:49.321971", "level": "INFO", "msg": "Audit ledger loaded: 987 processed ticket entries, 35 unique tickets, 0 corrupt lines skipped."}
+{"ts": "2026-08-30T14:16:49.322454", "level": "INFO", "msg": "Audit ledger loaded: 0 processed ticket entries, 0 unique tickets, 0 corrupt lines skipped."}
+{"ts": "2026-08-30T14:16:49.322793", "level": "WARN", "msg": "Queue file issue: Queue file not found: \\nonexistent\\queue.json"}
+{"ts": "2026-08-30T14:16:49.850387", "level": "INFO", "msg": "Loaded 40 email threads from emails/."}
+{"ts": "2026-08-30T14:16:49.851767", "level": "INFO", "msg": "ContextStore loaded: vehicles=100, drivers=60, maintenance_vehicles=93, trips=10000, emails=40, warnings=0"}
+{"ts": "2026-08-30T14:16:50.390906", "level": "INFO", "msg": "Loaded 40 email threads from emails/."}
+{"ts": "2026-08-30T14:16:50.392444", "level": "INFO", "msg": "ContextStore loaded: vehicles=100, drivers=60, maintenance_vehicles=93, trips=10000, emails=40, warnings=0"}
+{"ts": "2026-08-30T14:16:50.395711", "level": "INFO", "msg": "Epsilon Engine connected to local backend. Models available: ['qwen2.5:3b', 'qwen2.5:7b', 'qwen2.5:1.5b']"}
+{"ts": "2026-08-30T14:16:50.402658", "level": "INFO", "msg": "Audit ledger loaded: 987 processed ticket entries, 35 unique tickets, 0 corrupt lines skipped."}
+{"ts": "2026-08-30T14:16:50.403071", "level": "INFO", "msg": "Audit ledger loaded: 0 processed ticket entries, 0 unique tickets, 0 corrupt lines skipped."}
+{"ts": "2026-08-30T14:16:50.412392", "level": "INFO", "msg": "Vehicle selected: HR16SP9238 from Gurgaon", "ctx": {"ticket_id": "TKT-IDEM-001", "vehicle": "HR16SP9238", "hub": "Gurgaon", "rejections": 3}}
+{"ts": "2026-08-30T14:16:57.357457", "level": "INFO", "msg": "Vehicle selected: DL82GO5198 from Delhi", "ctx": {"ticket_id": "TKT-IDEM-002", "vehicle": "DL82GO5198", "hub": "Delhi", "rejections": 5}}
+{"ts": "2026-08-30T14:17:02.985811", "level": "INFO", "msg": "Pipeline run complete.", "ctx": {"ticket_id": "", "status": "success", "total_in_queue": 2, "valid_processed": 2, "quarantined": 0, "work_orders_generated": 2, "comms_pending": 2}}
+{"ts": "2026-08-30T14:17:03.540593", "level": "INFO", "msg": "Loaded 40 email threads from emails/."}
+{"ts": "2026-08-30T14:17:03.542012", "level": "INFO", "msg": "ContextStore loaded: vehicles=100, drivers=60, maintenance_vehicles=93, trips=10000, emails=40, warnings=0"}
+{"ts": "2026-08-30T14:17:03.544625", "level": "INFO", "msg": "Epsilon Engine connected to local backend. Models available: ['qwen2.5:3b', 'qwen2.5:7b', 'qwen2.5:1.5b']"}
+{"ts": "2026-08-30T14:17:03.551929", "level": "INFO", "msg": "Audit ledger loaded: 987 processed ticket entries, 35 unique tickets, 0 corrupt lines skipped."}
+{"ts": "2026-08-30T14:17:03.561146", "level": "INFO", "msg": "Audit ledger loaded: 12 processed ticket entries, 2 unique tickets, 0 corrupt lines skipped."}
+{"ts": "2026-08-30T14:17:03.561634", "level": "INFO", "msg": "Ticket TKT-IDEM-001 already processed in previous run — skipping.", "ctx": {"ticket_id": "TKT-IDEM-001"}}
+{"ts": "2026-08-30T14:17:03.561890", "level": "INFO", "msg": "Ticket TKT-IDEM-002 already processed in previous run — skipping.", "ctx": {"ticket_id": "TKT-IDEM-002"}}
+{"ts": "2026-08-30T14:17:03.564886", "level": "INFO", "msg": "Pipeline run complete.", "ctx": {"ticket_id": "", "status": "success", "total_in_queue": 2, "valid_processed": 0, "quarantined": 0, "work_orders_generated": 0, "comms_pending": 0}}
+{"ts": "2026-08-30T14:17:04.138190", "level": "INFO", "msg": "Loaded 40 email threads from emails/."}
+{"ts": "2026-08-30T14:17:04.139582", "level": "INFO", "msg": "ContextStore loaded: vehicles=100, drivers=60, maintenance_vehicles=93, trips=10000, emails=40, warnings=0"}
+{"ts": "2026-08-30T14:17:04.149827", "level": "ALERT", "msg": "Schema drift detected in surprise file: 10 mapping(s) applied.", "ctx": {"alert_type": "SCHEMA_DRIFT", "drifts": ["Remapped 'id' -> 'ticket_id'", "Remapped 'plate_no' -> 'vehicle'", "Remapped 'driver' -> 'driver_id'", "Remapped 'source_hub' -> 'origin_hub'", "Remapped 'distance_km' -> 'km_from_origin_hub'", "Remapped 'dest_hub' -> 'destination'", "Remapped 'defect' -> 'issue'", "Remapped 'priority' -> 'severity'", "Remapped 'customer' -> 'client'", "Remapped 'timestamp' -> 'created_at'"], "file": "C:\\Users\\ZBook\\AppData\\Local\\Temp\\tmp3dxvm4g9.json"}}
+{"ts": "2026-08-30T14:17:04.150296", "level": "INFO", "msg": "Drift adapter processed surprise file: 2 records, 10 alert(s).", "ctx": {"ticket_id": "", "file": "C:\\Users\\ZBook\\AppData\\Local\\Temp\\tmp3dxvm4g9.json"}}
+{"ts": "2026-08-30T14:17:04.694709", "level": "INFO", "msg": "Loaded 40 email threads from emails/."}
+{"ts": "2026-08-30T14:17:04.696169", "level": "INFO", "msg": "ContextStore loaded: vehicles=100, drivers=60, maintenance_vehicles=93, trips=10000, emails=40, warnings=0"}
+{"ts": "2026-08-30T14:17:05.224892", "level": "INFO", "msg": "Loaded 40 email threads from emails/."}
+{"ts": "2026-08-30T14:17:05.226242", "level": "INFO", "msg": "ContextStore loaded: vehicles=100, drivers=60, maintenance_vehicles=93, trips=10000, emails=40, warnings=0"}
+{"ts": "2026-08-30T14:17:05.229038", "level": "INFO", "msg": "Epsilon Engine connected to local backend. Models available: ['qwen2.5:3b', 'qwen2.5:7b', 'qwen2.5:1.5b']"}
+{"ts": "2026-08-30T14:17:05.236611", "level": "INFO", "msg": "Audit ledger loaded: 987 processed ticket entries, 35 unique tickets, 0 corrupt lines skipped."}
+{"ts": "2026-08-30T14:17:05.237124", "level": "INFO", "msg": "No existing audit ledger found — starting fresh."}
+{"ts": "2026-08-30T14:17:05.246354", "level": "INFO", "msg": "Vehicle selected: UP13DI3925 from Lucknow", "ctx": {"ticket_id": "SURPRISE-TEST-01", "vehicle": "UP13DI3925", "hub": "Lucknow", "rejections": 4}}
+{"ts": "2026-08-30T14:17:12.766940", "level": "INFO", "msg": "Pipeline run complete.", "ctx": {"ticket_id": "", "status": "success", "total_in_queue": 2, "valid_processed": 1, "quarantined": 1, "work_orders_generated": 1, "comms_pending": 1}}
+{"ts": "2026-08-30T14:17:12.773181", "level": "WARN", "msg": "Ticket TKT-0027 validated with 1 warning(s)", "ctx": {"ticket_id": "TKT-0027", "warnings": ["ticket_id coerced from 27 -> 'TKT-0027'"]}}
+{"ts": "2026-08-30T14:17:12.774660", "level": "WARN", "msg": "Ticket TKT-0005 validated with 1 warning(s)", "ctx": {"ticket_id": "TKT-0005", "warnings": ["ticket_id coerced from 5.0 -> 'TKT-0005'"]}}
+{"ts": "2026-08-30T14:17:12.776077", "level": "WARN", "msg": "Ticket TKT-001 validated with 1 warning(s)", "ctx": {"ticket_id": "TKT-001", "warnings": ["Coerced km from '20 km' -> 20.0"]}}
+{"ts": "2026-08-30T14:17:12.777081", "level": "WARN", "msg": "Ticket TKT-001 validated with 1 warning(s)", "ctx": {"ticket_id": "TKT-001", "warnings": ["Coerced km from '~35.5' -> 35.5"]}}
+{"ts": "2026-08-30T14:17:12.777978", "level": "WARN", "msg": "Ticket TKT-001 validated with 1 warning(s)", "ctx": {"ticket_id": "TKT-001", "warnings": ["Coerced km from '1,200' -> 1200.0"]}}
+{"ts": "2026-08-30T14:17:12.779915", "level": "WARN", "msg": "Ticket TKT-001 validated with 1 warning(s)", "ctx": {"ticket_id": "TKT-001", "warnings": ["Date '30-08-2026' parsed via format '%d-%m-%Y'"]}}
+{"ts": "2026-08-30T14:17:12.781137", "level": "WARN", "msg": "Ticket TKT-001 validated with 1 warning(s)", "ctx": {"ticket_id": "TKT-001", "warnings": ["Date '30/08/2026' parsed via format '%d/%m/%Y'"]}}
+{"ts": "2026-08-30T14:17:12.790397", "level": "WARN", "msg": "Ticket TKT-0099 validated with 1 warning(s)", "ctx": {"ticket_id": "TKT-0099", "warnings": ["ticket_id coerced from 99 -> 'TKT-0099'"]}}
+{"ts": "2026-08-30T14:17:12.791473", "level": "WARN", "msg": "Ticket TKT-001 validated with 1 warning(s)", "ctx": {"ticket_id": "TKT-001", "warnings": ["Coerced km from '45 km' -> 45.0"]}}
+{"ts": "2026-08-30T14:17:12.792342", "level": "WARN", "msg": "Ticket TKT-001 validated with 1 warning(s)", "ctx": {"ticket_id": "TKT-001", "warnings": ["Unusually large km_from_origin_hub: 9999.0 — possible data error"]}}
+{"ts": "2026-08-30T14:17:30.859679", "level": "INFO", "msg": "Drift adapter processed surprise file: 1 records, 0 alert(s).", "ctx": {"ticket_id": "", "file": "C:\\Users\\ZBook\\AppData\\Local\\Temp\\tmpa2e15s61.json"}}
+{"ts": "2026-08-30T14:17:30.863001", "level": "INFO", "msg": "Drift adapter processed surprise file: 1 records, 0 alert(s).", "ctx": {"ticket_id": "", "file": "C:\\Users\\ZBook\\AppData\\Local\\Temp\\tmpqjt9367c.jsonl"}}
+{"ts": "2026-08-30T14:17:30.878587", "level": "INFO", "msg": "Drift adapter processed surprise file: 1 records, 1 alert(s).", "ctx": {"ticket_id": "", "file": "C:\\Users\\ZBook\\AppData\\Local\\Temp\\tmpjbzzxf4n.csv"}}
+{"ts": "2026-08-30T14:17:30.881662", "level": "INFO", "msg": "Drift adapter processed surprise file: 1 records, 1 alert(s).", "ctx": {"ticket_id": "", "file": "C:\\Users\\ZBook\\AppData\\Local\\Temp\\tmph41d_mtr.tsv"}}
+{"ts": "2026-08-30T14:17:30.884094", "level": "INFO", "msg": "Drift adapter processed surprise file: 1 records, 0 alert(s).", "ctx": {"ticket_id": "", "file": "C:\\Users\\ZBook\\AppData\\Local\\Temp\\tmp9ysm4vzb.json"}}
+{"ts": "2026-08-30T14:17:30.886477", "level": "INFO", "msg": "Drift adapter processed surprise file: 1 records, 1 alert(s).", "ctx": {"ticket_id": "", "file": "C:\\Users\\ZBook\\AppData\\Local\\Temp\\tmpzp16wm05.csv"}}
+{"ts": "2026-08-30T14:17:30.888059", "level": "ALERT", "msg": "Surprise file yielded zero parseable records.", "ctx": {"alert_type": "EMPTY_QUEUE", "file": "C:\\Users\\ZBook\\AppData\\Local\\Temp\\tmp2t45yge6.json"}}
+{"ts": "2026-08-30T14:17:30.889009", "level": "ALERT", "msg": "Surprise file not found: \\nonexistent\\path\\file.json", "ctx": {"alert_type": "FILE_MISSING"}}
+{"ts": "2026-08-30T14:17:30.891409", "level": "INFO", "msg": "Drift adapter processed surprise file: 1 records, 0 alert(s).", "ctx": {"ticket_id": "", "file": "C:\\Users\\ZBook\\AppData\\Local\\Temp\\tmpjgnt8poe.json"}}
+{"ts": "2026-08-30T14:17:30.893762", "level": "ALERT", "msg": "Schema drift detected in surprise file: 1 mapping(s) applied.", "ctx": {"alert_type": "SCHEMA_DRIFT", "drifts": ["Unknown field 'tickets' preserved as '_extra_tickets'"], "file": "C:\\Users\\ZBook\\AppData\\Local\\Temp\\tmpu50p76_5.json"}}
+{"ts": "2026-08-30T14:17:30.894020", "level": "INFO", "msg": "Drift adapter processed surprise file: 1 records, 1 alert(s).", "ctx": {"ticket_id": "", "file": "C:\\Users\\ZBook\\AppData\\Local\\Temp\\tmpu50p76_5.json"}}
+{"ts": "2026-08-30T14:17:30.896288", "level": "INFO", "msg": "Drift adapter processed surprise file: 1 records, 0 alert(s).", "ctx": {"ticket_id": "", "file": "C:\\Users\\ZBook\\AppData\\Local\\Temp\\tmpor566vvn.json"}}
+{"ts": "2026-08-30T14:17:30.899704", "level": "INFO", "msg": "Drift adapter processed surprise file: 1 records, 0 alert(s).", "ctx": {"ticket_id": "", "file": "C:\\Users\\ZBook\\AppData\\Local\\Temp\\tmp6mx3ctz7.json"}}
+{"ts": "2026-08-30T14:17:30.902747", "level": "ALERT", "msg": "Schema drift detected in surprise file: 6 mapping(s) applied.", "ctx": {"alert_type": "SCHEMA_DRIFT", "drifts": ["Remapped 'tkt_id' -> 'ticket_id'", "Remapped 'plate_no' -> 'vehicle'", "Remapped 'source_hub' -> 'origin_hub'", "Remapped 'dist_from_origin' -> 'km_from_origin_hub'", "Remapped 'cust_name' -> 'client'", "Remapped 'timestamp' -> 'created_at'"], "file": "C:\\Users\\ZBook\\AppData\\Local\\Temp\\tmpivbvo78_.json"}}
+{"ts": "2026-08-30T14:17:30.903038", "level": "INFO", "msg": "Drift adapter processed surprise file: 1 records, 6 alert(s).", "ctx": {"ticket_id": "", "file": "C:\\Users\\ZBook\\AppData\\Local\\Temp\\tmpivbvo78_.json"}}
+{"ts": "2026-08-30T14:17:30.905415", "level": "ALERT", "msg": "Schema drift detected in surprise file: 1 mapping(s) applied.", "ctx": {"alert_type": "SCHEMA_DRIFT", "drifts": ["Unknown field 'custom_field_xyz' preserved as '_extra_custom_field_xyz'"], "file": "C:\\Users\\ZBook\\AppData\\Local\\Temp\\tmpnullen87.json"}}
+{"ts": "2026-08-30T14:17:30.905691", "level": "INFO", "msg": "Drift adapter processed surprise file: 1 records, 1 alert(s).", "ctx": {"ticket_id": "", "file": "C:\\Users\\ZBook\\AppData\\Local\\Temp\\tmpnullen87.json"}}
+{"ts": "2026-08-30T14:17:30.908156", "level": "INFO", "msg": "Drift adapter processed surprise file: 1 records, 2 alert(s).", "ctx": {"ticket_id": "", "file": "C:\\Users\\ZBook\\AppData\\Local\\Temp\\tmpaikoiqsh.json"}}
+{"ts": "2026-08-30T14:17:31.462339", "level": "INFO", "msg": "Loaded 40 email threads from emails/."}
+{"ts": "2026-08-30T14:17:31.463723", "level": "INFO", "msg": "ContextStore loaded: vehicles=100, drivers=60, maintenance_vehicles=93, trips=10000, emails=40, warnings=0"}
+{"ts": "2026-08-30T14:17:31.525297", "level": "INFO", "msg": "Epsilon Engine connected to local backend. Models available: ['qwen2.5:3b', 'qwen2.5:7b', 'qwen2.5:1.5b']"}
+{"ts": "2026-08-30T14:17:40.232067", "level": "INFO", "msg": "Loaded 40 email threads from emails/."}
+{"ts": "2026-08-30T14:17:40.233438", "level": "INFO", "msg": "ContextStore loaded: vehicles=100, drivers=60, maintenance_vehicles=93, trips=10000, emails=40, warnings=0"}
+{"ts": "2026-08-30T14:17:40.763875", "level": "INFO", "msg": "Loaded 40 email threads from emails/."}
+{"ts": "2026-08-30T14:17:40.765418", "level": "INFO", "msg": "ContextStore loaded: vehicles=100, drivers=60, maintenance_vehicles=93, trips=10000, emails=40, warnings=0"}
+{"ts": "2026-08-30T14:17:40.768738", "level": "INFO", "msg": "Epsilon Engine connected to local backend. Models available: ['qwen2.5:3b', 'qwen2.5:7b', 'qwen2.5:1.5b']"}
+{"ts": "2026-08-30T14:17:40.776442", "level": "INFO", "msg": "Audit ledger loaded: 987 processed ticket entries, 35 unique tickets, 0 corrupt lines skipped."}
+{"ts": "2026-08-30T14:17:40.776890", "level": "INFO", "msg": "Audit ledger loaded: 0 processed ticket entries, 0 unique tickets, 0 corrupt lines skipped."}
+{"ts": "2026-08-30T14:17:40.786124", "level": "INFO", "msg": "Vehicle selected: HR16SP9238 from Gurgaon", "ctx": {"ticket_id": "TKT-DUP-UNIQUE-001", "vehicle": "HR16SP9238", "hub": "Gurgaon", "rejections": 3}}
+{"ts": "2026-08-30T14:17:45.042802", "level": "INFO", "msg": "Pipeline run complete.", "ctx": {"ticket_id": "", "status": "success", "total_in_queue": 3, "valid_processed": 1, "quarantined": 0, "work_orders_generated": 1, "comms_pending": 1}}
+{"ts": "2026-08-30T14:17:45.607575", "level": "INFO", "msg": "Loaded 40 email threads from emails/."}
+{"ts": "2026-08-30T14:17:45.609244", "level": "INFO", "msg": "ContextStore loaded: vehicles=100, drivers=60, maintenance_vehicles=93, trips=10000, emails=40, warnings=0"}
+{"ts": "2026-08-30T14:17:46.154407", "level": "INFO", "msg": "Loaded 40 email threads from emails/."}
+{"ts": "2026-08-30T14:17:46.155833", "level": "INFO", "msg": "ContextStore loaded: vehicles=100, drivers=60, maintenance_vehicles=93, trips=10000, emails=40, warnings=0"}
+{"ts": "2026-08-30T14:17:46.159806", "level": "INFO", "msg": "Epsilon Engine connected to local backend. Models available: ['qwen2.5:3b', 'qwen2.5:7b', 'qwen2.5:1.5b']"}
+{"ts": "2026-08-30T14:17:46.166968", "level": "INFO", "msg": "Audit ledger loaded: 987 processed ticket entries, 35 unique tickets, 0 corrupt lines skipped."}
+{"ts": "2026-08-30T14:17:46.167395", "level": "INFO", "msg": "Audit ledger loaded: 0 processed ticket entries, 0 unique tickets, 0 corrupt lines skipped."}
+{"ts": "2026-08-30T14:17:46.170145", "level": "INFO", "msg": "Pipeline run complete.", "ctx": {"ticket_id": "", "status": "success", "total_in_queue": 0, "valid_processed": 0, "quarantined": 0, "work_orders_generated": 0, "comms_pending": 0}}
+{"ts": "2026-08-30T14:17:46.715264", "level": "INFO", "msg": "Loaded 40 email threads from emails/."}
+{"ts": "2026-08-30T14:17:46.716738", "level": "INFO", "msg": "ContextStore loaded: vehicles=100, drivers=60, maintenance_vehicles=93, trips=10000, emails=40, warnings=0"}
+{"ts": "2026-08-30T14:17:47.274735", "level": "INFO", "msg": "Loaded 40 email threads from emails/."}
+{"ts": "2026-08-30T14:17:47.276231", "level": "INFO", "msg": "ContextStore loaded: vehicles=100, drivers=60, maintenance_vehicles=93, trips=10000, emails=40, warnings=0"}
+{"ts": "2026-08-30T14:17:47.279139", "level": "INFO", "msg": "Epsilon Engine connected to local backend. Models available: ['qwen2.5:3b', 'qwen2.5:7b', 'qwen2.5:1.5b']"}
+{"ts": "2026-08-30T14:17:47.285678", "level": "INFO", "msg": "Audit ledger loaded: 987 processed ticket entries, 35 unique tickets, 0 corrupt lines skipped."}
+{"ts": "2026-08-30T14:17:47.286095", "level": "INFO", "msg": "Audit ledger loaded: 0 processed ticket entries, 0 unique tickets, 0 corrupt lines skipped."}
+{"ts": "2026-08-30T14:17:47.286395", "level": "WARN", "msg": "Queue file issue: Queue file not found: \\nonexistent\\queue.json"}
+{"ts": "2026-08-30T14:17:47.849328", "level": "INFO", "msg": "Loaded 40 email threads from emails/."}
+{"ts": "2026-08-30T14:17:47.850729", "level": "INFO", "msg": "ContextStore loaded: vehicles=100, drivers=60, maintenance_vehicles=93, trips=10000, emails=40, warnings=0"}
+{"ts": "2026-08-30T14:17:48.373146", "level": "INFO", "msg": "Loaded 40 email threads from emails/."}
+{"ts": "2026-08-30T14:17:48.374517", "level": "INFO", "msg": "ContextStore loaded: vehicles=100, drivers=60, maintenance_vehicles=93, trips=10000, emails=40, warnings=0"}
+{"ts": "2026-08-30T14:17:48.389749", "level": "INFO", "msg": "Epsilon Engine connected to local backend. Models available: ['qwen2.5:3b', 'qwen2.5:7b', 'qwen2.5:1.5b']"}
+{"ts": "2026-08-30T14:17:48.397056", "level": "INFO", "msg": "Audit ledger loaded: 987 processed ticket entries, 35 unique tickets, 0 corrupt lines skipped."}
+{"ts": "2026-08-30T14:17:48.397501", "level": "INFO", "msg": "Audit ledger loaded: 0 processed ticket entries, 0 unique tickets, 0 corrupt lines skipped."}
+{"ts": "2026-08-30T14:17:48.410870", "level": "INFO", "msg": "Vehicle selected: HR16SP9238 from Gurgaon", "ctx": {"ticket_id": "TKT-IDEM-001", "vehicle": "HR16SP9238", "hub": "Gurgaon", "rejections": 3}}
+{"ts": "2026-08-30T14:17:52.299435", "level": "INFO", "msg": "Vehicle selected: DL82GO5198 from Delhi", "ctx": {"ticket_id": "TKT-IDEM-002", "vehicle": "DL82GO5198", "hub": "Delhi", "rejections": 5}}
+{"ts": "2026-08-30T14:17:56.968936", "level": "INFO", "msg": "Pipeline run complete.", "ctx": {"ticket_id": "", "status": "success", "total_in_queue": 2, "valid_processed": 2, "quarantined": 0, "work_orders_generated": 2, "comms_pending": 2}}
+{"ts": "2026-08-30T14:17:57.527079", "level": "INFO", "msg": "Loaded 40 email threads from emails/."}
+{"ts": "2026-08-30T14:17:57.528636", "level": "INFO", "msg": "ContextStore loaded: vehicles=100, drivers=60, maintenance_vehicles=93, trips=10000, emails=40, warnings=0"}
+{"ts": "2026-08-30T14:17:57.532953", "level": "INFO", "msg": "Epsilon Engine connected to local backend. Models available: ['qwen2.5:3b', 'qwen2.5:7b', 'qwen2.5:1.5b']"}
+{"ts": "2026-08-30T14:17:57.541174", "level": "INFO", "msg": "Audit ledger loaded: 987 processed ticket entries, 35 unique tickets, 0 corrupt lines skipped."}
+{"ts": "2026-08-30T14:17:57.556737", "level": "INFO", "msg": "Audit ledger loaded: 12 processed ticket entries, 2 unique tickets, 0 corrupt lines skipped."}
+{"ts": "2026-08-30T14:17:57.557378", "level": "INFO", "msg": "Ticket TKT-IDEM-001 already processed in previous run — skipping.", "ctx": {"ticket_id": "TKT-IDEM-001"}}
+{"ts": "2026-08-30T14:17:57.557680", "level": "INFO", "msg": "Ticket TKT-IDEM-002 already processed in previous run — skipping.", "ctx": {"ticket_id": "TKT-IDEM-002"}}
+{"ts": "2026-08-30T14:17:57.561023", "level": "INFO", "msg": "Pipeline run complete.", "ctx": {"ticket_id": "", "status": "success", "total_in_queue": 2, "valid_processed": 0, "quarantined": 0, "work_orders_generated": 0, "comms_pending": 0}}
+{"ts": "2026-08-30T14:17:58.226126", "level": "INFO", "msg": "Loaded 40 email threads from emails/."}
+{"ts": "2026-08-30T14:17:58.227571", "level": "INFO", "msg": "ContextStore loaded: vehicles=100, drivers=60, maintenance_vehicles=93, trips=10000, emails=40, warnings=0"}
+{"ts": "2026-08-30T14:17:58.233332", "level": "ALERT", "msg": "Schema drift detected in surprise file: 10 mapping(s) applied.", "ctx": {"alert_type": "SCHEMA_DRIFT", "drifts": ["Remapped 'id' -> 'ticket_id'", "Remapped 'plate_no' -> 'vehicle'", "Remapped 'driver' -> 'driver_id'", "Remapped 'source_hub' -> 'origin_hub'", "Remapped 'distance_km' -> 'km_from_origin_hub'", "Remapped 'dest_hub' -> 'destination'", "Remapped 'defect' -> 'issue'", "Remapped 'priority' -> 'severity'", "Remapped 'customer' -> 'client'", "Remapped 'timestamp' -> 'created_at'"], "file": "C:\\Users\\ZBook\\AppData\\Local\\Temp\\tmp7fqhyzkw.json"}}
+{"ts": "2026-08-30T14:17:58.233627", "level": "INFO", "msg": "Drift adapter processed surprise file: 2 records, 10 alert(s).", "ctx": {"ticket_id": "", "file": "C:\\Users\\ZBook\\AppData\\Local\\Temp\\tmp7fqhyzkw.json"}}
+{"ts": "2026-08-30T14:17:58.767273", "level": "INFO", "msg": "Loaded 40 email threads from emails/."}
+{"ts": "2026-08-30T14:17:58.768651", "level": "INFO", "msg": "ContextStore loaded: vehicles=100, drivers=60, maintenance_vehicles=93, trips=10000, emails=40, warnings=0"}
+{"ts": "2026-08-30T14:17:59.299169", "level": "INFO", "msg": "Loaded 40 email threads from emails/."}
+{"ts": "2026-08-30T14:17:59.300571", "level": "INFO", "msg": "ContextStore loaded: vehicles=100, drivers=60, maintenance_vehicles=93, trips=10000, emails=40, warnings=0"}
+{"ts": "2026-08-30T14:17:59.303390", "level": "INFO", "msg": "Epsilon Engine connected to local backend. Models available: ['qwen2.5:3b', 'qwen2.5:7b', 'qwen2.5:1.5b']"}
+{"ts": "2026-08-30T14:17:59.310263", "level": "INFO", "msg": "Audit ledger loaded: 987 processed ticket entries, 35 unique tickets, 0 corrupt lines skipped."}
+{"ts": "2026-08-30T14:17:59.310788", "level": "INFO", "msg": "No existing audit ledger found — starting fresh."}
+{"ts": "2026-08-30T14:17:59.323556", "level": "INFO", "msg": "Vehicle selected: UP13DI3925 from Lucknow", "ctx": {"ticket_id": "SURPRISE-TEST-01", "vehicle": "UP13DI3925", "hub": "Lucknow", "rejections": 4}}
+{"ts": "2026-08-30T14:18:05.567449", "level": "INFO", "msg": "Pipeline run complete.", "ctx": {"ticket_id": "", "status": "success", "total_in_queue": 2, "valid_processed": 1, "quarantined": 1, "work_orders_generated": 1, "comms_pending": 1}}
+{"ts": "2026-08-30T14:18:05.573806", "level": "WARN", "msg": "Ticket TKT-0027 validated with 1 warning(s)", "ctx": {"ticket_id": "TKT-0027", "warnings": ["ticket_id coerced from 27 -> 'TKT-0027'"]}}
+{"ts": "2026-08-30T14:18:05.575146", "level": "WARN", "msg": "Ticket TKT-0005 validated with 1 warning(s)", "ctx": {"ticket_id": "TKT-0005", "warnings": ["ticket_id coerced from 5.0 -> 'TKT-0005'"]}}
+{"ts": "2026-08-30T14:18:05.576526", "level": "WARN", "msg": "Ticket TKT-001 validated with 1 warning(s)", "ctx": {"ticket_id": "TKT-001", "warnings": ["Coerced km from '20 km' -> 20.0"]}}
+{"ts": "2026-08-30T14:18:05.577724", "level": "WARN", "msg": "Ticket TKT-001 validated with 1 warning(s)", "ctx": {"ticket_id": "TKT-001", "warnings": ["Coerced km from '~35.5' -> 35.5"]}}
+{"ts": "2026-08-30T14:18:05.578750", "level": "WARN", "msg": "Ticket TKT-001 validated with 1 warning(s)", "ctx": {"ticket_id": "TKT-001", "warnings": ["Coerced km from '1,200' -> 1200.0"]}}
+{"ts": "2026-08-30T14:18:05.581146", "level": "WARN", "msg": "Ticket TKT-001 validated with 1 warning(s)", "ctx": {"ticket_id": "TKT-001", "warnings": ["Date '30-08-2026' parsed via format '%d-%m-%Y'"]}}
+{"ts": "2026-08-30T14:18:05.582975", "level": "WARN", "msg": "Ticket TKT-001 validated with 1 warning(s)", "ctx": {"ticket_id": "TKT-001", "warnings": ["Date '30/08/2026' parsed via format '%d/%m/%Y'"]}}
+{"ts": "2026-08-30T14:18:05.598312", "level": "WARN", "msg": "Ticket TKT-0099 validated with 1 warning(s)", "ctx": {"ticket_id": "TKT-0099", "warnings": ["ticket_id coerced from 99 -> 'TKT-0099'"]}}
+{"ts": "2026-08-30T14:18:05.599854", "level": "WARN", "msg": "Ticket TKT-001 validated with 1 warning(s)", "ctx": {"ticket_id": "TKT-001", "warnings": ["Coerced km from '45 km' -> 45.0"]}}
+{"ts": "2026-08-30T14:18:05.600968", "level": "WARN", "msg": "Ticket TKT-001 validated with 1 warning(s)", "ctx": {"ticket_id": "TKT-001", "warnings": ["Unusually large km_from_origin_hub: 9999.0 — possible data error"]}}
+{"ts": "2026-08-30T14:18:19.270644", "level": "INFO", "msg": "Loaded 40 email threads from emails/."}
+{"ts": "2026-08-30T14:18:19.272208", "level": "INFO", "msg": "ContextStore loaded: vehicles=100, drivers=60, maintenance_vehicles=93, trips=10000, emails=40, warnings=0"}
+{"ts": "2026-08-30T14:18:19.802553", "level": "INFO", "msg": "Loaded 40 email threads from emails/."}
+{"ts": "2026-08-30T14:18:19.803961", "level": "INFO", "msg": "ContextStore loaded: vehicles=100, drivers=60, maintenance_vehicles=93, trips=10000, emails=40, warnings=0"}
+{"ts": "2026-08-30T14:18:19.809449", "level": "INFO", "msg": "Epsilon Engine connected to local backend. Models available: ['qwen2.5:3b', 'qwen2.5:7b', 'qwen2.5:1.5b']"}
+{"ts": "2026-08-30T14:18:19.817213", "level": "INFO", "msg": "Audit ledger loaded: 987 processed ticket entries, 35 unique tickets, 0 corrupt lines skipped."}
+{"ts": "2026-08-30T14:18:36.782756", "level": "INFO", "msg": "Loaded 40 email threads from emails/."}
+{"ts": "2026-08-30T14:18:36.784274", "level": "INFO", "msg": "ContextStore loaded: vehicles=100, drivers=60, maintenance_vehicles=93, trips=10000, emails=40, warnings=0"}
+{"ts": "2026-08-30T14:18:37.296503", "level": "INFO", "msg": "Loaded 40 email threads from emails/."}
+{"ts": "2026-08-30T14:18:37.297961", "level": "INFO", "msg": "ContextStore loaded: vehicles=100, drivers=60, maintenance_vehicles=93, trips=10000, emails=40, warnings=0"}
+{"ts": "2026-08-30T14:18:37.303484", "level": "INFO", "msg": "Epsilon Engine connected to local backend. Models available: ['qwen2.5:3b', 'qwen2.5:7b', 'qwen2.5:1.5b']"}
+{"ts": "2026-08-30T14:18:37.311170", "level": "INFO", "msg": "Audit ledger loaded: 987 processed ticket entries, 35 unique tickets, 0 corrupt lines skipped."}
+{"ts": "2026-08-30T14:18:37.311740", "level": "INFO", "msg": "Processing queue: d:\\meridian\\candidate_bundle\\tickets.json"}
+{"ts": "2026-08-30T14:18:37.317102", "level": "INFO", "msg": "Loaded 35 raw records from queue."}
+{"ts": "2026-08-30T14:18:37.317453", "level": "INFO", "msg": "Ticket TKT-0027 already processed in previous run — skipping.", "ctx": {"ticket_id": "TKT-0027"}}
+{"ts": "2026-08-30T14:18:37.317695", "level": "INFO", "msg": "Ticket TKT-0009 already processed in previous run — skipping.", "ctx": {"ticket_id": "TKT-0009"}}
+{"ts": "2026-08-30T14:18:37.317896", "level": "INFO", "msg": "Ticket TKT-0020 already processed in previous run — skipping.", "ctx": {"ticket_id": "TKT-0020"}}
+{"ts": "2026-08-30T14:18:37.318111", "level": "INFO", "msg": "Ticket TKT-0014 already processed in previous run — skipping.", "ctx": {"ticket_id": "TKT-0014"}}
+{"ts": "2026-08-30T14:18:37.318320", "level": "INFO", "msg": "Ticket TKT-0017 already processed in previous run — skipping.", "ctx": {"ticket_id": "TKT-0017"}}
+{"ts": "2026-08-30T14:18:37.318509", "level": "INFO", "msg": "Ticket TKT-0020 already processed in previous run — skipping.", "ctx": {"ticket_id": "TKT-0020"}}
+{"ts": "2026-08-30T14:18:37.318690", "level": "INFO", "msg": "Ticket TKT-0010 already processed in previous run — skipping.", "ctx": {"ticket_id": "TKT-0010"}}
+{"ts": "2026-08-30T14:18:37.318906", "level": "INFO", "msg": "Ticket TKT-0029 already processed in previous run — skipping.", "ctx": {"ticket_id": "TKT-0029"}}
+{"ts": "2026-08-30T14:18:37.319115", "level": "INFO", "msg": "Ticket TKT-0011 already processed in previous run — skipping.", "ctx": {"ticket_id": "TKT-0011"}}
+{"ts": "2026-08-30T14:18:37.319325", "level": "INFO", "msg": "Ticket TKT-0028 already processed in previous run — skipping.", "ctx": {"ticket_id": "TKT-0028"}}
+{"ts": "2026-08-30T14:18:37.319503", "level": "INFO", "msg": "Ticket TKT-0022 already processed in previous run — skipping.", "ctx": {"ticket_id": "TKT-0022"}}
+{"ts": "2026-08-30T14:18:37.319690", "level": "INFO", "msg": "Ticket TKT-0015 already processed in previous run — skipping.", "ctx": {"ticket_id": "TKT-0015"}}
+{"ts": "2026-08-30T14:18:37.319881", "level": "INFO", "msg": "Ticket TKT-0003 already processed in previous run — skipping.", "ctx": {"ticket_id": "TKT-0003"}}
+{"ts": "2026-08-30T14:18:37.320056", "level": "INFO", "msg": "Ticket TKT-0005 already processed in previous run — skipping.", "ctx": {"ticket_id": "TKT-0005"}}
+{"ts": "2026-08-30T14:18:37.320255", "level": "INFO", "msg": "Ticket TKT-0024 already processed in previous run — skipping.", "ctx": {"ticket_id": "TKT-0024"}}
+{"ts": "2026-08-30T14:18:37.320475", "level": "INFO", "msg": "Ticket TKT-0007 already processed in previous run — skipping.", "ctx": {"ticket_id": "TKT-0007"}}
+{"ts": "2026-08-30T14:18:37.320650", "level": "INFO", "msg": "Ticket TKT-0001 already processed in previous run — skipping.", "ctx": {"ticket_id": "TKT-0001"}}
+{"ts": "2026-08-30T14:18:37.320833", "level": "INFO", "msg": "Ticket TKT-9102 already processed in previous run — skipping.", "ctx": {"ticket_id": "TKT-9102"}}
+{"ts": "2026-08-30T14:18:37.321016", "level": "INFO", "msg": "Ticket TKT-0019 already processed in previous run — skipping.", "ctx": {"ticket_id": "TKT-0019"}}
+{"ts": "2026-08-30T14:18:37.321192", "level": "INFO", "msg": "Ticket TKT-0026 already processed in previous run — skipping.", "ctx": {"ticket_id": "TKT-0026"}}
+{"ts": "2026-08-30T14:18:37.321382", "level": "INFO", "msg": "Ticket TKT-0018 already processed in previous run — skipping.", "ctx": {"ticket_id": "TKT-0018"}}
+{"ts": "2026-08-30T14:18:37.321623", "level": "INFO", "msg": "Ticket TKT-0013 already processed in previous run — skipping.", "ctx": {"ticket_id": "TKT-0013"}}
+{"ts": "2026-08-30T14:18:37.321858", "level": "INFO", "msg": "Ticket TKT-0009 already processed in previous run — skipping.", "ctx": {"ticket_id": "TKT-0009"}}
+{"ts": "2026-08-30T14:18:37.322077", "level": "INFO", "msg": "Ticket TKT-0016 already processed in previous run — skipping.", "ctx": {"ticket_id": "TKT-0016"}}
+{"ts": "2026-08-30T14:18:37.322291", "level": "INFO", "msg": "Ticket TKT-0012 already processed in previous run — skipping.", "ctx": {"ticket_id": "TKT-0012"}}
+{"ts": "2026-08-30T14:18:37.322503", "level": "INFO", "msg": "Ticket TKT-0004 already processed in previous run — skipping.", "ctx": {"ticket_id": "TKT-0004"}}
+{"ts": "2026-08-30T14:18:37.322676", "level": "INFO", "msg": "Ticket TKT-0006 already processed in previous run — skipping.", "ctx": {"ticket_id": "TKT-0006"}}
+{"ts": "2026-08-30T14:18:37.322852", "level": "INFO", "msg": "Ticket TKT-0024 already processed in previous run — skipping.", "ctx": {"ticket_id": "TKT-0024"}}
+{"ts": "2026-08-30T14:18:37.323070", "level": "INFO", "msg": "Ticket TKT-0021 already processed in previous run — skipping.", "ctx": {"ticket_id": "TKT-0021"}}
+{"ts": "2026-08-30T14:18:37.323293", "level": "INFO", "msg": "Ticket TKT-0008 already processed in previous run — skipping.", "ctx": {"ticket_id": "TKT-0008"}}
+{"ts": "2026-08-30T14:18:37.323494", "level": "INFO", "msg": "Ticket TKT-0025 already processed in previous run — skipping.", "ctx": {"ticket_id": "TKT-0025"}}
+{"ts": "2026-08-30T14:18:37.323668", "level": "INFO", "msg": "Ticket TKT-0030 already processed in previous run — skipping.", "ctx": {"ticket_id": "TKT-0030"}}
+{"ts": "2026-08-30T14:18:37.323844", "level": "INFO", "msg": "Ticket TKT-0002 already processed in previous run — skipping.", "ctx": {"ticket_id": "TKT-0002"}}
+{"ts": "2026-08-30T14:18:37.324018", "level": "INFO", "msg": "Ticket TKT-9101 already processed in previous run — skipping.", "ctx": {"ticket_id": "TKT-9101"}}
+{"ts": "2026-08-30T14:18:37.324187", "level": "INFO", "msg": "Ticket TKT-0023 already processed in previous run — skipping.", "ctx": {"ticket_id": "TKT-0023"}}
+{"ts": "2026-08-30T14:18:37.327144", "level": "INFO", "msg": "Pipeline run complete.", "ctx": {"ticket_id": "", "status": "success", "total_in_queue": 35, "valid_processed": 0, "quarantined": 0, "work_orders_generated": 0, "comms_pending": 0}}
+{"ts": "2026-08-30T14:18:37.334279", "level": "INFO", "msg": "Audit ledger loaded: 987 processed ticket entries, 35 unique tickets, 0 corrupt lines skipped."}

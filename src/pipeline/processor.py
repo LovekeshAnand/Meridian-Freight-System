@@ -109,30 +109,31 @@ class BreakdownPipeline:
         log.alert("SIGINT received — pipeline will stop after current ticket finishes.", alert_type="SIGINT")
         self._interrupted = True
 
-    def process_ticket_queue(self, queue_file_path: Optional[Path] = None) -> Dict[str, Any]:
-        """
-        Processes the breakdown ticket queue end-to-end with idempotency.
-        Crashes are quarantined per-ticket; the loop never stops.
-        """
-        target_path = queue_file_path or TICKETS_FILE
-        log.info(f"Processing queue: {target_path}")
-
-        raw_tickets, load_error = _load_queue_file(target_path)
-        if load_error:
-            log.error(f"Queue load failed: {load_error}")
-            return {"status": "error", "message": load_error}
-
-        log.info(f"Loaded {len(raw_tickets)} raw records from queue.")
-
-    def process_ticket_queue(self, queue_path: Path, force_reprocess: bool = False) -> Dict[str, Any]:
+    def process_ticket_queue(self, queue_file_path: Optional[Path] = None, force_reprocess: bool = False) -> Dict[str, Any]:
         """
         Executes the full pipeline on a given ticket queue file.
         Idempotent: Skips tickets that were already processed in previous runs unless force_reprocess is True.
         """
-        raw_tickets, err = _load_queue_file(queue_path)
-        if err and not raw_tickets:
-            log.warn(f"Queue file issue: {err}")
-            return {"status": "error", "error": err, "total_in_queue": 0, "work_orders_generated": 0}
+        target_path = queue_file_path or TICKETS_FILE
+        log.info(f"Processing queue: {target_path}")
+
+        # Use drift adapter if queue came via surprise path
+        from src.surprise.drift_adapter import SurpriseDriftAdapter
+        if queue_file_path and queue_file_path != TICKETS_FILE:
+            adapted, drift_alerts = SurpriseDriftAdapter.adapt_file(queue_file_path)
+            if adapted:
+                raw_tickets = adapted
+                log.info(f"Surprise file adapted: {len(raw_tickets)} records, {len(drift_alerts)} drift alerts.")
+            else:
+                raw_tickets, err = _load_queue_file(target_path)
+        else:
+            raw_tickets, err = _load_queue_file(target_path)
+
+        if not raw_tickets:
+            log.warn(f"Queue file issue: no records loaded.")
+            return {"status": "error", "error": "No records in queue", "total_in_queue": 0, "work_orders_generated": 0}
+
+        log.info(f"Loaded {len(raw_tickets)} raw records from queue.")
 
         seen_ticket_ids: set = set()
         valid_processed: List[str] = []

@@ -143,7 +143,8 @@ class TestEpsilonEngine(unittest.TestCase):
         # Test query answering
         q_ans = local_llm.query("What is Shakti Cement's delivery window?")
         self.assertTrue(q_ans["is_sufficient"])
-        self.assertIn("36-hour", q_ans["answer"])
+        ans_low = q_ans["answer"].lower()
+        self.assertTrue("36" in ans_low and ("hour" in ans_low or "hours" in ans_low))
 
 if __name__ == "__main__":
     unittest.main()

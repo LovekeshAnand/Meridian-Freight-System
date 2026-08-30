@@ -67,22 +67,24 @@ def normalize_vehicle_reg(raw_reg: Optional[str]) -> Tuple[Optional[str], bool]:
 def extract_vehicle_reg_from_text(text: str) -> Tuple[Optional[str], bool]:
     """
     Finds and extracts any Indian vehicle registration plate pattern from a free-text sentence.
-    Examples:
-      'why was UP40IM3144 grounded?' -> ('UP40IM3144', True)
-      'check vehicle dl-33-ct-2113'   -> ('DL33CT2113', True)
+    Handles raw text, markdown asterisks (**UP40IM3144**), brackets, quotes, etc.
     """
     if not text or not isinstance(text, str):
         return None, False
 
+    # Strip markdown bold/italics and brackets for clean regex boundary matching
+    clean_text = re.sub(r'[*_#`"\'()\[\]]', ' ', text)
+
     # Regex finding plates like UP 40 IM 3144 or DL33CT2113
-    matches = re.findall(r'\b[A-Za-z]{2}\s*[-_.]?\s*\d{1,2}\s*[-_.]?\s*[A-Za-z]{1,3}\s*[-_.]?\s*\d{4}\b', text)
+    matches = re.findall(r'\b[A-Za-z]{2}\s*[-_.]?\s*\d{1,2}\s*[-_.]?\s*[A-Za-z]{1,3}\s*[-_.]?\s*\d{4}\b', clean_text)
     for m in matches:
         canon, is_valid = normalize_vehicle_reg(m)
         if is_valid and canon:
             return canon, True
 
     # Fallback to direct normalization
-    return normalize_vehicle_reg(text)
+    return normalize_vehicle_reg(clean_text)
+
 
 
 def normalize_client_name(raw_client: Optional[str]) -> Optional[str]:

@@ -137,13 +137,11 @@ def get_system_status():
 
 @app.post("/api/query")
 def ask_rajender_brain(req: QueryRequest):
-    """Submits a natural language query to Rajender's Brain / Epsilon Engine."""
+    """Submits a natural language query directly to the Local LLM via Epsilon Engine."""
     if not req.question.strip():
         raise HTTPException(status_code=400, detail="Question cannot be empty")
     
-    from src.query.engine import GroundedQueryEngine
-    engine = GroundedQueryEngine(context_store)
-    res = engine.query(req.question, history=req.history)
+    res = local_llm.query(req.question)
     return res
 
 @app.get("/api/pipeline/results")

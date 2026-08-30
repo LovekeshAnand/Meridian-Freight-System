@@ -80,7 +80,7 @@ class ContextInjector:
 
     def build_query_grounding_block(self, query: str, candidate_citations: List[str]) -> str:
         """
-        Creates a citation-rich context block for natural language queries.
+        Creates a citation-rich context block for natural language queries with dynamic entity injection.
         """
         parts = [
             "=== SYSTEM GROUNDING FACTS & OPERATIONAL POLICIES ===",
@@ -95,7 +95,35 @@ class ContextInjector:
             "9. Orion Pharma: Vehicles must be model year 2020 or newer with continuous cold chain / refrigeration (Citation: dispatcher_interview.txt:L28).",
             "10. Monsoon East Route Buffer: July-Sept routes east of Lucknow require +20% ETA buffer (Citation: dispatcher_interview.txt:L32).",
             "11. Driver Night Roster: Drivers with <6 months tenure must not drive solo at night (Citation: dispatcher_interview.txt:L46).",
-            f"Applicable Citations: {', '.join(candidate_citations) if candidate_citations else 'None'}",
-            "=== STRICT RULE: IF INFORMATION IS NOT IN THE ABOVE LIST, STATE 'Insufficient data' ==="
         ]
+
+        # Dynamic Entity Resolution (Vehicles mentioned in query)
+        from src.entity.normalizer import extract_vehicle_reg_from_text, normalize_driver_id
+        norm_veh, is_reg = extract_vehicle_reg_from_text(query)
+        if is_reg and norm_veh:
+            veh = self.context_store.get_vehicle(norm_veh)
+            maint = self.context_store.get_maintenance_summary(norm_veh)
+            if veh:
+                parts.append("=== VEHICLE TELEMETRY & MAINTENANCE LOG ===")
+                parts.append(
+                    f"Vehicle: {norm_veh} | Model: {veh.get('model')} | Year: {veh.get('year')} | "
+                    f"BS Stage: {veh.get('bs_stage')} | Home Hub: {veh.get('home_hub')} | Status: {veh.get('status')} | Engine Heater: {veh.get('engine_heater')}"
+                )
+                if maint:
+                    parts.append(
+                        f"Maintenance History for {norm_veh}: Last Routine Service={maint.get('latest_service_date')} | "
+                        f"Service Overdue={maint.get('is_overdue')} (Grounded under RULE-DISP-05 if True) | "
+                        f"Brake Work in Last 30d={maint.get('brake_work_in_last_30d')} | "
+                        f"Active Temporary Guddu Jugaad={maint.get('has_active_jugaad')} (Lock to home region if True)"
+                    )
+                parts.append("==========================================")
+
+        # Dynamic Driver Resolution
+        norm_drv = normalize_driver_id(query)
+        if norm_drv and norm_drv in self.context_store.drivers:
+            drv = self.context_store.drivers[norm_drv]
+            parts.append(f"Driver Profile {norm_drv}: Name={drv.get('name')}, Base Hub={drv.get('home_hub')}, Joined={drv.get('joining_date')}")
+
+        parts.append(f"Applicable Citations: {', '.join(candidate_citations) if candidate_citations else 'None'}")
+        parts.append("=== INSTRUCTIONS: Answer the question concisely using the operational facts above. If not in facts, state 'Insufficient data'. ===")
         return "\n".join(parts)

@@ -243,7 +243,13 @@ class EpsilonEngine:
             is_llm = False
         else:
             citations = candidate_citations
-            is_sufficient = "insufficient data" not in answer_text.lower()
+            # If the model gave a real detailed answer, strip any trailing system instruction boilerplate
+            boilerplate = "Insufficient data in the ingested knowledge base and operational records to answer this query with grounded certainty."
+            if len(answer_text.strip()) > len(boilerplate) + 20:
+                answer_text = answer_text.replace(boilerplate, "").strip()
+                is_sufficient = True
+            else:
+                is_sufficient = "insufficient data" not in answer_text.lower()
             is_llm = True
 
         sanitized_answer = redact_text(answer_text)

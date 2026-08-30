@@ -1198,3 +1198,9 @@
 {"ts": "2026-08-30T13:51:18.044693", "level": "WARN", "msg": "Ticket INC-2026-CRIT-992 validated with 1 warning(s)", "ctx": {"ticket_id": "INC-2026-CRIT-992", "warnings": ["Date '30-08-2026 16:45:00' parsed via format '%d-%m-%Y %H:%M:%S'"]}}
 {"ts": "2026-08-30T13:51:18.051645", "level": "INFO", "msg": "Vehicle selected: HR16SP9238 from Gurgaon", "ctx": {"ticket_id": "INC-2026-CRIT-992", "vehicle": "HR16SP9238", "hub": "Gurgaon", "rejections": 3}}
 {"ts": "2026-08-30T13:51:30.460566", "level": "INFO", "msg": "Pipeline run complete.", "ctx": {"ticket_id": "", "status": "success", "total_in_queue": 1, "valid_processed": 1, "quarantined": 0, "work_orders_generated": 1, "comms_pending": 1}}
+{"ts": "2026-08-30T13:52:00.152541", "level": "INFO", "msg": "Loaded 40 email threads from emails/."}
+{"ts": "2026-08-30T13:52:00.154088", "level": "INFO", "msg": "ContextStore loaded: vehicles=100, drivers=60, maintenance_vehicles=93, trips=10000, emails=40, warnings=0"}
+{"ts": "2026-08-30T13:52:00.172788", "level": "INFO", "msg": "Epsilon Engine connected to local backend. Models available: ['qwen2.5:3b', 'qwen2.5:7b', 'qwen2.5:1.5b']"}
+{"ts": "2026-08-30T13:53:34.389025", "level": "INFO", "msg": "Loaded 40 email threads from emails/."}
+{"ts": "2026-08-30T13:53:34.390522", "level": "INFO", "msg": "ContextStore loaded: vehicles=100, drivers=60, maintenance_vehicles=93, trips=10000, emails=40, warnings=0"}
+{"ts": "2026-08-30T13:53:34.397067", "level": "INFO", "msg": "Epsilon Engine connected to local backend. Models available: ['qwen2.5:3b', 'qwen2.5:7b', 'qwen2.5:1.5b']"}

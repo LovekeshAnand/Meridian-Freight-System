@@ -92,6 +92,15 @@ class ContextInjector:
         q_low = query.lower()
         parts = ["=== VERIFIED OPERATIONAL RULES & POLICIES (Preserved from 18y Dispatch Memory) ==="]
 
+        # 0. Conversational Greetings & General Capability
+        if any(w in q_low for w in ["hi", "hello", "namaste", "hey", "who are you", "what can you do", "help", "good morning", "good evening", "capabilities"]):
+            parts.append(
+                "• SYSTEM IDENTITY & CAPABILITIES: You are Rajender's Brain, the expert AI Dispatch Copilot for Meridian Freight. "
+                "You possess 18 years of institutional memory: client SLAs (Shakti Cement 36h, Vertex 6pm gate hold, Orion 2020+ cold-chain, Apex rotation), "
+                "fleet maintenance logs (overdue grounding, Guddu jugaad 7-day patches, hill route brake & heater policies), "
+                "and the 50km origin hub rule. Greet the dispatcher warmly, introduce yourself, and invite questions or incident ticket uploads."
+            )
+
         # 1. 50km Origin Hub Proximity Heuristic
         if "50" in q_low or "km" in q_low or "breakdown" in q_low or "outside" in q_low or "nearest" in q_low:
             parts.append(

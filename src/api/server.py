@@ -229,14 +229,18 @@ async def analyze_ticket_document(
     pipeline = BreakdownPipeline(context_store=context_store)
     pipeline_res = pipeline.process_ticket_queue(temp_adapted)
 
+    all_wos = _read_jsonl(WORK_ORDERS_FILE)
+    all_quars = _read_jsonl(QUARANTINE_FILE)
+    all_comms = _read_jsonl(COMMS_PENDING_FILE)
+
     # Now run Local LLM Analysis for each ticket to provide deep contextual reasoning
     processed_analyses = []
     for i, t in enumerate(records):
         tkt_id = t.get("ticket_id", f"TKT-{i+1}")
-        # Find matching work order or quarantine
-        matched_wo = next((w for w in pipeline_res.get("work_orders", []) if w.get("ticket_id") == tkt_id), None)
-        matched_quarantine = next((q for q in pipeline_res.get("quarantine", []) if q.get("ticket_id") == tkt_id), None)
-        matched_comms = next((c for c in pipeline_res.get("comms_pending", []) if c.get("ticket_id") == tkt_id), None)
+        # Find matching work order or quarantine from ledger
+        matched_wo = next((w for w in reversed(all_wos) if w.get("ticket_id") == tkt_id), None)
+        matched_quarantine = next((q for q in reversed(all_quars) if q.get("ticket_id") == tkt_id), None)
+        matched_comms = next((c for c in reversed(all_comms) if c.get("ticket_id") == tkt_id), None)
 
         rep_veh = matched_wo.get("replacement_vehicle") if matched_wo else None
         

@@ -8,10 +8,46 @@ import {
 export default function Navbar({ activeTab, setActiveTab, systemStatus }) {
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [notifOpen, setNotifOpen] = useState(false);
+  const [notifFilter, setNotifFilter] = useState('all'); // 'all' | 'drafts' | 'quarantine'
+  const [pendingItems, setPendingItems] = useState([]);
+  const [quarantineItems, setQuarantineItems] = useState([]);
+  const [approvingId, setApprovingId] = useState(null);
 
   const pendingCount = systemStatus?.counts?.comms_pending || 0;
   const quarantineCount = systemStatus?.counts?.quarantined || 0;
   const totalAlerts = pendingCount + quarantineCount;
+
+  // Fetch detailed list of pending and quarantined items when notification center opens
+  React.useEffect(() => {
+    if (notifOpen) {
+      fetch('http://127.0.0.1:8000/api/comms/pending')
+        .then(r => r.json())
+        .then(data => setPendingItems(Array.isArray(data) ? data : []))
+        .catch(() => {});
+
+      fetch('http://127.0.0.1:8000/api/quarantine')
+        .then(r => r.json())
+        .then(data => setQuarantineItems(Array.isArray(data) ? data : []))
+        .catch(() => {});
+    }
+  }, [notifOpen]);
+
+  const handleQuickApprove = async (msgId, e) => {
+    e.stopPropagation();
+    setApprovingId(msgId);
+    try {
+      await fetch('http://127.0.0.1:8000/api/comms/approve', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ message_id: msgId, approved_by: 'Lead Dispatcher' })
+      });
+      setPendingItems(prev => prev.filter(p => p.message_id !== msgId));
+    } catch (err) {
+      alert(`Approval failed: ${err.message}`);
+    } finally {
+      setApprovingId(null);
+    }
+  };
 
   const navItems = [
     { id: 'brain', label: "Rajender's Brain", desc: '18-year grounded heuristic context layer & AI copilot', tag: 'COPILOT', icon: Sparkles },
@@ -78,7 +114,8 @@ export default function Navbar({ activeTab, setActiveTab, systemStatus }) {
 
                 {/* Interactive Notification Dropdown */}
                 {notifOpen && (
-                  <div className="absolute right-0 mt-2 w-80 sm:w-96 bg-[#ffffff] border border-[#e8e8e6] rounded-xl shadow-2xl z-50 p-4 animate-slide-in-right">
+                  <div className="absolute right-0 mt-2 w-80 sm:w-[420px] bg-[#ffffff] border border-[#e8e8e6] rounded-xl shadow-2xl z-50 p-4 animate-slide-in-right">
+                    {/* Header */}
                     <div className="flex items-center justify-between pb-3 border-b border-[#ededeb]">
                       <div className="flex items-center gap-2">
                         <Bell className="w-4 h-4 text-[#191919]" />
@@ -87,84 +124,145 @@ export default function Navbar({ activeTab, setActiveTab, systemStatus }) {
                         </span>
                       </div>
                       <span className="text-[10px] font-mono bg-[#f1f1ef] text-[#787774] px-2 py-0.5 rounded">
-                        {totalAlerts} Active Item(s)
+                        {totalAlerts} Total Active
                       </span>
                     </div>
 
-                    <div className="mt-3 space-y-2 max-h-80 overflow-y-auto pr-1">
-                      {/* 1. Pending Approvals */}
-                      {pendingCount > 0 ? (
+                    {/* Filter Tabs */}
+                    <div className="flex gap-1 mt-2.5 pb-2 border-b border-[#f1f1ef]">
+                      <button
+                        onClick={() => setNotifFilter('all')}
+                        className={`px-2 py-1 rounded text-[11px] font-mono transition-all ${
+                          notifFilter === 'all'
+                            ? 'bg-[#242424] text-white font-semibold'
+                            : 'text-[#787774] hover:bg-[#f1f1ef]'
+                        }`}
+                      >
+                        All ({pendingItems.length + quarantineItems.length})
+                      </button>
+                      <button
+                        onClick={() => setNotifFilter('drafts')}
+                        className={`px-2 py-1 rounded text-[11px] font-mono transition-all ${
+                          notifFilter === 'drafts'
+                            ? 'bg-indigo-600 text-white font-semibold'
+                            : 'text-[#787774] hover:bg-indigo-50 hover:text-indigo-700'
+                        }`}
+                      >
+                        Drafts ({pendingItems.length})
+                      </button>
+                      <button
+                        onClick={() => setNotifFilter('quarantine')}
+                        className={`px-2 py-1 rounded text-[11px] font-mono transition-all ${
+                          notifFilter === 'quarantine'
+                            ? 'bg-rose-600 text-white font-semibold'
+                            : 'text-[#787774] hover:bg-rose-50 hover:text-rose-700'
+                        }`}
+                      >
+                        Quarantined ({quarantineItems.length})
+                      </button>
+                    </div>
+
+                    {/* Scrollable Items Container */}
+                    <div className="mt-3 space-y-2.5 max-h-[60vh] overflow-y-auto pr-1">
+                      {/* 1. Pending Draft Items */}
+                      {(notifFilter === 'all' || notifFilter === 'drafts') && pendingItems.map((item) => (
                         <div
+                          key={item.message_id || item.ticket_id}
                           onClick={() => handleSelectTab('approval')}
-                          className="p-3 rounded-lg border border-indigo-200 bg-indigo-50/70 hover:bg-indigo-100/70 cursor-pointer transition-all group"
+                          className="p-3 rounded-lg border border-indigo-200 bg-indigo-50/60 hover:bg-indigo-100/60 cursor-pointer transition-all group"
                         >
-                          <div className="flex items-start justify-between">
-                            <div className="flex items-center gap-2">
-                              <FileText className="w-4 h-4 text-indigo-600 shrink-0" />
-                              <span className="text-xs font-semibold text-indigo-950">
-                                {pendingCount} Draft(s) Waiting for Human Approval
+                          <div className="flex items-start justify-between gap-2">
+                            <div className="flex items-center gap-1.5">
+                              <FileText className="w-3.5 h-3.5 text-indigo-600 shrink-0" />
+                              <span className="font-mono text-[11px] font-bold text-indigo-950">
+                                {item.ticket_id || 'TICKET DRAFT'}
                               </span>
                             </div>
                             <span className="text-[9px] font-mono bg-indigo-200 text-indigo-800 font-bold px-1.5 py-0.2 rounded">
-                              GATE OPEN
+                              DRAFT READY
                             </span>
                           </div>
-                          <p className="text-[11px] text-indigo-800 mt-1 leading-snug">
-                            Outbound client notification letters are staged in outbox. Click to review and 1-click dispatch.
+
+                          <div className="text-xs font-semibold text-[#191919] mt-1">
+                            Client: {item.recipient || item.client || 'Shakti Cement'}
+                          </div>
+
+                          <p className="text-[11px] text-[#5a5a58] mt-0.5 line-clamp-2 leading-relaxed font-sans">
+                            {item.body || item.text || 'Client notification letter drafted and waiting for human dispatcher authorization.'}
                           </p>
-                          <div className="text-[10px] font-mono text-indigo-600 font-semibold mt-2 flex items-center gap-1 group-hover:underline">
-                            <span>Open Approval Gate Desk</span>
-                            <ArrowRight className="w-3 h-3" />
+
+                          <div className="mt-2 pt-2 border-t border-indigo-100 flex items-center justify-between">
+                            <div className="text-[10px] font-mono text-[#787774] flex items-center gap-1">
+                              <span>Assigned:</span>
+                              <span className="font-semibold text-emerald-700">
+                                {item.replacement_vehicle || item.replacement_vehicle_reg || 'Eligible Truck'}
+                              </span>
+                            </div>
+                            <button
+                              onClick={(e) => handleQuickApprove(item.message_id, e)}
+                              disabled={approvingId === item.message_id}
+                              className="px-2.5 py-1 rounded bg-indigo-600 hover:bg-indigo-700 text-white text-[10px] font-mono font-semibold transition-all shadow-2xs"
+                            >
+                              {approvingId === item.message_id ? 'Sending...' : 'Approve & Send'}
+                            </button>
                           </div>
                         </div>
-                      ) : null}
+                      ))}
 
-                      {/* 2. Quarantined Tickets */}
-                      {quarantineCount > 0 ? (
+                      {/* 2. Quarantined Items */}
+                      {(notifFilter === 'all' || notifFilter === 'quarantine') && quarantineItems.map((item, idx) => (
                         <div
+                          key={item.ticket_id || idx}
                           onClick={() => handleSelectTab('cockpit')}
-                          className="p-3 rounded-lg border border-rose-200 bg-rose-50/70 hover:bg-rose-100/70 cursor-pointer transition-all group"
+                          className="p-3 rounded-lg border border-rose-200 bg-rose-50/60 hover:bg-rose-100/60 cursor-pointer transition-all group"
                         >
-                          <div className="flex items-start justify-between">
-                            <div className="flex items-center gap-2">
-                              <AlertOctagon className="w-4 h-4 text-rose-600 shrink-0" />
-                              <span className="text-xs font-semibold text-rose-950">
-                                {quarantineCount} Ticket(s) Quarantined
+                          <div className="flex items-start justify-between gap-2">
+                            <div className="flex items-center gap-1.5">
+                              <AlertOctagon className="w-3.5 h-3.5 text-rose-600 shrink-0" />
+                              <span className="font-mono text-[11px] font-bold text-rose-950">
+                                {item.ticket_id || 'CORRUPT RECORD'}
                               </span>
                             </div>
                             <span className="text-[9px] font-mono bg-rose-200 text-rose-800 font-bold px-1.5 py-0.2 rounded">
-                              CORRUPT INPUT
+                              QUARANTINED
                             </span>
                           </div>
-                          <p className="text-[11px] text-rose-800 mt-1 leading-snug">
-                            Missing origin hubs or invalid telemetry isolated safely. Click to inspect reasons in Cockpit.
-                          </p>
-                          <div className="text-[10px] font-mono text-rose-600 font-semibold mt-2 flex items-center gap-1 group-hover:underline">
-                            <span>Open Resolution Cockpit</span>
-                            <ArrowRight className="w-3 h-3" />
+
+                          <div className="text-xs font-semibold text-rose-900 mt-1">
+                            Reason: {item.quarantine_reason || item.reason || 'Missing required fields or invalid telemetry.'}
+                          </div>
+
+                          <div className="mt-2 pt-2 border-t border-rose-100 flex items-center justify-between text-[10px] font-mono">
+                            <span className="text-rose-700 font-medium">Safe Isolation</span>
+                            <span className="text-rose-600 font-semibold group-hover:underline flex items-center gap-1">
+                              <span>Inspect in Cockpit</span>
+                              <ArrowRight className="w-3 h-3" />
+                            </span>
                           </div>
                         </div>
-                      ) : null}
+                      ))}
 
-                      {/* 3. P2 Gate Rule / SLA Standing Notice */}
-                      <div className="p-3 rounded-lg border border-amber-200 bg-amber-50/70">
-                        <div className="flex items-center gap-2">
-                          <AlertTriangle className="w-4 h-4 text-amber-600 shrink-0" />
-                          <span className="text-xs font-semibold text-amber-950">
-                            P2 Standing Policies Active
-                          </span>
+                      {/* 3. P2 Standing Policy Banner */}
+                      {notifFilter === 'all' && (
+                        <div className="p-3 rounded-lg border border-amber-200 bg-amber-50/60">
+                          <div className="flex items-center gap-2">
+                            <AlertTriangle className="w-3.5 h-3.5 text-amber-600 shrink-0" />
+                            <span className="text-xs font-semibold text-amber-950">
+                              P2 Standing Dispatch Policies Active
+                            </span>
+                          </div>
+                          <div className="text-[11px] text-amber-900 mt-1 space-y-0.5 font-sans">
+                            <div>• <strong>Vertex Retail</strong>: 6:00 PM gate hold (overnight hold until 8:00 AM).</div>
+                            <div>• <strong>Shakti Cement</strong>: 36-hour delivery window strictly enforced.</div>
+                            <div>• <strong>Delhi NCR</strong>: GRAP BS4 commercial vehicle ban enforced.</div>
+                          </div>
                         </div>
-                        <div className="text-[11px] text-amber-800 mt-1 space-y-0.5">
-                          <div>• <strong>Vertex Retail</strong>: 6:00 PM gate closing hold active.</div>
-                          <div>• <strong>Shakti Cement</strong>: 36-hour operational window enforced.</div>
-                          <div>• <strong>Delhi NCR</strong>: GRAP BS4 commercial vehicle ban enforced.</div>
-                        </div>
-                      </div>
+                      )}
 
-                      {totalAlerts === 0 && (
-                        <div className="p-4 text-center text-xs text-[#787774] font-mono">
-                          <CheckCircle2 className="w-5 h-5 text-emerald-600 mx-auto mb-1" />
-                          <span>All queues clear. Zero pending approvals.</span>
+                      {pendingItems.length === 0 && quarantineItems.length === 0 && (
+                        <div className="p-6 text-center text-xs text-[#787774] font-mono">
+                          <CheckCircle2 className="w-6 h-6 text-emerald-600 mx-auto mb-1.5" />
+                          <span>All queues clear. Zero pending actions.</span>
                         </div>
                       )}
                     </div>

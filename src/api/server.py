@@ -328,6 +328,11 @@ def get_pending_comms():
     """Returns all notifications currently awaiting human gate approval."""
     return _read_jsonl(COMMS_PENDING_FILE)
 
+@app.get("/api/quarantine")
+def get_quarantine_records():
+    """Returns all records that failed validation and are safely quarantined."""
+    return _read_jsonl(QUARANTINE_FILE)
+
 @app.post("/api/comms/approve")
 def approve_communications(req: ApproveRequest):
     """Approves pending communications and commits them to comms_sent.jsonl."""

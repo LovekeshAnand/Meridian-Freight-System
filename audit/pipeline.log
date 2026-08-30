@@ -1778,3 +1778,22 @@
 {"ts": "2026-08-30T14:38:06.973301", "level": "INFO", "msg": "Loaded 2 raw records from queue."}
 {"ts": "2026-08-30T14:38:06.991196", "level": "INFO", "msg": "Vehicle selected: HR16SP9238 from Gurgaon", "ctx": {"ticket_id": "TKT-IDEM-001", "vehicle": "HR16SP9238", "hub": "Gurgaon", "rejections": 3}}
 {"ts": "2026-08-30T14:38:15.322533", "level": "INFO", "msg": "Vehicle selected: DL82GO5198 from Delhi", "ctx": {"ticket_id": "TKT-IDEM-002", "vehicle": "DL82GO5198", "hub": "Delhi", "rejections": 5}}
+{"ts": "2026-08-30T14:38:22.876861", "level": "INFO", "msg": "Pipeline run complete.", "ctx": {"ticket_id": "", "status": "success", "total_in_queue": 2, "valid_processed": 2, "quarantined": 0, "work_orders_generated": 2, "comms_pending": 2}}
+{"ts": "2026-08-30T14:38:23.538919", "level": "INFO", "msg": "Loaded 40 email threads from emails/."}
+{"ts": "2026-08-30T14:38:23.541275", "level": "INFO", "msg": "ContextStore loaded: vehicles=100, drivers=60, maintenance_vehicles=93, trips=10000, emails=40, warnings=0"}
+{"ts": "2026-08-30T14:38:23.545619", "level": "INFO", "msg": "Epsilon Engine connected to local backend. Models available: ['qwen2.5:3b', 'qwen2.5:7b', 'qwen2.5:1.5b']"}
+{"ts": "2026-08-30T14:38:23.556351", "level": "INFO", "msg": "Audit ledger loaded: 1021 processed ticket entries, 42 unique tickets, 0 corrupt lines skipped."}
+{"ts": "2026-08-30T14:38:23.586202", "level": "INFO", "msg": "Audit ledger loaded: 12 processed ticket entries, 2 unique tickets, 0 corrupt lines skipped."}
+{"ts": "2026-08-30T14:38:23.586675", "level": "INFO", "msg": "Processing queue: C:\\Users\\ZBook\\AppData\\Local\\Temp\\tmp6xxjanr4.json"}
+{"ts": "2026-08-30T14:38:23.587422", "level": "INFO", "msg": "Drift adapter processed surprise file: 2 records, 0 alert(s).", "ctx": {"ticket_id": "", "file": "C:\\Users\\ZBook\\AppData\\Local\\Temp\\tmp6xxjanr4.json"}}
+{"ts": "2026-08-30T14:38:23.587873", "level": "INFO", "msg": "Surprise file adapted: 2 records, 0 drift alerts."}
+{"ts": "2026-08-30T14:38:23.588193", "level": "INFO", "msg": "Loaded 2 raw records from queue."}
+{"ts": "2026-08-30T14:38:23.588542", "level": "INFO", "msg": "Ticket TKT-IDEM-001 already processed in previous run — skipping.", "ctx": {"ticket_id": "TKT-IDEM-001"}}
+{"ts": "2026-08-30T14:38:23.588865", "level": "INFO", "msg": "Ticket TKT-IDEM-002 already processed in previous run — skipping.", "ctx": {"ticket_id": "TKT-IDEM-002"}}
+{"ts": "2026-08-30T14:38:23.598468", "level": "INFO", "msg": "Pipeline run complete.", "ctx": {"ticket_id": "", "status": "success", "total_in_queue": 2, "valid_processed": 0, "quarantined": 0, "work_orders_generated": 0, "comms_pending": 0}}
+{"ts": "2026-08-30T14:38:48.330786", "level": "INFO", "msg": "Loaded 40 email threads from emails/."}
+{"ts": "2026-08-30T14:38:48.333223", "level": "INFO", "msg": "ContextStore loaded: vehicles=100, drivers=60, maintenance_vehicles=93, trips=10000, emails=40, warnings=0"}
+{"ts": "2026-08-30T14:38:48.339829", "level": "INFO", "msg": "Epsilon Engine connected to local backend. Models available: ['qwen2.5:3b', 'qwen2.5:7b', 'qwen2.5:1.5b']"}
+{"ts": "2026-08-30T14:43:11.398808", "level": "INFO", "msg": "Loaded 40 email threads from emails/."}
+{"ts": "2026-08-30T14:43:11.401666", "level": "INFO", "msg": "ContextStore loaded: vehicles=100, drivers=60, maintenance_vehicles=93, trips=10000, emails=40, warnings=0"}
+{"ts": "2026-08-30T14:43:11.434299", "level": "INFO", "msg": "Epsilon Engine connected to local backend. Models available: ['qwen2.5:3b', 'qwen2.5:7b', 'qwen2.5:1.5b']"}

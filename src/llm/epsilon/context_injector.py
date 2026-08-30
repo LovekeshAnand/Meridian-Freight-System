@@ -96,15 +96,15 @@ class ContextInjector:
         if "50" in q_low or "km" in q_low or "breakdown" in q_low or "outside" in q_low or "nearest" in q_low:
             parts.append(
                 "• 50KM ORIGIN HUB RULE (RULE-DISP-01): If a breakdown occurs within 50 km (<= 50 km) of its origin hub, "
-                "the replacement vehicle MUST be dispatched directly from that ORIGIN HUB (e.g. if broken down 42 km from Delhi, dispatch from Delhi). "
-                "Only when breakdown is > 50 km away do we search for the nearest alternative hub. (Citation: dispatcher_interview.txt:L36-37)"
+                "the replacement vehicle MUST be dispatched directly from that ORIGIN HUB. "
+                "If the breakdown occurs beyond 50 km (> 50 km, e.g. 54 km), the dispatch system is NOT restricted to the origin hub and evaluates the nearest hub with available vehicles. (Citation: dispatcher_interview.txt:L36-37)"
             )
 
         # 2. Shakti Cement Protocol
         if "shakti" in q_low or "cement" in q_low or "36" in q_low or "48" in q_low or "contract" in q_low or "precedence" in q_low:
             parts.append(
                 "• SHAKTI CEMENT 36-HOUR PROTOCOL (RULE-CLI-01 / PRECEDENCE-01): While the legacy 2021 master service agreement mentions 48 hours, "
-                "active operational agreement with plant management firmly established a 36-hour delivery commitment. "
+                "active operational agreement with plant management firmly established a strict 36-hour delivery commitment. "
                 "Under Meridian Freight Precedence Rule 1 (Active Operational Email Agreements supersede legacy contracts), "
                 "all dispatches must be resolved and planned to the 36-hour window. (Citation: dispatcher_interview.txt:L22, emails/thread_01_shakti_sla.txt:L5-7)"
             )
@@ -113,16 +113,16 @@ class ContextInjector:
         if "vertex" in q_low or "ludhiana" in q_low or "gate" in q_low or "6" in q_low or "hold" in q_low:
             parts.append(
                 "• VERTEX RETAIL LUDHIANA GATE RULE (RULE-CLI-02): The Ludhiana warehouse gate closes sharp at 6:00 PM. "
-                "If computed arrival is past 6:00 PM (e.g. 6:45 PM), the driver must be directed to HOLD OVERNIGHT at the last authorized halt "
+                "If computed arrival is past 6:00 PM (e.g. 6:45 PM), the driver MUST be directed to HOLD OVERNIGHT at the last authorized halt "
                 "and deliver at 8:00 AM the next morning. It must NEVER be marked as a failed delivery in the system to prevent automatic contractual penalties. (Citation: dispatcher_interview.txt:L24, emails/thread_09_vertex_gate.txt:L9-12)"
             )
 
         # 4. Driver Night Pairing Rule
-        if "driver" in q_low or "drv" in q_low or "night" in q_low or "solo" in q_low or "tenure" in q_low or "month" in q_low:
+        if "driver" in q_low or "drv" in q_low or "night" in q_low or "solo" in q_low or "tenure" in q_low or "month" in q_low or "hired" in q_low or "joined" in q_low:
             parts.append(
-                "• DRIVER TENURE NIGHT ROSTER RULE (RULE-DRV-01): Drivers with less than 6 months tenure at Meridian Freight "
-                "must NEVER drive solo on night runs (such as late-night dispatches after 8:00 PM). "
-                "They CAN only be dispatched at night if explicitly PAIRED with an experienced senior driver as a co-driver. (Citation: dispatcher_interview.txt:L46, emails/thread_24_internal_nightroster.txt:L5-8)"
+                "• DRIVER TENURE NIGHT ROSTER RULE (RULE-DRV-01): Drivers with less than 6 months tenure at Meridian Freight (e.g. 2 or 3 months) "
+                "must NEVER drive solo on night runs (after 8:00 PM, such as a 9:30 PM or 11:30 PM leg). "
+                "They are allowed to drive solo during daytime, but for night driving they MUST be paired with an experienced senior co-driver. (Citation: dispatcher_interview.txt:L46, emails/thread_24_internal_nightroster.txt:L5-8)"
             )
 
         # 5. Monsoon Eastern Route Buffer Rule
@@ -141,32 +141,32 @@ class ContextInjector:
             )
 
         # 7. Orion Pharma Age & Cold Chain Rule
-        if "orion" in q_low or "pharma" in q_low or "cold" in q_low or "refrigerat" in q_low:
+        if "orion" in q_low or "pharma" in q_low or "cold" in q_low or "refrigerat" in q_low or "vaccine" in q_low or "2019" in q_low:
             parts.append(
-                "• ORION PHARMA 2020+ & REFRIGERATION RULE (RULE-CLI-04): Consignments require vehicles manufactured in 2020 or newer "
-                "with continuous refrigeration/cold-chain and must never wait overnight unrefrigerated. (Citation: dispatcher_interview.txt:L28, emails/thread_17_orion_age.txt:L9-12)"
+                "• ORION PHARMA 2020+ & REFRIGERATION RULE (RULE-CLI-04): Consignments strictly require vehicles manufactured in 2020 OR NEWER (e.g. 2020, 2021, 2022). "
+                "A 2019 or older vehicle is NOT compliant and will FAIL pharma audit even if refrigerated. Continuous refrigeration and verified RC copy are strictly required. (Citation: dispatcher_interview.txt:L28, emails/thread_17_orion_age.txt:L9-12)"
             )
 
         # 8. Delhi NCR Winter BS4 Ban
-        if "delhi" in q_low or "ncr" in q_low or "bs4" in q_low or "bs6" in q_low or "grap" in q_low:
+        if "delhi" in q_low or "ncr" in q_low or "bs4" in q_low or "bs6" in q_low or "grap" in q_low or "november" in q_low:
             parts.append(
-                "• DELHI NCR WINTER BS4 BAN (RULE-DISP-02): From October to February, BS4 commercial vehicles are strictly prohibited "
+                "• DELHI NCR WINTER BS4 BAN (RULE-DISP-02): From October to February (including November), BS4 commercial vehicles are strictly prohibited "
                 "on all routes touching Delhi NCR (Delhi, Gurgaon, Faridabad, Noida) under GRAP pollution regulations; BS6 vehicles only. (Citation: dispatcher_interview.txt:L14)"
             )
 
         # 9. Hill Route Engine Heater & Brake Rule
         if "hill" in q_low or "rudrapur" in q_low or "nainital" in q_low or "heater" in q_low or "brake" in q_low:
             parts.append(
-                "• HILL ROUTE WINTER POLICY (RULE-DISP-03 / RULE-DISP-04): Dispatches to Rudrapur/Nainital between Nov-Feb require: "
-                "1) Engine heater installed for cold starts, and "
-                "2) Zero brake maintenance within the prior 30 days (requires 30 days flat running first). (Citation: dispatcher_interview.txt:L18)"
+                "• HILL ROUTE WINTER HEATER & BRAKE POLICY (RULE-DISP-03 & RULE-DISP-04):\n"
+                "  1) ENGINE HEATER REQUIREMENT (RULE-DISP-03): Dispatches to Rudrapur/Nainital between Nov-Feb MUST have an engine heater installed for cold starts. A vehicle without an engine heater is INELIGIBLE.\n"
+                "  2) 30-DAY FLAT RUNNING BRAKE REQUIREMENT (RULE-DISP-04): A vehicle must have had ZERO brake maintenance in the prior 30 days. New brake components require at least 30 days of flat running before steep hill service. A vehicle with brake work done 18 days ago is INELIGIBLE until 30 days have elapsed. (Citation: dispatcher_interview.txt:L18)"
             )
 
         # 10. Guddu Jugaad Rule
         if "guddu" in q_low or "jugaad" in q_low or "patch" in q_low or "roadside" in q_low:
             parts.append(
-                "• GUDDU JUGAAD 7-DAY HOME BOUNDARY (RULE-DISP-06): Temporary roadside patches by mechanic Guddu carry a strict 7-day clock. "
-                "The vehicle is locked to its home region and must receive permanent overhaul within 7 days. (Citation: dispatcher_interview.txt:L42, emails/thread_25_internal_jugaad.txt:L8-10)"
+                "• GUDDU JUGAAD 7-DAY HOME BOUNDARY (RULE-DISP-06): Temporary roadside patches by mechanic Guddu carry a strict 7-day repair clock. "
+                "During this 7-day period, the vehicle is STRICTLY LOCKED TO ITS HOME REGION and cannot cross into other hubs (e.g. cannot go from Lucknow to Kanpur). A permanent overhaul must be done within 7 days. (Citation: dispatcher_interview.txt:L42, emails/thread_25_internal_jugaad.txt:L8-10)"
             )
 
         # Dynamic Fleet Maintenance & Repair Telemetry Injection

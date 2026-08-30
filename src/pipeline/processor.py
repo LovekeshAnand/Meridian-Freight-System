@@ -350,13 +350,42 @@ class BreakdownPipeline:
 
         valid_processed.append(ticket_id)
 
-    def _write_jsonl(self, file_path: Path, records: List[Dict[str, Any]]):
-        """Writes records to a JSONL file using atomic tmp→rename pattern."""
+    def _write_jsonl(self, file_path: Path, records: List[Dict[str, Any]], merge: bool = True):
+        """Writes records to a JSONL file using atomic tmp→rename pattern, merging existing records by key."""
         file_path.parent.mkdir(parents=True, exist_ok=True)
         tmp_path = file_path.with_suffix(".tmp")
+        
+        merged_records = []
+        seen_keys = set()
+
+        # Load existing records if merging
+        if merge and file_path.exists():
+            try:
+                for line in file_path.read_text(encoding="utf-8", errors="replace").splitlines():
+                    line = line.strip()
+                    if line:
+                        obj = json.loads(line)
+                        t_id = obj.get("ticket_id") or obj.get("message_id") or obj.get("work_order_id")
+                        if t_id:
+                            seen_keys.add(t_id)
+                        merged_records.append(obj)
+            except Exception as e:
+                log.warn(f"Could not read existing records from {file_path.name}: {e}")
+
+        # Merge new records
+        for rec in records:
+            t_id = rec.get("ticket_id") or rec.get("message_id") or rec.get("work_order_id")
+            if t_id and t_id in seen_keys:
+                # Replace existing record with newer version
+                merged_records = [rec if (r.get("ticket_id") == t_id or r.get("message_id") == t_id or r.get("work_order_id") == t_id) else r for r in merged_records]
+            else:
+                if t_id:
+                    seen_keys.add(t_id)
+                merged_records.append(rec)
+
         try:
             with open(tmp_path, "w", encoding="utf-8") as f:
-                for rec in records:
+                for rec in merged_records:
                     f.write(json.dumps(rec, ensure_ascii=False, default=str) + "\n")
                 f.flush()
                 os.fsync(f.fileno())

@@ -1,13 +1,22 @@
 import React, { useState } from 'react';
-import { Sparkles, Activity, ShieldCheck, Truck, Database, Layers, Menu, X, ChevronRight, CheckCircle2, ArrowUpRight } from 'lucide-react';
+import { 
+  Sparkles, Activity, ShieldCheck, Truck, Database, Layers, Menu, X, 
+  ChevronRight, CheckCircle2, ArrowUpRight, Bell, AlertOctagon, FileText, 
+  AlertTriangle, ArrowRight 
+} from 'lucide-react';
 
 export default function Navbar({ activeTab, setActiveTab, systemStatus }) {
   const [drawerOpen, setDrawerOpen] = useState(false);
+  const [notifOpen, setNotifOpen] = useState(false);
+
+  const pendingCount = systemStatus?.counts?.comms_pending || 0;
+  const quarantineCount = systemStatus?.counts?.quarantined || 0;
+  const totalAlerts = pendingCount + quarantineCount;
 
   const navItems = [
     { id: 'brain', label: "Rajender's Brain", desc: '18-year grounded heuristic context layer & AI copilot', tag: 'COPILOT', icon: Sparkles },
     { id: 'cockpit', label: 'Resolution Cockpit', desc: 'Automated 7-step breakdown resolution & candidate allocator', count: systemStatus?.counts?.work_orders || 0, icon: Activity },
-    { id: 'approval', label: 'Approval Gate', desc: 'Human-in-the-loop review & dispatch sign-off desk', count: systemStatus?.counts?.comms_pending || 0, alert: (systemStatus?.counts?.comms_pending || 0) > 0, icon: ShieldCheck },
+    { id: 'approval', label: 'Approval Gate', desc: 'Human-in-the-loop review & dispatch sign-off desk', count: pendingCount, alert: pendingCount > 0, icon: ShieldCheck },
     { id: 'fleet', label: 'Fleet & Topology', desc: '100 commercial vehicles, Guddu 7d timers & BS stage map', count: systemStatus?.context_store?.vehicles_loaded || 100, icon: Truck },
     { id: 'audit', label: 'Audit Ledger', desc: 'Cryptographic SHA-256 hash-chained decision trail', tag: 'SHA-256', icon: Database },
     { id: 'sandbox', label: 'Sandbox & Tests', desc: 'Surprise format drift adapter & 92 live automated tests', tag: '92 TESTS', icon: Layers },
@@ -18,6 +27,7 @@ export default function Navbar({ activeTab, setActiveTab, systemStatus }) {
   const handleSelectTab = (id) => {
     setActiveTab(id);
     setDrawerOpen(false);
+    setNotifOpen(false);
   };
 
   return (
@@ -37,24 +47,142 @@ export default function Navbar({ activeTab, setActiveTab, systemStatus }) {
               </div>
             </div>
 
-            {/* Right: Status Pill & Animated Hamburger Button */}
-            <div className="flex items-center gap-3">
-              <div className="hidden sm:flex items-center gap-2 text-[11px] text-[#787774] font-mono">
+            {/* Right: Status Pill, Notification Bell & Menu Button */}
+            <div className="flex items-center gap-2.5">
+              <div className="hidden sm:flex items-center gap-2 text-[11px] text-[#787774] font-mono mr-1">
                 <span className="w-2 h-2 rounded-full bg-emerald-500 inline-block" />
                 <span>Epsilon Grounded</span>
               </div>
 
+              {/* Top-Right Notification Bell Button */}
+              <div className="relative">
+                <button
+                  onClick={() => {
+                    setNotifOpen(!notifOpen);
+                    setDrawerOpen(false);
+                  }}
+                  className={`relative p-2 rounded-md transition-all flex items-center gap-1.5 border ${
+                    notifOpen || totalAlerts > 0
+                      ? 'bg-[#f7f6f3] border-[#d3d3d0] text-[#191919]'
+                      : 'hover:bg-[#f1f1ef] border-[#ededeb] text-[#5a5a58]'
+                  }`}
+                  aria-label="Toggle Notification Center"
+                >
+                  <Bell className="w-4 h-4" />
+                  {totalAlerts > 0 && (
+                    <span className="px-1.5 py-0.2 rounded-full bg-[#e11d48] text-white text-[10px] font-mono font-bold">
+                      {totalAlerts}
+                    </span>
+                  )}
+                </button>
+
+                {/* Interactive Notification Dropdown */}
+                {notifOpen && (
+                  <div className="absolute right-0 mt-2 w-80 sm:w-96 bg-[#ffffff] border border-[#e8e8e6] rounded-xl shadow-2xl z-50 p-4 animate-slide-in-right">
+                    <div className="flex items-center justify-between pb-3 border-b border-[#ededeb]">
+                      <div className="flex items-center gap-2">
+                        <Bell className="w-4 h-4 text-[#191919]" />
+                        <span className="text-xs font-bold font-mono text-[#191919] uppercase tracking-wider">
+                          NOTIFICATION CENTER
+                        </span>
+                      </div>
+                      <span className="text-[10px] font-mono bg-[#f1f1ef] text-[#787774] px-2 py-0.5 rounded">
+                        {totalAlerts} Active Item(s)
+                      </span>
+                    </div>
+
+                    <div className="mt-3 space-y-2 max-h-80 overflow-y-auto pr-1">
+                      {/* 1. Pending Approvals */}
+                      {pendingCount > 0 ? (
+                        <div
+                          onClick={() => handleSelectTab('approval')}
+                          className="p-3 rounded-lg border border-indigo-200 bg-indigo-50/70 hover:bg-indigo-100/70 cursor-pointer transition-all group"
+                        >
+                          <div className="flex items-start justify-between">
+                            <div className="flex items-center gap-2">
+                              <FileText className="w-4 h-4 text-indigo-600 shrink-0" />
+                              <span className="text-xs font-semibold text-indigo-950">
+                                {pendingCount} Draft(s) Waiting for Human Approval
+                              </span>
+                            </div>
+                            <span className="text-[9px] font-mono bg-indigo-200 text-indigo-800 font-bold px-1.5 py-0.2 rounded">
+                              GATE OPEN
+                            </span>
+                          </div>
+                          <p className="text-[11px] text-indigo-800 mt-1 leading-snug">
+                            Outbound client notification letters are staged in outbox. Click to review and 1-click dispatch.
+                          </p>
+                          <div className="text-[10px] font-mono text-indigo-600 font-semibold mt-2 flex items-center gap-1 group-hover:underline">
+                            <span>Open Approval Gate Desk</span>
+                            <ArrowRight className="w-3 h-3" />
+                          </div>
+                        </div>
+                      ) : null}
+
+                      {/* 2. Quarantined Tickets */}
+                      {quarantineCount > 0 ? (
+                        <div
+                          onClick={() => handleSelectTab('cockpit')}
+                          className="p-3 rounded-lg border border-rose-200 bg-rose-50/70 hover:bg-rose-100/70 cursor-pointer transition-all group"
+                        >
+                          <div className="flex items-start justify-between">
+                            <div className="flex items-center gap-2">
+                              <AlertOctagon className="w-4 h-4 text-rose-600 shrink-0" />
+                              <span className="text-xs font-semibold text-rose-950">
+                                {quarantineCount} Ticket(s) Quarantined
+                              </span>
+                            </div>
+                            <span className="text-[9px] font-mono bg-rose-200 text-rose-800 font-bold px-1.5 py-0.2 rounded">
+                              CORRUPT INPUT
+                            </span>
+                          </div>
+                          <p className="text-[11px] text-rose-800 mt-1 leading-snug">
+                            Missing origin hubs or invalid telemetry isolated safely. Click to inspect reasons in Cockpit.
+                          </p>
+                          <div className="text-[10px] font-mono text-rose-600 font-semibold mt-2 flex items-center gap-1 group-hover:underline">
+                            <span>Open Resolution Cockpit</span>
+                            <ArrowRight className="w-3 h-3" />
+                          </div>
+                        </div>
+                      ) : null}
+
+                      {/* 3. P2 Gate Rule / SLA Standing Notice */}
+                      <div className="p-3 rounded-lg border border-amber-200 bg-amber-50/70">
+                        <div className="flex items-center gap-2">
+                          <AlertTriangle className="w-4 h-4 text-amber-600 shrink-0" />
+                          <span className="text-xs font-semibold text-amber-950">
+                            P2 Standing Policies Active
+                          </span>
+                        </div>
+                        <div className="text-[11px] text-amber-800 mt-1 space-y-0.5">
+                          <div>• <strong>Vertex Retail</strong>: 6:00 PM gate closing hold active.</div>
+                          <div>• <strong>Shakti Cement</strong>: 36-hour operational window enforced.</div>
+                          <div>• <strong>Delhi NCR</strong>: GRAP BS4 commercial vehicle ban enforced.</div>
+                        </div>
+                      </div>
+
+                      {totalAlerts === 0 && (
+                        <div className="p-4 text-center text-xs text-[#787774] font-mono">
+                          <CheckCircle2 className="w-5 h-5 text-emerald-600 mx-auto mb-1" />
+                          <span>All queues clear. Zero pending approvals.</span>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                )}
+              </div>
+
               {/* Hamburger Button */}
               <button
-                onClick={() => setDrawerOpen(true)}
+                onClick={() => {
+                  setDrawerOpen(true);
+                  setNotifOpen(false);
+                }}
                 className="relative p-2 rounded-md hover:bg-[#f1f1ef] text-[#191919] transition-all flex items-center gap-2 border border-[#ededeb]"
                 aria-label="Open Navigation Menu"
               >
                 <Menu className="w-4 h-4" />
                 <span className="text-xs font-medium hidden sm:inline">Menu</span>
-                {(systemStatus?.counts?.comms_pending || 0) > 0 && (
-                  <span className="w-2 h-2 rounded-full bg-[#e11d48] animate-ping absolute top-1 right-1" />
-                )}
               </button>
             </div>
           </div>

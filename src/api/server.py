@@ -59,6 +59,7 @@ local_llm = LocalLLM(context_store)
 # Request Models
 class QueryRequest(BaseModel):
     question: str
+    history: Optional[List[Dict[str, Any]]] = None
 
 class TicketInput(BaseModel):
     ticket_id: str
@@ -140,7 +141,9 @@ def ask_rajender_brain(req: QueryRequest):
     if not req.question.strip():
         raise HTTPException(status_code=400, detail="Question cannot be empty")
     
-    res = local_llm.query(req.question)
+    from src.query.engine import GroundedQueryEngine
+    engine = GroundedQueryEngine(context_store)
+    res = engine.query(req.question, history=req.history)
     return res
 
 @app.get("/api/pipeline/results")

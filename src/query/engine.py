@@ -21,24 +21,27 @@ class GroundedQueryEngine:
         if not self.context_store.is_loaded:
             self.context_store.load_all()
 
-    def query(self, question: str) -> Dict[str, Any]:
+    def query(self, question: str, history: Optional[List[Dict[str, Any]]] = None) -> Dict[str, Any]:
         """
         Processes a natural language query and returns an answer with citations.
-        Returns:
-          {
-            "question": str,
-            "answer": str,
-            "citations": List[str],
-            "is_sufficient": bool,
-            "rule_code": Optional[str],
-            "rule_name": Optional[str],
-            "vehicle_data": Optional[Dict[str, Any]]
-          }
+        Supports multi-turn context retention across conversations.
         """
-        q_lower = question.lower()
+        resolved_question = question
+        # If pronoun or follow-up question, extract context from recent history
+        if history:
+            prev_context_text = " ".join([h.get("text", "") for h in history[-4:]])
+            prev_veh, prev_is_veh = extract_vehicle_reg_from_text(prev_context_text)
+            
+            # If current question lacks a vehicle plate but refers to 'it', 'its', 'the truck', 'the vehicle', inject the plate
+            cur_veh, cur_is_veh = extract_vehicle_reg_from_text(question)
+            if not cur_is_veh and prev_is_veh and prev_veh:
+                if any(w in question.lower() for w in ["it", "its", "the truck", "this truck", "the vehicle", "this vehicle", "heater", "service", "grounded", "jugaad", "brake"]):
+                    resolved_question = f"{question} for vehicle {prev_veh}"
+
+        q_lower = resolved_question.lower()
 
         # 1. Specific Vehicle Grounding / Status Lookup (Check first if question mentions a specific vehicle plate)
-        norm_veh, is_reg = extract_vehicle_reg_from_text(question)
+        norm_veh, is_reg = extract_vehicle_reg_from_text(resolved_question)
         if is_reg and norm_veh:
             veh = self.context_store.get_vehicle(norm_veh)
             if veh:

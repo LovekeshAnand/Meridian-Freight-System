@@ -86,7 +86,7 @@ def _load_queue_file(queue_path: Path) -> tuple[List[Any], Optional[str]]:
 
 
 class BreakdownPipeline:
-    def __init__(self, context_store: Optional[ContextStore] = None):
+    def __init__(self, context_store: Optional[ContextStore] = None, install_signal_handlers: bool = False):
         self.context_store = context_store or ContextStore()
         if not self.context_store.is_loaded:
             self.context_store.load_all()
@@ -96,12 +96,13 @@ class BreakdownPipeline:
         self.comms_generator = CommsGenerator()
         self.state_manager = StateManager()
 
-        # Graceful SIGINT handler
+        # Graceful SIGINT handler (only installed in standalone CLI scripts, never inside web servers)
         self._interrupted = False
-        try:
-            signal.signal(signal.SIGINT, self._handle_sigint)
-        except (ValueError, OSError):
-            pass  # Can't set signal in non-main thread; ignore
+        if install_signal_handlers:
+            try:
+                signal.signal(signal.SIGINT, self._handle_sigint)
+            except (ValueError, OSError):
+                pass
 
     def _handle_sigint(self, signum, frame):
         """Handles Ctrl+C gracefully — allows current ticket to finish, then stops."""

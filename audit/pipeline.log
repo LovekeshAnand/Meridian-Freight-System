@@ -1267,3 +1267,4 @@
 {"ts": "2026-08-30T14:01:12.075341", "level": "INFO", "msg": "Surprise file adapted: 1 records, 0 drift alerts."}
 {"ts": "2026-08-30T14:01:12.075732", "level": "INFO", "msg": "Ticket INC-2026-CRIT-992 already processed in previous run — skipping.", "ctx": {"ticket_id": "INC-2026-CRIT-992"}}
 {"ts": "2026-08-30T14:01:12.080026", "level": "INFO", "msg": "Pipeline run complete.", "ctx": {"ticket_id": "", "status": "success", "total_in_queue": 1, "valid_processed": 0, "quarantined": 0, "work_orders_generated": 0, "comms_pending": 0}}
+{"ts": "2026-08-30T14:05:34.723768", "level": "ALERT", "msg": "SIGINT received — pipeline will stop after current ticket finishes.", "ctx": {"alert_type": "SIGINT"}}

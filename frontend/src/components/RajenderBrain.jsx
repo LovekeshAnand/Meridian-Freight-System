@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import { 
   Send, ArrowRight, CornerDownLeft, X, ShieldAlert, Truck, Info, RotateCcw, 
   MessageSquare, Plus, Trash2, CheckCircle2, FileText, Database, Paperclip, 
-  UploadCloud, Check, FileCode, AlertTriangle, Layers, Clock, ShieldCheck, Mail, Bell
+  UploadCloud, Check, FileCode, AlertTriangle, Layers, Clock, ShieldCheck, Mail, Bell, AlertOctagon
 } from 'lucide-react';
 import { showToast } from './NotificationToast';
 

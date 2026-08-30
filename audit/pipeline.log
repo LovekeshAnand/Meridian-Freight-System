@@ -991,3 +991,5 @@
 {"ts": "2026-08-30T12:14:56.661354", "level": "WARN", "msg": "Ticket TKT-0099 validated with 1 warning(s)", "ctx": {"ticket_id": "TKT-0099", "warnings": ["ticket_id coerced from 99 -> 'TKT-0099'"]}}
 {"ts": "2026-08-30T12:14:56.662281", "level": "WARN", "msg": "Ticket TKT-001 validated with 1 warning(s)", "ctx": {"ticket_id": "TKT-001", "warnings": ["Coerced km from '45 km' -> 45.0"]}}
 {"ts": "2026-08-30T12:14:56.663139", "level": "WARN", "msg": "Ticket TKT-001 validated with 1 warning(s)", "ctx": {"ticket_id": "TKT-001", "warnings": ["Unusually large km_from_origin_hub: 9999.0 — possible data error"]}}
+{"ts": "2026-08-30T12:24:52.076012", "level": "INFO", "msg": "Loaded 40 email threads from emails/."}
+{"ts": "2026-08-30T12:24:52.077588", "level": "INFO", "msg": "ContextStore loaded: vehicles=100, drivers=60, maintenance_vehicles=93, trips=10000, emails=40, warnings=0"}

@@ -123,7 +123,7 @@ def get_system_status():
             "vehicles_loaded": len(context_store.vehicles),
             "drivers_loaded": len(context_store.drivers),
             "maintenance_records": len(context_store.maintenance_records),
-            "email_threads": len(context_store.email_threads)
+            "emails_loaded": len(context_store.emails)
         },
         "counts": {
             "work_orders": wo_count,

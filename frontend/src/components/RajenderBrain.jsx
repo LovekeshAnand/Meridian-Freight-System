@@ -152,6 +152,7 @@ export default function RajenderBrain({ apiBase = 'http://127.0.0.1:8000' }) {
         rule_code: data.rule_code,
         rule_name: data.rule_name,
         vehicle_data: data.vehicle_data,
+        model_used: data.model_used,
         timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
       };
 
@@ -318,13 +319,21 @@ export default function RajenderBrain({ apiBase = 'http://127.0.0.1:8000' }) {
                 }`}
               >
                 <div className="flex items-center justify-between mb-2">
-                  <span className={`text-[10px] font-mono font-semibold uppercase tracking-wider px-2 py-0.5 rounded ${
-                    msg.sender === 'user'
-                      ? 'bg-[#242424] text-white'
-                      : 'bg-[#f1f1ef] text-[#5a5a58]'
-                  }`}>
-                    {msg.sender === 'user' ? 'DISPATCHER QUERY' : "RAJENDER'S BRAIN"}
-                  </span>
+                  <div className="flex items-center gap-2">
+                    <span className={`text-[10px] font-mono font-semibold uppercase tracking-wider px-2 py-0.5 rounded ${
+                      msg.sender === 'user'
+                        ? 'bg-[#242424] text-white'
+                        : 'bg-[#f1f1ef] text-[#5a5a58]'
+                    }`}>
+                      {msg.sender === 'user' ? 'DISPATCHER QUERY' : "RAJENDER'S BRAIN"}
+                    </span>
+                    {msg.sender === 'assistant' && msg.model_used && (
+                      <span className="text-[9px] font-mono px-1.5 py-0.2 rounded bg-emerald-50 text-emerald-700 border border-emerald-200 flex items-center gap-1">
+                        <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
+                        <span>{msg.model_used}</span>
+                      </span>
+                    )}
+                  </div>
                   <span className="text-[10px] font-mono text-[#9b9a97]">{msg.timestamp}</span>
                 </div>
 

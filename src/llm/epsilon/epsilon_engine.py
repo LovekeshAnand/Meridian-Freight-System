@@ -169,37 +169,82 @@ class EpsilonEngine:
 
         if self.is_llm_online and self.vram_guard.acquire_budget(tier):
             try:
-                raw_answer = self._invoke_llm(prompt, "You are a factual query assistant.", model_name)
-                if raw_answer:
-                    is_valid, flaws = self.critique.validate_query_response(raw_answer, question)
-                    if is_valid:
-                        answer_text = raw_answer
-                    else:
-                        log.warn(f"Query critique flaws: {flaws}")
+                raw_answer = self._invoke_llm(prompt, "You are Rajender's Brain, an AI logistics copilot for Meridian Freight. Answer accurately based on provided operational facts.", model_name)
+                if raw_answer and len(raw_answer.strip()) > 3:
+                    answer_text = raw_answer.strip()
             except Exception as e:
                 log.error(f"Epsilon query generation error: {e}")
             finally:
                 self.vram_guard.release_budget(tier)
 
-        # Final PII Redaction and Session Wipe
+        # Extract vehicle and rule metadata for UI buttons
+        from src.entity.normalizer import extract_vehicle_reg_from_text
+        norm_veh, is_reg = extract_vehicle_reg_from_text(question)
+        vehicle_data = None
         rule_code = None
         rule_name = None
-        vehicle_data = None
+
+        if is_reg and norm_veh:
+            veh = self.context_store.get_vehicle(norm_veh)
+            maint = self.context_store.get_maintenance_summary(norm_veh)
+            if veh:
+                vehicle_data = {
+                    "reg": norm_veh,
+                    "model": veh.get("model"),
+                    "year": veh.get("year"),
+                    "bs_stage": veh.get("bs_stage"),
+                    "home_hub": veh.get("home_hub"),
+                    "status": veh.get("status"),
+                    "engine_heater": veh.get("engine_heater"),
+                    "latest_service_date": maint.get("latest_service_date", "N/A"),
+                    "is_overdue": maint.get("is_overdue", False),
+                    "has_active_jugaad": maint.get("has_active_jugaad", False),
+                    "brake_work_in_last_30d": maint.get("brake_work_in_last_30d", False),
+                }
+                if maint.get("is_overdue"):
+                    rule_code = "RULE-DISP-05"
+                    rule_name = "Maintenance Overdue Grounding Policy (>30 Days)"
+
+        if not rule_code:
+            q_low = question.lower()
+            if "shakti" in q_low:
+                rule_code = "RULE-CLI-01"
+                rule_name = "Shakti Cement 36-Hour Operational Protocol"
+            elif "vertex" in q_low:
+                rule_code = "RULE-CLI-02"
+                rule_name = "Vertex Retail 6:00 PM Gate Hold Protocol"
+            elif "apex" in q_low:
+                rule_code = "RULE-CLI-03"
+                rule_name = "Apex Chemicals Truck Rotation Protocol"
+            elif "orion" in q_low:
+                rule_code = "RULE-CLI-04"
+                rule_name = "Orion Pharma 2020+ Vehicle & Refrigeration Protocol"
+            elif "bs4" in q_low or "bs6" in q_low:
+                rule_code = "RULE-DISP-02"
+                rule_name = "Delhi NCR Winter GRAP BS4 Vehicle Ban"
+            elif "hill" in q_low or "rudrapur" in q_low or "nainital" in q_low:
+                rule_code = "RULE-DISP-03 / 04"
+                rule_name = "Hill Route Engine Heater & 30-Day Brake Rule"
+            elif "guddu" in q_low or "jugaad" in q_low:
+                rule_code = "RULE-DISP-06"
+                rule_name = "Guddu Roadside Temporary Patch 7-Day Boundary Rule"
 
         if not answer_text:
-            # Deterministic answer router
+            # Fallback only if LLM is unreachable or timed out
             from src.query.engine import GroundedQueryEngine
             engine = GroundedQueryEngine(self.context_store)
             det_res = engine.query(question)
             answer_text = det_res["answer"]
             citations = det_res["citations"]
             is_sufficient = det_res["is_sufficient"]
-            rule_code = det_res.get("rule_code")
-            rule_name = det_res.get("rule_name")
-            vehicle_data = det_res.get("vehicle_data")
+            rule_code = rule_code or det_res.get("rule_code")
+            rule_name = rule_name or det_res.get("rule_name")
+            vehicle_data = vehicle_data or det_res.get("vehicle_data")
+            is_llm = False
         else:
             citations = candidate_citations
             is_sufficient = "insufficient data" not in answer_text.lower()
+            is_llm = True
 
         sanitized_answer = redact_text(answer_text)
         self.aether.session_wipe()
@@ -210,6 +255,8 @@ class EpsilonEngine:
             "citations": citations,
             "is_sufficient": is_sufficient,
             "tier_used": tier,
+            "model_used": model_name if is_llm else "deterministic_engine",
+            "is_llm_generated": is_llm,
             "rule_code": rule_code,
             "rule_name": rule_name,
             "vehicle_data": vehicle_data

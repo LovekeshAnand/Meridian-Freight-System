@@ -158,10 +158,15 @@ class EpsilonEngine:
         grounding_block = self.context_injector.build_query_grounding_block(question, candidate_citations)
 
         prompt = (
-            f"Answer the user query based ONLY on the operational grounding below.\n"
-            f"If the answer cannot be found in the facts, state clearly: 'Insufficient data in the ingested knowledge base and operational records to answer this query with grounded certainty.'\n\n"
+            f"You are Rajender's Brain, the AI Logistics Copilot for Meridian Freight with 18 years of dispatch expertise.\n\n"
+            f"Operational Knowledge Base & Telemetry:\n"
             f"{grounding_block}\n\n"
-            f"Question: {question}\nAnswer:"
+            f"User Query: {question}\n\n"
+            f"Instructions:\n"
+            f"- If the user is greeting, having a general conversation, or asking follow-up clarification, respond naturally, warmly, and helpfully as Rajender's Brain.\n"
+            f"- If the user is asking an operational or logistics question, reason factually over the knowledge base above and cite relevant rules directly.\n"
+            f"- Avoid making up fake vehicle registrations or fake contract clauses.\n"
+            f"Answer:"
         )
 
         answer_text = ""
@@ -169,7 +174,11 @@ class EpsilonEngine:
 
         if self.is_llm_online and self.vram_guard.acquire_budget(tier):
             try:
-                raw_answer = self._invoke_llm(prompt, "You are Rajender's Brain, an AI logistics copilot for Meridian Freight. Answer accurately based on provided operational facts.", model_name)
+                raw_answer = self._invoke_llm(
+                    prompt, 
+                    "You are Rajender's Brain, the expert AI Dispatch Copilot for Meridian Freight. Be helpful, concise, natural, and factually grounded.", 
+                    model_name
+                )
                 if raw_answer and len(raw_answer.strip()) > 3:
                     answer_text = raw_answer.strip()
             except Exception as e:

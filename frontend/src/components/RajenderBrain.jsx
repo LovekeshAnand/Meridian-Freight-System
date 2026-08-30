@@ -2,8 +2,9 @@ import React, { useState, useRef, useEffect } from 'react';
 import { 
   Send, ArrowRight, CornerDownLeft, X, ShieldAlert, Truck, Info, RotateCcw, 
   MessageSquare, Plus, Trash2, CheckCircle2, FileText, Database, Paperclip, 
-  UploadCloud, Check, FileCode, AlertTriangle, Layers, Clock, ShieldCheck, Mail
+  UploadCloud, Check, FileCode, AlertTriangle, Layers, Clock, ShieldCheck, Mail, Bell
 } from 'lucide-react';
+import { showToast } from './NotificationToast';
 
 const KNOWLEDGE_TEST_PROMPTS = [
   { group: 'GREETINGS & INTRO', query: 'hi', desc: 'Assistant introduction & capabilities' },
@@ -203,6 +204,51 @@ export default function RajenderBrain({ apiBase = 'http://127.0.0.1:8000' }) {
         const botMsgId = (Date.now() + 1).toString();
         const primaryAnalysis = data.analyses?.[0];
 
+        // Trigger Real-time Toast Notifications with Slide-in (Right to Left) Animation
+        if (data.drift_alerts && data.drift_alerts.length > 0) {
+          showToast({
+            type: 'schema_drift',
+            title: 'Schema Drift Normalized',
+            message: `${data.drift_alerts.length} non-standard key mappings applied safely.`,
+            details: `File: ${data.filename}`
+          });
+        }
+
+        (data.analyses || []).forEach((a, idx) => {
+          const tkt = a.ticket || {};
+          const tktId = tkt.ticket_id || `TKT-${idx+1}`;
+          const client = tkt.client || 'Client';
+
+          if (a.quarantine) {
+            showToast({
+              type: 'quarantine',
+              title: 'Ticket Quarantined',
+              message: `[${tktId}] Quarantined: ${a.quarantine.quarantine_reason || a.quarantine.reason || 'Missing required fields'}`,
+              details: `Client: ${client}`
+            });
+          }
+
+          if (a.work_order) {
+            const repl = a.work_order.replacement_vehicle_reg || a.work_order.replacement_vehicle;
+            const hub = a.work_order.hub_used || a.work_order.assigned_hub;
+            showToast({
+              type: 'draft_ready',
+              title: 'Work Order & Draft Ready',
+              message: `Draft ready for ${client}: Assigned ${repl} (${hub})`,
+              details: `Ticket: ${tktId}`
+            });
+          }
+
+          if (String(tkt.issue || '').toLowerCase().includes('6:00') || String(tkt.issue || '').toLowerCase().includes('gate hold') || (tkt.client || '').toLowerCase().includes('vertex')) {
+            showToast({
+              type: 'gate_breach',
+              title: 'P2 Gate Rule Triggered',
+              message: `Vertex Retail 6:00 PM Gate Hold: Hold overnight until 8:00 AM`,
+              details: `Ticket: ${tktId}`
+            });
+          }
+        });
+
         const botMsg = {
           id: botMsgId,
           sender: 'assistant',
@@ -297,7 +343,110 @@ export default function RajenderBrain({ apiBase = 'http://127.0.0.1:8000' }) {
   // Sample Ticket Injector for 1-Click Testing
   const handleLoadSampleTicket = (format) => {
     let sampleContent, sampleFilename;
-    if (format === 'json') {
+    if (format === 'resilience') {
+      sampleFilename = 'sample_resilience_batch.json';
+      sampleContent = JSON.stringify([
+        {
+          "incident_id": "INC-2026-SHAKTI-01",
+          "client_name": "shakti cement plant ltd",
+          "broken_truck": "UP 40 IM 3144",
+          "from_hub": "Gurgaon Depot",
+          "to_destination": "ludhiana central hub",
+          "dist_travelled_km": "42.0",
+          "timestamp": "30-08-2026 14:15:00",
+          "severity_level": "CRITICAL_BREAKDOWN",
+          "issue_description": "Transmission failure on NH44 under 36-hour SLA window."
+        },
+        {
+          "incident_id": "INC-2026-APEX-BS4",
+          "client_name": "Apex Chemicals",
+          "broken_truck": "DL 41 GG 9786",
+          "from_hub": "Delhi",
+          "to_destination": "Jaipur",
+          "dist_travelled_km": "35.0",
+          "timestamp": "30-08-2026 14:20:00",
+          "severity_level": "HIGH",
+          "issue_description": "Coolant leak in Delhi NCR zone. Needs BS6 compliant replacement truck due to Winter GRAP ban."
+        },
+        {
+          "incident_id": "INC-2026-ORION-COLD",
+          "client_name": "Orion Pharma",
+          "broken_truck": "HR 73 CY 1771",
+          "from_hub": "Ambala",
+          "to_destination": "Delhi",
+          "dist_travelled_km": "65.0",
+          "timestamp": "30-08-2026 14:25:00",
+          "severity_level": "CRITICAL",
+          "issue_description": "Refrigeration defect. Replacement truck MUST be 2020 or newer."
+        },
+        {
+          "incident_id": "INC-CORRUPT-MISSING-HUB",
+          "client_name": "Vertex Retail",
+          "broken_truck": "RJ 43 DD 3546",
+          "from_hub": null,
+          "to_destination": "Ludhiana",
+          "dist_travelled_km": "20.0",
+          "timestamp": "30-08-2026 14:30:00",
+          "severity_level": "HIGH",
+          "issue_description": "Corrupt record missing origin hub. Must be quarantined safely without crashing pipeline."
+        },
+        {
+          "incident_id": "INC-CORRUPT-NEG-KM",
+          "client_name": "Shakti Cement",
+          "broken_truck": "UP 17 GN 7381",
+          "from_hub": "Kanpur",
+          "to_destination": "Delhi",
+          "dist_travelled_km": "-85.0",
+          "timestamp": "30-08-2026 14:35:00",
+          "severity_level": "HIGH",
+          "issue_description": "Telemetry error with negative distance. Must be quarantined."
+        },
+        {
+          "incident_id": "INC-2026-VERTEX-GATE",
+          "client_name": "Vertex Retail",
+          "broken_truck": "CH 40 BH 2290",
+          "from_hub": "Chandigarh",
+          "to_destination": "Ludhiana",
+          "dist_travelled_km": "28.0",
+          "timestamp": "30-08-2026 18:30:00",
+          "severity_level": "MEDIUM",
+          "issue_description": "Breakdown after 6:00 PM. Triggers Vertex Retail P2 Gate Hold rule (hold overnight until 8:00 AM)."
+        },
+        {
+          "incident_id": "INC-2026-RESILIENCE-DUP",
+          "client_name": "Shakti Cement",
+          "broken_truck": "HR 70 ZZ 3780",
+          "from_hub": "Ambala",
+          "to_destination": "Kanpur",
+          "dist_travelled_km": "30.0",
+          "timestamp": "30-08-2026 14:40:00",
+          "severity_level": "HIGH",
+          "issue_description": "Duplicate Test Entry 1 of 3: Alternator failure."
+        },
+        {
+          "incident_id": "INC-2026-RESILIENCE-DUP",
+          "client_name": "Shakti Cement",
+          "broken_truck": "HR 70 ZZ 3780",
+          "from_hub": "Ambala",
+          "to_destination": "Kanpur",
+          "dist_travelled_km": "30.0",
+          "timestamp": "30-08-2026 14:40:00",
+          "severity_level": "HIGH",
+          "issue_description": "Duplicate Test Entry 2 of 3: Alternator failure (Sync fault duplicate)."
+        },
+        {
+          "incident_id": "INC-2026-RESILIENCE-DUP",
+          "client_name": "Shakti Cement",
+          "broken_truck": "HR 70 ZZ 3780",
+          "from_hub": "Ambala",
+          "to_destination": "Kanpur",
+          "dist_travelled_km": "30.0",
+          "timestamp": "30-08-2026 14:40:00",
+          "severity_level": "HIGH",
+          "issue_description": "Duplicate Test Entry 3 of 3: Alternator failure (Sync fault duplicate)."
+        }
+      ], null, 2);
+    } else if (format === 'json') {
       sampleFilename = 'sample_breakdown_tkt.json';
       sampleContent = JSON.stringify([{
         ticket_id: "TKT-EMERG-801",
@@ -314,8 +463,8 @@ export default function RajenderBrain({ apiBase = 'http://127.0.0.1:8000' }) {
       sampleContent = "ticket_id,client,vehicle,origin_hub,destination,km_from_origin_hub,issue\nTKT-901,Vertex Retail,HR55GV5088,Ludhiana,Delhi,68,Alternator malfunction at highway toll\nTKT-902,Apex Chemicals,RJ43DD3546,Jaipur,Kanpur,14,Brake failure on slip road";
     }
 
-    const blob = new Blob([sampleContent], { type: format === 'json' ? 'application/json' : 'text/csv' });
-    const file = new File([blob], sampleFilename, { type: format === 'json' ? 'application/json' : 'text/csv' });
+    const blob = new Blob([sampleContent], { type: format === 'csv' ? 'text/csv' : 'application/json' });
+    const file = new File([blob], sampleFilename, { type: format === 'csv' ? 'text/csv' : 'application/json' });
     setAttachedFile(file);
   };
 
@@ -352,20 +501,20 @@ export default function RajenderBrain({ apiBase = 'http://127.0.0.1:8000' }) {
                     setActiveThreadId(t.id);
                     setDisplayedTexts({});
                   }}
-                  className={`p-2 rounded-md text-xs cursor-pointer flex items-center justify-between group transition-all ${
+                  className={`p-2 rounded border transition-all cursor-pointer flex items-center justify-between group ${
                     isSelected
-                      ? 'bg-[#f1f1ef] text-[#191919] font-medium'
-                      : 'text-[#5a5a58] hover:bg-[#fbfbfa] hover:text-[#191919]'
+                      ? 'bg-[#f1f1ef] border-[#d3d3d0] font-medium text-[#191919]'
+                      : 'bg-transparent border-transparent hover:bg-[#f7f6f3] text-[#5a5a58]'
                   }`}
                 >
                   <div className="flex items-center gap-2 truncate pr-1">
-                    <MessageSquare className="w-3.5 h-3.5 text-[#787774] shrink-0" />
-                    <span className="truncate">{t.title}</span>
+                    <MessageSquare className="w-3.5 h-3.5 shrink-0 text-[#787774]" />
+                    <span className="text-xs truncate">{t.title}</span>
                   </div>
                   {threads.length > 1 && (
                     <button
                       onClick={(e) => handleDeleteThread(t.id, e)}
-                      className="opacity-0 group-hover:opacity-100 p-1 hover:text-[#be123c] rounded transition-opacity"
+                      className="opacity-0 group-hover:opacity-100 p-1 hover:text-rose-600 transition-opacity"
                     >
                       <Trash2 className="w-3 h-3" />
                     </button>
@@ -382,21 +531,33 @@ export default function RajenderBrain({ apiBase = 'http://127.0.0.1:8000' }) {
             <Paperclip className="w-3 h-3 text-[#242424]" />
             <span>TICKET INGESTION SANDBOX</span>
           </div>
-          <div className="grid grid-cols-2 gap-1.5 pt-1">
+          <div className="space-y-1.5 pt-1">
             <button
-              onClick={() => handleLoadSampleTicket('json')}
-              className="px-2 py-1.5 rounded bg-[#f7f6f3] hover:bg-[#ebeae6] border border-[#e8e8e6] text-[11px] font-mono text-[#242424] flex items-center gap-1 transition-all"
+              onClick={() => handleLoadSampleTicket('resilience')}
+              className="w-full px-2.5 py-1.5 rounded bg-emerald-50 hover:bg-emerald-100 border border-emerald-200 text-[11px] font-mono text-emerald-900 flex items-center justify-between transition-all font-semibold"
             >
-              <FileCode className="w-3 h-3 text-indigo-600" />
-              <span>Sample JSON</span>
+              <div className="flex items-center gap-1.5">
+                <ShieldAlert className="w-3.5 h-3.5 text-emerald-700" />
+                <span>Resilience Batch (9 Tkts + 3x Dups)</span>
+              </div>
+              <span className="text-[9px] bg-emerald-200/80 px-1 py-0.2 rounded text-emerald-800">HOT</span>
             </button>
-            <button
-              onClick={() => handleLoadSampleTicket('csv')}
-              className="px-2 py-1.5 rounded bg-[#f7f6f3] hover:bg-[#ebeae6] border border-[#e8e8e6] text-[11px] font-mono text-[#242424] flex items-center gap-1 transition-all"
-            >
-              <FileText className="w-3 h-3 text-emerald-600" />
-              <span>Sample CSV</span>
-            </button>
+            <div className="grid grid-cols-2 gap-1.5">
+              <button
+                onClick={() => handleLoadSampleTicket('json')}
+                className="px-2 py-1.5 rounded bg-[#f7f6f3] hover:bg-[#ebeae6] border border-[#e8e8e6] text-[11px] font-mono text-[#242424] flex items-center gap-1 transition-all"
+              >
+                <FileCode className="w-3 h-3 text-indigo-600" />
+                <span>Sample JSON</span>
+              </button>
+              <button
+                onClick={() => handleLoadSampleTicket('csv')}
+                className="px-2 py-1.5 rounded bg-[#f7f6f3] hover:bg-[#ebeae6] border border-[#e8e8e6] text-[11px] font-mono text-[#242424] flex items-center gap-1 transition-all"
+              >
+                <FileText className="w-3 h-3 text-emerald-600" />
+                <span>Sample CSV</span>
+              </button>
+            </div>
           </div>
         </div>
 

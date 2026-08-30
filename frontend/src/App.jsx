@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Navbar from './components/Navbar';
+import NotificationToast from './components/NotificationToast';
 import RajenderBrain from './components/RajenderBrain';
 import BreakdownCockpit from './components/BreakdownCockpit';
 import ApprovalGate from './components/ApprovalGate';
@@ -31,6 +32,7 @@ export default function App() {
 
   return (
     <div className="min-h-screen bg-[#ffffff] text-[#2f2f2f] flex flex-col font-sans">
+      <NotificationToast />
       <Navbar
         activeTab={activeTab}
         setActiveTab={setActiveTab}

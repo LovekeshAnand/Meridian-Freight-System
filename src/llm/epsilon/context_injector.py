@@ -97,14 +97,44 @@ class ContextInjector:
             "11. Driver Night Roster: Drivers with <6 months tenure must not drive solo at night (Citation: dispatcher_interview.txt:L46).",
         ]
 
-        # Dynamic Entity Resolution (Vehicles mentioned in query)
+        # Dynamic Fleet Maintenance & Repair Telemetry Injection
+        q_low = query.lower()
+        needs_fleet_maint = any(w in q_low for w in ["repair", "repaired", "checked", "overdue", "maintenance", "grounded", "jugaad", "broken", "list", "which", "fast", "schedule", "when"])
+        
+        if needs_fleet_maint:
+            overdue_list = []
+            jugaad_list = []
+            brake_list = []
+            for r, v in self.context_store.vehicles.items():
+                m = self.context_store.get_maintenance_summary(r)
+                if m.get("is_overdue"):
+                    overdue_list.append(f"{r} ({v.get('model')}, Hub: {v.get('home_hub')}, Last Service: {m.get('latest_service_date')})")
+                if m.get("has_active_jugaad"):
+                    jugaad_list.append(f"{r} ({v.get('model')}, Hub: {v.get('home_hub')}, Patch Date: {m.get('jugaad_date')}, 7-Day Window)")
+                if m.get("brake_work_in_last_30d"):
+                    brake_list.append(f"{r} ({v.get('model')}, Hub: {v.get('home_hub')})")
+
+            parts.append("=== FLEET MAINTENANCE & REPAIR TELEMETRY SUMMARY ===")
+            if jugaad_list:
+                parts.append(f"Vehicles with Temporary Guddu Jugaad (Can be dispatched locally in home region immediately; must have permanent repair within 7 days): {'; '.join(jugaad_list[:10])}")
+            else:
+                parts.append("Vehicles with Temporary Guddu Jugaad: None active currently.")
+            
+            if overdue_list:
+                parts.append(f"Vehicles Grounded for Overdue Service (>150 days since last service, grounded until routine service is completed): {'; '.join(overdue_list[:15])} (Total {len(overdue_list)} vehicles overdue)")
+            
+            if brake_list:
+                parts.append(f"Vehicles with Recent Brake Work (<30 days, cannot take hill routes, flat runs only): {'; '.join(brake_list[:10])}")
+            parts.append("====================================================")
+
+        # Dynamic Entity Resolution (Specific vehicle mentioned in query)
         from src.entity.normalizer import extract_vehicle_reg_from_text, normalize_driver_id
         norm_veh, is_reg = extract_vehicle_reg_from_text(query)
         if is_reg and norm_veh:
             veh = self.context_store.get_vehicle(norm_veh)
             maint = self.context_store.get_maintenance_summary(norm_veh)
             if veh:
-                parts.append("=== VEHICLE TELEMETRY & MAINTENANCE LOG ===")
+                parts.append("=== SPECIFIC VEHICLE TELEMETRY & MAINTENANCE LOG ===")
                 parts.append(
                     f"Vehicle: {norm_veh} | Model: {veh.get('model')} | Year: {veh.get('year')} | "
                     f"BS Stage: {veh.get('bs_stage')} | Home Hub: {veh.get('home_hub')} | Status: {veh.get('status')} | Engine Heater: {veh.get('engine_heater')}"
@@ -116,7 +146,7 @@ class ContextInjector:
                         f"Brake Work in Last 30d={maint.get('brake_work_in_last_30d')} | "
                         f"Active Temporary Guddu Jugaad={maint.get('has_active_jugaad')} (Lock to home region if True)"
                     )
-                parts.append("==========================================")
+                parts.append("====================================================")
 
         # Dynamic Driver Resolution
         norm_drv = normalize_driver_id(query)
@@ -125,5 +155,5 @@ class ContextInjector:
             parts.append(f"Driver Profile {norm_drv}: Name={drv.get('name')}, Base Hub={drv.get('home_hub')}, Joined={drv.get('joining_date')}")
 
         parts.append(f"Applicable Citations: {', '.join(candidate_citations) if candidate_citations else 'None'}")
-        parts.append("=== INSTRUCTIONS: Answer the question concisely using the operational facts above. If not in facts, state 'Insufficient data'. ===")
+        parts.append("=== INSTRUCTIONS: Answer the question concisely and thoroughly using the operational facts above. If not in facts, state 'Insufficient data'. ===")
         return "\n".join(parts)

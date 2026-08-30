@@ -242,8 +242,9 @@ async def analyze_ticket_document(
         matched_quarantine = next((q for q in reversed(all_quars) if q.get("ticket_id") == tkt_id), None)
         matched_comms = next((c for c in reversed(all_comms) if c.get("ticket_id") == tkt_id), None)
 
-        rep_veh = matched_wo.get("replacement_vehicle") if matched_wo else None
-        assigned_hub = matched_wo.get("assigned_hub") if matched_wo else t.get("origin_hub")
+        rep_veh = matched_wo.get("replacement_vehicle_reg") or matched_wo.get("replacement_vehicle") if matched_wo else None
+        assigned_hub = matched_wo.get("hub_used") or matched_wo.get("assigned_hub") or t.get("origin_hub") if matched_wo else t.get("origin_hub")
+        rationale = matched_wo.get("hub_strategy") or matched_wo.get("selection_rationale") if matched_wo else ""
         
         # Build prompt for LLM explanation
         llm_prompt = (
@@ -251,23 +252,23 @@ async def analyze_ticket_document(
             f"- Incident ID: {tkt_id}\n"
             f"- Client: {t.get('client')}\n"
             f"- Broken Vehicle: {t.get('vehicle')}\n"
-            f"- Trip Route: {t.get('origin_hub')} to {t.get('destination')} (Breakdown Distance: {t.get('km_from_origin_hub')} km from origin hub)\n"
+            f"- Trip Route: {t.get('origin_hub')} to {t.get('destination')} (Breakdown Distance: {t.get('km_from_origin_hub')} km from trip origin hub {t.get('origin_hub')})\n"
             f"- Incident Defect: {t.get('issue')}\n"
         )
         if rep_veh:
             llm_prompt += (
                 f"- Automated Resolution: Assigned Replacement Truck **{rep_veh}** from **{assigned_hub}** hub.\n"
-                f"- Selection Rationale: {matched_wo.get('selection_rationale')}\n"
+                f"- Selection Rationale: {rationale}\n"
             )
         elif matched_quarantine:
             llm_prompt += f"- Ticket Quarantined: Reason: {matched_quarantine.get('quarantine_reason', matched_quarantine.get('reason'))}\n"
 
         llm_prompt += (
-            f"\nAs Rajender's Brain, provide a comprehensive dispatch resolution summary:\n"
-            f"1. Explain why replacement vehicle {rep_veh or 'selection'} was dispatched from {assigned_hub} under RULE-DISP-01 (50km Origin Rule).\n"
-            f"2. Confirm SLA compliance for {t.get('client')} (e.g. 36-hour window).\n"
-            f"3. Note any policy violations found with the broken truck ({t.get('vehicle')}).\n"
-            f"4. Provide concrete operational instructions for field teams."
+            f"\nAs Rajender's Brain, provide a concise dispatch resolution summary:\n"
+            f"1. Explain that because the breakdown occurred {t.get('km_from_origin_hub')} km (<= 50km) from the trip origin hub ({t.get('origin_hub')}), replacement vehicle {rep_veh} was correctly dispatched from {assigned_hub} under RULE-DISP-01.\n"
+            f"2. Confirm strict 36-hour SLA compliance for {t.get('client')} under RULE-CLI-01.\n"
+            f"3. Note that the broken truck {t.get('vehicle')} was overdue for service and should be grounded under RULE-DISP-05.\n"
+            f"4. Provide field team instructions."
         )
 
         llm_res = local_llm.query(llm_prompt)

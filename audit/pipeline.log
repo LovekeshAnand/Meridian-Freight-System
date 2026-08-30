@@ -1268,3 +1268,36 @@
 {"ts": "2026-08-30T14:01:12.075732", "level": "INFO", "msg": "Ticket INC-2026-CRIT-992 already processed in previous run — skipping.", "ctx": {"ticket_id": "INC-2026-CRIT-992"}}
 {"ts": "2026-08-30T14:01:12.080026", "level": "INFO", "msg": "Pipeline run complete.", "ctx": {"ticket_id": "", "status": "success", "total_in_queue": 1, "valid_processed": 0, "quarantined": 0, "work_orders_generated": 0, "comms_pending": 0}}
 {"ts": "2026-08-30T14:05:34.723768", "level": "ALERT", "msg": "SIGINT received — pipeline will stop after current ticket finishes.", "ctx": {"alert_type": "SIGINT"}}
+{"ts": "2026-08-30T14:06:27.254703", "level": "ALERT", "msg": "SIGINT received — pipeline will stop after current ticket finishes.", "ctx": {"alert_type": "SIGINT"}}
+{"ts": "2026-08-30T14:06:28.526534", "level": "ALERT", "msg": "SIGINT received — pipeline will stop after current ticket finishes.", "ctx": {"alert_type": "SIGINT"}}
+{"ts": "2026-08-30T14:06:28.776745", "level": "ALERT", "msg": "SIGINT received — pipeline will stop after current ticket finishes.", "ctx": {"alert_type": "SIGINT"}}
+{"ts": "2026-08-30T14:06:28.954771", "level": "ALERT", "msg": "SIGINT received — pipeline will stop after current ticket finishes.", "ctx": {"alert_type": "SIGINT"}}
+{"ts": "2026-08-30T14:06:29.192822", "level": "ALERT", "msg": "SIGINT received — pipeline will stop after current ticket finishes.", "ctx": {"alert_type": "SIGINT"}}
+{"ts": "2026-08-30T14:06:29.380699", "level": "ALERT", "msg": "SIGINT received — pipeline will stop after current ticket finishes.", "ctx": {"alert_type": "SIGINT"}}
+{"ts": "2026-08-30T14:06:29.624245", "level": "ALERT", "msg": "SIGINT received — pipeline will stop after current ticket finishes.", "ctx": {"alert_type": "SIGINT"}}
+{"ts": "2026-08-30T14:06:29.862781", "level": "ALERT", "msg": "SIGINT received — pipeline will stop after current ticket finishes.", "ctx": {"alert_type": "SIGINT"}}
+{"ts": "2026-08-30T14:06:30.107385", "level": "ALERT", "msg": "SIGINT received — pipeline will stop after current ticket finishes.", "ctx": {"alert_type": "SIGINT"}}
+{"ts": "2026-08-30T14:06:30.319383", "level": "ALERT", "msg": "SIGINT received — pipeline will stop after current ticket finishes.", "ctx": {"alert_type": "SIGINT"}}
+{"ts": "2026-08-30T14:06:30.553156", "level": "ALERT", "msg": "SIGINT received — pipeline will stop after current ticket finishes.", "ctx": {"alert_type": "SIGINT"}}
+{"ts": "2026-08-30T14:06:30.962529", "level": "ALERT", "msg": "SIGINT received — pipeline will stop after current ticket finishes.", "ctx": {"alert_type": "SIGINT"}}
+{"ts": "2026-08-30T14:06:31.214557", "level": "ALERT", "msg": "SIGINT received — pipeline will stop after current ticket finishes.", "ctx": {"alert_type": "SIGINT"}}
+{"ts": "2026-08-30T14:06:31.461183", "level": "ALERT", "msg": "SIGINT received — pipeline will stop after current ticket finishes.", "ctx": {"alert_type": "SIGINT"}}
+{"ts": "2026-08-30T14:06:31.784131", "level": "ALERT", "msg": "SIGINT received — pipeline will stop after current ticket finishes.", "ctx": {"alert_type": "SIGINT"}}
+{"ts": "2026-08-30T14:06:32.064474", "level": "ALERT", "msg": "SIGINT received — pipeline will stop after current ticket finishes.", "ctx": {"alert_type": "SIGINT"}}
+{"ts": "2026-08-30T14:06:32.277887", "level": "ALERT", "msg": "SIGINT received — pipeline will stop after current ticket finishes.", "ctx": {"alert_type": "SIGINT"}}
+{"ts": "2026-08-30T14:06:32.472186", "level": "ALERT", "msg": "SIGINT received — pipeline will stop after current ticket finishes.", "ctx": {"alert_type": "SIGINT"}}
+{"ts": "2026-08-30T14:06:32.667487", "level": "ALERT", "msg": "SIGINT received — pipeline will stop after current ticket finishes.", "ctx": {"alert_type": "SIGINT"}}
+{"ts": "2026-08-30T14:06:32.880370", "level": "ALERT", "msg": "SIGINT received — pipeline will stop after current ticket finishes.", "ctx": {"alert_type": "SIGINT"}}
+{"ts": "2026-08-30T14:06:33.058753", "level": "ALERT", "msg": "SIGINT received — pipeline will stop after current ticket finishes.", "ctx": {"alert_type": "SIGINT"}}
+{"ts": "2026-08-30T14:06:43.318530", "level": "INFO", "msg": "Loaded 40 email threads from emails/."}
+{"ts": "2026-08-30T14:06:43.321236", "level": "INFO", "msg": "ContextStore loaded: vehicles=100, drivers=60, maintenance_vehicles=93, trips=10000, emails=40, warnings=0"}
+{"ts": "2026-08-30T14:06:43.345528", "level": "INFO", "msg": "Epsilon Engine connected to local backend. Models available: ['qwen2.5:3b', 'qwen2.5:7b', 'qwen2.5:1.5b']"}
+{"ts": "2026-08-30T14:07:09.351761", "level": "ALERT", "msg": "Schema drift detected in surprise file: 9 mapping(s) applied.", "ctx": {"alert_type": "SCHEMA_DRIFT", "drifts": ["Remapped 'incident_id' -> 'ticket_id'", "Remapped 'broken_truck' -> 'vehicle'", "Remapped 'from_hub' -> 'origin_hub'", "Remapped 'dist_travelled_km' -> 'km_from_origin_hub'", "Remapped 'to_destination' -> 'destination'", "Remapped 'issue_description' -> 'issue'", "Remapped 'severity_level' -> 'severity'", "Remapped 'client_name' -> 'client'", "Remapped 'timestamp' -> 'created_at'"], "file": "d:\\meridian\\data\\uploads\\sample_bad_ticket.json"}}
+{"ts": "2026-08-30T14:07:09.352426", "level": "INFO", "msg": "Drift adapter processed surprise file: 1 records, 9 alert(s).", "ctx": {"ticket_id": "", "file": "d:\\meridian\\data\\uploads\\sample_bad_ticket.json"}}
+{"ts": "2026-08-30T14:07:09.922554", "level": "INFO", "msg": "Loaded 40 email threads from emails/."}
+{"ts": "2026-08-30T14:07:09.924100", "level": "INFO", "msg": "ContextStore loaded: vehicles=100, drivers=60, maintenance_vehicles=93, trips=10000, emails=40, warnings=0"}
+{"ts": "2026-08-30T14:07:09.927510", "level": "INFO", "msg": "Epsilon Engine connected to local backend. Models available: ['qwen2.5:3b', 'qwen2.5:7b', 'qwen2.5:1.5b']"}
+{"ts": "2026-08-30T14:07:09.939096", "level": "INFO", "msg": "Audit ledger loaded: 975 processed ticket entries, 35 unique tickets, 0 corrupt lines skipped."}
+{"ts": "2026-08-30T14:07:09.943278", "level": "WARN", "msg": "Ticket INC-2026-CRIT-992 validated with 1 warning(s)", "ctx": {"ticket_id": "INC-2026-CRIT-992", "warnings": ["Date '30-08-2026 16:45:00' parsed via format '%d-%m-%Y %H:%M:%S'"]}}
+{"ts": "2026-08-30T14:07:09.956039", "level": "INFO", "msg": "Vehicle selected: HR16SP9238 from Gurgaon", "ctx": {"ticket_id": "INC-2026-CRIT-992", "vehicle": "HR16SP9238", "hub": "Gurgaon", "rejections": 3}}
+{"ts": "2026-08-30T14:07:22.552390", "level": "INFO", "msg": "Pipeline run complete.", "ctx": {"ticket_id": "", "status": "success", "total_in_queue": 1, "valid_processed": 1, "quarantined": 0, "work_orders_generated": 1, "comms_pending": 1}}

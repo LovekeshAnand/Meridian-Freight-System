@@ -535,12 +535,12 @@ export default function RajenderBrain({ apiBase = 'http://127.0.0.1:8000' }) {
                               {wo ? (
                                 <>
                                   <div className="font-mono font-semibold text-[#15803d] mt-0.5">
-                                    {wo.replacement_vehicle} ({wo.assigned_hub})
+                                    {wo.replacement_vehicle_reg || wo.replacement_vehicle} ({wo.hub_used || wo.assigned_hub})
                                   </div>
-                                  <div className="text-[#5a5a58] text-[11px] mt-0.5 truncate">{wo.selection_rationale}</div>
+                                  <div className="text-[#5a5a58] text-[11px] mt-0.5 truncate">{wo.hub_strategy || wo.selection_rationale}</div>
                                 </>
                               ) : (
-                                <div className="text-rose-700 font-medium text-[11px] mt-0.5">{quar?.reason || 'No vehicle assigned'}</div>
+                                <div className="text-rose-700 font-medium text-[11px] mt-0.5">{quar?.quarantine_reason || quar?.reason || 'No vehicle assigned'}</div>
                               )}
                             </div>
                           </div>

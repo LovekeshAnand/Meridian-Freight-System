@@ -997,3 +997,107 @@
 {"ts": "2026-08-30T12:30:26.811091", "level": "INFO", "msg": "ContextStore loaded: vehicles=100, drivers=60, maintenance_vehicles=93, trips=10000, emails=40, warnings=0"}
 {"ts": "2026-08-30T12:31:03.820189", "level": "INFO", "msg": "Loaded 40 email threads from emails/."}
 {"ts": "2026-08-30T12:31:03.821794", "level": "INFO", "msg": "ContextStore loaded: vehicles=100, drivers=60, maintenance_vehicles=93, trips=10000, emails=40, warnings=0"}
+{"ts": "2026-08-30T12:31:26.916069", "level": "INFO", "msg": "Loaded 40 email threads from emails/."}
+{"ts": "2026-08-30T12:31:26.917620", "level": "INFO", "msg": "ContextStore loaded: vehicles=100, drivers=60, maintenance_vehicles=93, trips=10000, emails=40, warnings=0"}
+{"ts": "2026-08-30T12:35:38.192372", "level": "INFO", "msg": "Loaded 40 email threads from emails/."}
+{"ts": "2026-08-30T12:35:38.194431", "level": "INFO", "msg": "ContextStore loaded: vehicles=100, drivers=60, maintenance_vehicles=93, trips=10000, emails=40, warnings=0"}
+{"ts": "2026-08-30T12:35:59.018881", "level": "INFO", "msg": "Drift adapter processed surprise file: 1 records, 0 alert(s).", "ctx": {"ticket_id": "", "file": "C:\\Users\\ZBook\\AppData\\Local\\Temp\\tmplegmoiwg.json"}}
+{"ts": "2026-08-30T12:35:59.030013", "level": "INFO", "msg": "Drift adapter processed surprise file: 1 records, 0 alert(s).", "ctx": {"ticket_id": "", "file": "C:\\Users\\ZBook\\AppData\\Local\\Temp\\tmpsoc70ilj.jsonl"}}
+{"ts": "2026-08-30T12:35:59.039489", "level": "INFO", "msg": "Drift adapter processed surprise file: 1 records, 1 alert(s).", "ctx": {"ticket_id": "", "file": "C:\\Users\\ZBook\\AppData\\Local\\Temp\\tmpc5_rc5h7.csv"}}
+{"ts": "2026-08-30T12:35:59.049472", "level": "INFO", "msg": "Drift adapter processed surprise file: 1 records, 1 alert(s).", "ctx": {"ticket_id": "", "file": "C:\\Users\\ZBook\\AppData\\Local\\Temp\\tmp4lqd8ao_.tsv"}}
+{"ts": "2026-08-30T12:35:59.060965", "level": "INFO", "msg": "Drift adapter processed surprise file: 1 records, 0 alert(s).", "ctx": {"ticket_id": "", "file": "C:\\Users\\ZBook\\AppData\\Local\\Temp\\tmpeisnns4e.json"}}
+{"ts": "2026-08-30T12:35:59.068636", "level": "INFO", "msg": "Drift adapter processed surprise file: 1 records, 1 alert(s).", "ctx": {"ticket_id": "", "file": "C:\\Users\\ZBook\\AppData\\Local\\Temp\\tmpn9f79165.csv"}}
+{"ts": "2026-08-30T12:35:59.070418", "level": "ALERT", "msg": "Surprise file yielded zero parseable records.", "ctx": {"alert_type": "EMPTY_QUEUE", "file": "C:\\Users\\ZBook\\AppData\\Local\\Temp\\tmpxdptj2i5.json"}}
+{"ts": "2026-08-30T12:35:59.071355", "level": "ALERT", "msg": "Surprise file not found: \\nonexistent\\path\\file.json", "ctx": {"alert_type": "FILE_MISSING"}}
+{"ts": "2026-08-30T12:35:59.082529", "level": "INFO", "msg": "Drift adapter processed surprise file: 1 records, 0 alert(s).", "ctx": {"ticket_id": "", "file": "C:\\Users\\ZBook\\AppData\\Local\\Temp\\tmpnw_la1em.json"}}
+{"ts": "2026-08-30T12:35:59.091347", "level": "ALERT", "msg": "Schema drift detected in surprise file: 1 mapping(s) applied.", "ctx": {"alert_type": "SCHEMA_DRIFT", "drifts": ["Unknown field 'tickets' preserved as '_extra_tickets'"], "file": "C:\\Users\\ZBook\\AppData\\Local\\Temp\\tmpl1k1n74l.json"}}
+{"ts": "2026-08-30T12:35:59.091664", "level": "INFO", "msg": "Drift adapter processed surprise file: 1 records, 1 alert(s).", "ctx": {"ticket_id": "", "file": "C:\\Users\\ZBook\\AppData\\Local\\Temp\\tmpl1k1n74l.json"}}
+{"ts": "2026-08-30T12:35:59.102805", "level": "INFO", "msg": "Drift adapter processed surprise file: 1 records, 0 alert(s).", "ctx": {"ticket_id": "", "file": "C:\\Users\\ZBook\\AppData\\Local\\Temp\\tmpbi78qp8x.json"}}
+{"ts": "2026-08-30T12:35:59.110986", "level": "INFO", "msg": "Drift adapter processed surprise file: 1 records, 0 alert(s).", "ctx": {"ticket_id": "", "file": "C:\\Users\\ZBook\\AppData\\Local\\Temp\\tmpfbr7snzl.json"}}
+{"ts": "2026-08-30T12:35:59.120957", "level": "ALERT", "msg": "Schema drift detected in surprise file: 6 mapping(s) applied.", "ctx": {"alert_type": "SCHEMA_DRIFT", "drifts": ["Remapped 'tkt_id' -> 'ticket_id'", "Remapped 'plate_no' -> 'vehicle'", "Remapped 'source_hub' -> 'origin_hub'", "Remapped 'dist_from_origin' -> 'km_from_origin_hub'", "Remapped 'cust_name' -> 'client'", "Remapped 'timestamp' -> 'created_at'"], "file": "C:\\Users\\ZBook\\AppData\\Local\\Temp\\tmpl5h1giqd.json"}}
+{"ts": "2026-08-30T12:35:59.121339", "level": "INFO", "msg": "Drift adapter processed surprise file: 1 records, 6 alert(s).", "ctx": {"ticket_id": "", "file": "C:\\Users\\ZBook\\AppData\\Local\\Temp\\tmpl5h1giqd.json"}}
+{"ts": "2026-08-30T12:35:59.134511", "level": "ALERT", "msg": "Schema drift detected in surprise file: 1 mapping(s) applied.", "ctx": {"alert_type": "SCHEMA_DRIFT", "drifts": ["Unknown field 'custom_field_xyz' preserved as '_extra_custom_field_xyz'"], "file": "C:\\Users\\ZBook\\AppData\\Local\\Temp\\tmpihcer7jl.json"}}
+{"ts": "2026-08-30T12:35:59.134982", "level": "INFO", "msg": "Drift adapter processed surprise file: 1 records, 1 alert(s).", "ctx": {"ticket_id": "", "file": "C:\\Users\\ZBook\\AppData\\Local\\Temp\\tmpihcer7jl.json"}}
+{"ts": "2026-08-30T12:35:59.146396", "level": "INFO", "msg": "Drift adapter processed surprise file: 1 records, 2 alert(s).", "ctx": {"ticket_id": "", "file": "C:\\Users\\ZBook\\AppData\\Local\\Temp\\tmp10xk9eog.json"}}
+{"ts": "2026-08-30T12:35:59.710034", "level": "INFO", "msg": "Loaded 40 email threads from emails/."}
+{"ts": "2026-08-30T12:35:59.711441", "level": "INFO", "msg": "ContextStore loaded: vehicles=100, drivers=60, maintenance_vehicles=93, trips=10000, emails=40, warnings=0"}
+{"ts": "2026-08-30T12:36:01.571886", "level": "INFO", "msg": "Loaded 40 email threads from emails/."}
+{"ts": "2026-08-30T12:36:01.573427", "level": "INFO", "msg": "ContextStore loaded: vehicles=100, drivers=60, maintenance_vehicles=93, trips=10000, emails=40, warnings=0"}
+{"ts": "2026-08-30T12:36:02.084176", "level": "INFO", "msg": "Loaded 40 email threads from emails/."}
+{"ts": "2026-08-30T12:36:02.085578", "level": "INFO", "msg": "ContextStore loaded: vehicles=100, drivers=60, maintenance_vehicles=93, trips=10000, emails=40, warnings=0"}
+{"ts": "2026-08-30T12:36:03.294191", "level": "INFO", "msg": "Audit ledger loaded: 969 processed ticket entries, 34 unique tickets, 0 corrupt lines skipped."}
+{"ts": "2026-08-30T12:36:03.295479", "level": "INFO", "msg": "Audit ledger loaded: 0 processed ticket entries, 0 unique tickets, 0 corrupt lines skipped."}
+{"ts": "2026-08-30T12:36:03.295840", "level": "INFO", "msg": "Processing queue: C:\\Users\\ZBook\\AppData\\Local\\Temp\\tmpu4aobyk4.json"}
+{"ts": "2026-08-30T12:36:03.309115", "level": "INFO", "msg": "Loaded 3 raw records from queue."}
+{"ts": "2026-08-30T12:36:03.310542", "level": "INFO", "msg": "Drift adapter processed surprise file: 3 records, 0 alert(s).", "ctx": {"ticket_id": "", "file": "C:\\Users\\ZBook\\AppData\\Local\\Temp\\tmpu4aobyk4.json"}}
+{"ts": "2026-08-30T12:36:03.310952", "level": "INFO", "msg": "Surprise file adapted: 3 records, 0 drift alerts."}
+{"ts": "2026-08-30T12:36:03.321723", "level": "INFO", "msg": "Vehicle selected: HR16SP9238 from Gurgaon", "ctx": {"ticket_id": "TKT-DUP-UNIQUE-001", "vehicle": "HR16SP9238", "hub": "Gurgaon", "rejections": 3}}
+{"ts": "2026-08-30T12:36:03.448027", "level": "INFO", "msg": "Pipeline run complete.", "ctx": {"ticket_id": "", "status": "success", "total_in_queue": 3, "valid_processed": 1, "quarantined": 0, "work_orders_generated": 1, "comms_pending": 1}}
+{"ts": "2026-08-30T12:36:04.022611", "level": "INFO", "msg": "Loaded 40 email threads from emails/."}
+{"ts": "2026-08-30T12:36:04.024080", "level": "INFO", "msg": "ContextStore loaded: vehicles=100, drivers=60, maintenance_vehicles=93, trips=10000, emails=40, warnings=0"}
+{"ts": "2026-08-30T12:36:04.558199", "level": "INFO", "msg": "Loaded 40 email threads from emails/."}
+{"ts": "2026-08-30T12:36:04.559579", "level": "INFO", "msg": "ContextStore loaded: vehicles=100, drivers=60, maintenance_vehicles=93, trips=10000, emails=40, warnings=0"}
+{"ts": "2026-08-30T12:36:05.778671", "level": "INFO", "msg": "Audit ledger loaded: 969 processed ticket entries, 34 unique tickets, 0 corrupt lines skipped."}
+{"ts": "2026-08-30T12:36:05.782886", "level": "INFO", "msg": "Audit ledger loaded: 0 processed ticket entries, 0 unique tickets, 0 corrupt lines skipped."}
+{"ts": "2026-08-30T12:36:05.783165", "level": "INFO", "msg": "Processing queue: C:\\Users\\ZBook\\AppData\\Local\\Temp\\tmpzvvn2qup.json"}
+{"ts": "2026-08-30T12:36:05.783559", "level": "INFO", "msg": "Loaded 0 raw records from queue."}
+{"ts": "2026-08-30T12:36:05.783933", "level": "ALERT", "msg": "Surprise file yielded zero parseable records.", "ctx": {"alert_type": "EMPTY_QUEUE", "file": "C:\\Users\\ZBook\\AppData\\Local\\Temp\\tmpzvvn2qup.json"}}
+{"ts": "2026-08-30T12:36:05.791318", "level": "INFO", "msg": "Pipeline run complete.", "ctx": {"ticket_id": "", "status": "success", "total_in_queue": 0, "valid_processed": 0, "quarantined": 0, "work_orders_generated": 0, "comms_pending": 0}}
+{"ts": "2026-08-30T12:36:06.381224", "level": "INFO", "msg": "Loaded 40 email threads from emails/."}
+{"ts": "2026-08-30T12:36:06.382736", "level": "INFO", "msg": "ContextStore loaded: vehicles=100, drivers=60, maintenance_vehicles=93, trips=10000, emails=40, warnings=0"}
+{"ts": "2026-08-30T12:36:06.910603", "level": "INFO", "msg": "Loaded 40 email threads from emails/."}
+{"ts": "2026-08-30T12:36:06.912071", "level": "INFO", "msg": "ContextStore loaded: vehicles=100, drivers=60, maintenance_vehicles=93, trips=10000, emails=40, warnings=0"}
+{"ts": "2026-08-30T12:36:08.126678", "level": "INFO", "msg": "Audit ledger loaded: 969 processed ticket entries, 34 unique tickets, 0 corrupt lines skipped."}
+{"ts": "2026-08-30T12:36:08.127137", "level": "INFO", "msg": "Audit ledger loaded: 0 processed ticket entries, 0 unique tickets, 0 corrupt lines skipped."}
+{"ts": "2026-08-30T12:36:08.127375", "level": "INFO", "msg": "Processing queue: \\nonexistent\\queue.json"}
+{"ts": "2026-08-30T12:36:08.127606", "level": "ERROR", "msg": "Queue load failed: Queue file not found: \\nonexistent\\queue.json", "ctx": {"ticket_id": ""}}
+{"ts": "2026-08-30T12:36:08.650179", "level": "INFO", "msg": "Loaded 40 email threads from emails/."}
+{"ts": "2026-08-30T12:36:08.651577", "level": "INFO", "msg": "ContextStore loaded: vehicles=100, drivers=60, maintenance_vehicles=93, trips=10000, emails=40, warnings=0"}
+{"ts": "2026-08-30T12:36:09.178177", "level": "INFO", "msg": "Loaded 40 email threads from emails/."}
+{"ts": "2026-08-30T12:36:09.179560", "level": "INFO", "msg": "ContextStore loaded: vehicles=100, drivers=60, maintenance_vehicles=93, trips=10000, emails=40, warnings=0"}
+{"ts": "2026-08-30T12:36:10.386862", "level": "INFO", "msg": "Audit ledger loaded: 969 processed ticket entries, 34 unique tickets, 0 corrupt lines skipped."}
+{"ts": "2026-08-30T12:36:10.387349", "level": "INFO", "msg": "Audit ledger loaded: 0 processed ticket entries, 0 unique tickets, 0 corrupt lines skipped."}
+{"ts": "2026-08-30T12:36:10.387599", "level": "INFO", "msg": "Processing queue: C:\\Users\\ZBook\\AppData\\Local\\Temp\\tmpltmj1dve.json"}
+{"ts": "2026-08-30T12:36:10.395506", "level": "INFO", "msg": "Loaded 2 raw records from queue."}
+{"ts": "2026-08-30T12:36:10.395953", "level": "INFO", "msg": "Drift adapter processed surprise file: 2 records, 0 alert(s).", "ctx": {"ticket_id": "", "file": "C:\\Users\\ZBook\\AppData\\Local\\Temp\\tmpltmj1dve.json"}}
+{"ts": "2026-08-30T12:36:10.396234", "level": "INFO", "msg": "Surprise file adapted: 2 records, 0 drift alerts."}
+{"ts": "2026-08-30T12:36:10.404804", "level": "INFO", "msg": "Vehicle selected: HR16SP9238 from Gurgaon", "ctx": {"ticket_id": "TKT-IDEM-001", "vehicle": "HR16SP9238", "hub": "Gurgaon", "rejections": 3}}
+{"ts": "2026-08-30T12:36:10.491544", "level": "INFO", "msg": "Vehicle selected: DL82GO5198 from Delhi", "ctx": {"ticket_id": "TKT-IDEM-002", "vehicle": "DL82GO5198", "hub": "Delhi", "rejections": 5}}
+{"ts": "2026-08-30T12:36:10.545725", "level": "INFO", "msg": "Pipeline run complete.", "ctx": {"ticket_id": "", "status": "success", "total_in_queue": 2, "valid_processed": 2, "quarantined": 0, "work_orders_generated": 2, "comms_pending": 2}}
+{"ts": "2026-08-30T12:36:11.073743", "level": "INFO", "msg": "Loaded 40 email threads from emails/."}
+{"ts": "2026-08-30T12:36:11.075064", "level": "INFO", "msg": "ContextStore loaded: vehicles=100, drivers=60, maintenance_vehicles=93, trips=10000, emails=40, warnings=0"}
+{"ts": "2026-08-30T12:36:12.285421", "level": "INFO", "msg": "Audit ledger loaded: 969 processed ticket entries, 34 unique tickets, 0 corrupt lines skipped."}
+{"ts": "2026-08-30T12:36:12.295355", "level": "INFO", "msg": "Audit ledger loaded: 12 processed ticket entries, 2 unique tickets, 0 corrupt lines skipped."}
+{"ts": "2026-08-30T12:36:12.295650", "level": "INFO", "msg": "Processing queue: C:\\Users\\ZBook\\AppData\\Local\\Temp\\tmpltmj1dve.json"}
+{"ts": "2026-08-30T12:36:12.296031", "level": "INFO", "msg": "Loaded 2 raw records from queue."}
+{"ts": "2026-08-30T12:36:12.296529", "level": "INFO", "msg": "Drift adapter processed surprise file: 2 records, 0 alert(s).", "ctx": {"ticket_id": "", "file": "C:\\Users\\ZBook\\AppData\\Local\\Temp\\tmpltmj1dve.json"}}
+{"ts": "2026-08-30T12:36:12.296735", "level": "INFO", "msg": "Surprise file adapted: 2 records, 0 drift alerts."}
+{"ts": "2026-08-30T12:36:12.296967", "level": "INFO", "msg": "Ticket TKT-IDEM-001 already processed in previous run — skipping.", "ctx": {"ticket_id": "TKT-IDEM-001"}}
+{"ts": "2026-08-30T12:36:12.297178", "level": "INFO", "msg": "Ticket TKT-IDEM-002 already processed in previous run — skipping.", "ctx": {"ticket_id": "TKT-IDEM-002"}}
+{"ts": "2026-08-30T12:36:12.300673", "level": "INFO", "msg": "Pipeline run complete.", "ctx": {"ticket_id": "", "status": "success", "total_in_queue": 2, "valid_processed": 0, "quarantined": 0, "work_orders_generated": 0, "comms_pending": 0}}
+{"ts": "2026-08-30T12:36:12.832444", "level": "INFO", "msg": "Loaded 40 email threads from emails/."}
+{"ts": "2026-08-30T12:36:12.833941", "level": "INFO", "msg": "ContextStore loaded: vehicles=100, drivers=60, maintenance_vehicles=93, trips=10000, emails=40, warnings=0"}
+{"ts": "2026-08-30T12:36:12.839265", "level": "ALERT", "msg": "Schema drift detected in surprise file: 10 mapping(s) applied.", "ctx": {"alert_type": "SCHEMA_DRIFT", "drifts": ["Remapped 'id' -> 'ticket_id'", "Remapped 'plate_no' -> 'vehicle'", "Remapped 'driver' -> 'driver_id'", "Remapped 'source_hub' -> 'origin_hub'", "Remapped 'distance_km' -> 'km_from_origin_hub'", "Remapped 'dest_hub' -> 'destination'", "Remapped 'defect' -> 'issue'", "Remapped 'priority' -> 'severity'", "Remapped 'customer' -> 'client'", "Remapped 'timestamp' -> 'created_at'"], "file": "C:\\Users\\ZBook\\AppData\\Local\\Temp\\tmp1xuqv9fy.json"}}
+{"ts": "2026-08-30T12:36:12.839570", "level": "INFO", "msg": "Drift adapter processed surprise file: 2 records, 10 alert(s).", "ctx": {"ticket_id": "", "file": "C:\\Users\\ZBook\\AppData\\Local\\Temp\\tmp1xuqv9fy.json"}}
+{"ts": "2026-08-30T12:36:13.362252", "level": "INFO", "msg": "Loaded 40 email threads from emails/."}
+{"ts": "2026-08-30T12:36:13.363673", "level": "INFO", "msg": "ContextStore loaded: vehicles=100, drivers=60, maintenance_vehicles=93, trips=10000, emails=40, warnings=0"}
+{"ts": "2026-08-30T12:36:13.877329", "level": "INFO", "msg": "Loaded 40 email threads from emails/."}
+{"ts": "2026-08-30T12:36:13.878678", "level": "INFO", "msg": "ContextStore loaded: vehicles=100, drivers=60, maintenance_vehicles=93, trips=10000, emails=40, warnings=0"}
+{"ts": "2026-08-30T12:36:15.089405", "level": "INFO", "msg": "Audit ledger loaded: 969 processed ticket entries, 34 unique tickets, 0 corrupt lines skipped."}
+{"ts": "2026-08-30T12:36:15.089936", "level": "INFO", "msg": "No existing audit ledger found — starting fresh."}
+{"ts": "2026-08-30T12:36:15.090334", "level": "INFO", "msg": "Processing queue: C:\\Users\\ZBook\\AppData\\Local\\Temp\\tmpmq068svp.json"}
+{"ts": "2026-08-30T12:36:15.099486", "level": "INFO", "msg": "Loaded 2 raw records from queue."}
+{"ts": "2026-08-30T12:36:15.099996", "level": "INFO", "msg": "Drift adapter processed surprise file: 2 records, 0 alert(s).", "ctx": {"ticket_id": "", "file": "C:\\Users\\ZBook\\AppData\\Local\\Temp\\tmpmq068svp.json"}}
+{"ts": "2026-08-30T12:36:15.100245", "level": "INFO", "msg": "Surprise file adapted: 2 records, 0 drift alerts."}
+{"ts": "2026-08-30T12:36:15.112435", "level": "INFO", "msg": "Vehicle selected: UP13DI3925 from Lucknow", "ctx": {"ticket_id": "SURPRISE-TEST-01", "vehicle": "UP13DI3925", "hub": "Lucknow", "rejections": 4}}
+{"ts": "2026-08-30T12:36:15.183610", "level": "INFO", "msg": "Pipeline run complete.", "ctx": {"ticket_id": "", "status": "success", "total_in_queue": 2, "valid_processed": 1, "quarantined": 1, "work_orders_generated": 1, "comms_pending": 1}}
+{"ts": "2026-08-30T12:36:15.185720", "level": "WARN", "msg": "Ticket TKT-0027 validated with 1 warning(s)", "ctx": {"ticket_id": "TKT-0027", "warnings": ["ticket_id coerced from 27 -> 'TKT-0027'"]}}
+{"ts": "2026-08-30T12:36:15.186630", "level": "WARN", "msg": "Ticket TKT-0005 validated with 1 warning(s)", "ctx": {"ticket_id": "TKT-0005", "warnings": ["ticket_id coerced from 5.0 -> 'TKT-0005'"]}}
+{"ts": "2026-08-30T12:36:15.187694", "level": "WARN", "msg": "Ticket TKT-001 validated with 1 warning(s)", "ctx": {"ticket_id": "TKT-001", "warnings": ["Coerced km from '20 km' -> 20.0"]}}
+{"ts": "2026-08-30T12:36:15.188548", "level": "WARN", "msg": "Ticket TKT-001 validated with 1 warning(s)", "ctx": {"ticket_id": "TKT-001", "warnings": ["Coerced km from '~35.5' -> 35.5"]}}
+{"ts": "2026-08-30T12:36:15.189375", "level": "WARN", "msg": "Ticket TKT-001 validated with 1 warning(s)", "ctx": {"ticket_id": "TKT-001", "warnings": ["Coerced km from '1,200' -> 1200.0"]}}
+{"ts": "2026-08-30T12:36:15.191245", "level": "WARN", "msg": "Ticket TKT-001 validated with 1 warning(s)", "ctx": {"ticket_id": "TKT-001", "warnings": ["Date '30-08-2026' parsed via format '%d-%m-%Y'"]}}
+{"ts": "2026-08-30T12:36:15.192445", "level": "WARN", "msg": "Ticket TKT-001 validated with 1 warning(s)", "ctx": {"ticket_id": "TKT-001", "warnings": ["Date '30/08/2026' parsed via format '%d/%m/%Y'"]}}
+{"ts": "2026-08-30T12:36:15.200749", "level": "WARN", "msg": "Ticket TKT-0099 validated with 1 warning(s)", "ctx": {"ticket_id": "TKT-0099", "warnings": ["ticket_id coerced from 99 -> 'TKT-0099'"]}}
+{"ts": "2026-08-30T12:36:15.201665", "level": "WARN", "msg": "Ticket TKT-001 validated with 1 warning(s)", "ctx": {"ticket_id": "TKT-001", "warnings": ["Coerced km from '45 km' -> 45.0"]}}
+{"ts": "2026-08-30T12:36:15.202548", "level": "WARN", "msg": "Ticket TKT-001 validated with 1 warning(s)", "ctx": {"ticket_id": "TKT-001", "warnings": ["Unusually large km_from_origin_hub: 9999.0 — possible data error"]}}

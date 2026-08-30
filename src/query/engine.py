@@ -7,7 +7,7 @@ from typing import Any, Dict, List, Optional
 import re
 
 from src.entity.context_store import ContextStore
-from src.entity.normalizer import normalize_vehicle_reg, normalize_driver_id, normalize_client_name
+from src.entity.normalizer import normalize_vehicle_reg, normalize_driver_id, normalize_client_name, extract_vehicle_reg_from_text
 from src.security.pii_scrubber import redact_text
 
 class GroundedQueryEngine:
@@ -163,19 +163,32 @@ class GroundedQueryEngine:
             }
 
         # 12. Specific Vehicle Lookup
-        norm_veh, is_reg = normalize_vehicle_reg(question)
+        norm_veh, is_reg = extract_vehicle_reg_from_text(question)
         if is_reg and norm_veh:
             veh = self.context_store.get_vehicle(norm_veh)
             if veh:
                 maint = self.context_store.get_maintenance_summary(norm_veh)
+                grounded_reasons = []
+                if maint.get('is_overdue'):
+                    grounded_reasons.append("Vehicle is overdue for maintenance (>30 days past service due date, grounded under RULE-DISP-05)")
+                if maint.get('has_active_jugaad'):
+                    grounded_reasons.append("Vehicle has an active temporary jugaad patch (restricted to home region under RULE-DISP-06)")
+                if maint.get('brake_work_in_last_30d'):
+                    grounded_reasons.append("Vehicle had brake maintenance in the last 30 days (ineligible for hill routes to Rudrapur/Nainital under RULE-DISP-04)")
+                if norm_veh in self.context_store.apex_incident_vehicles:
+                    grounded_reasons.append("Vehicle had an incident on an Apex Chemicals run (mandatory rotation enforced under RULE-CLI-03)")
+
+                reason_text = " | Operational Constraints: " + "; ".join(grounded_reasons) if grounded_reasons else " | Operational Status: Fully active with no grounding constraints."
+
                 return {
                     "question": question,
                     "answer": (
                         f"Vehicle {norm_veh} ({veh.get('model', 'Model')}, Year {veh.get('year')}, {veh.get('bs_stage')}) "
-                        f"is homed at {veh.get('home_hub')}. Status: {veh.get('status')}. Engine heater: {veh.get('engine_heater')}. "
-                        f"Latest service date: {maint.get('latest_service_date')}. Overdue: {maint.get('is_overdue')}."
+                        f"is homed at {veh.get('home_hub')}. Status in Fleet Master: {veh.get('status')}. Engine heater: {veh.get('engine_heater')}. "
+                        f"Latest service date: {maint.get('latest_service_date', 'N/A')}."
+                        f"{reason_text}"
                     ),
-                    "citations": [veh.get("citation", "fleet_master.csv"), maint.get("citation", "maintenance_log.xlsx")],
+                    "citations": [veh.get("citation", "fleet_master.csv"), maint.get("citation", "maintenance_log.xlsx"), "dispatcher_interview.txt"],
                     "is_sufficient": True
                 }
 

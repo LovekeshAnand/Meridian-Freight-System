@@ -263,14 +263,18 @@ class EpsilonEngine:
         }
 
     def _resolve_model_for_tier(self, tier: str) -> str:
-        """Selects the best installed model matching the tier."""
+        """Selects the best installed model, prioritizing 7B models for maximum reasoning power."""
         if self.available_models:
+            # If a 7b model is available, use it for top-tier reasoning
+            for m in self.available_models:
+                if "7b" in m or "8b" in m:
+                    return m
             preferred = TIER_MODELS.get(tier, "qwen2.5:1.5b")
             for m in self.available_models:
                 if preferred.split(":")[0] in m:
                     return m
             return self.available_models[0]
-        return TIER_MODELS.get(tier, "qwen2.5:1.5b")
+        return TIER_MODELS.get(tier, "qwen2.5:7b")
 
     def _invoke_llm(self, prompt: str, system: str, model: str) -> str:
         """Submits inference request to Ollama HTTP API with generous token budget."""

@@ -16,7 +16,7 @@ from pathlib import Path
 from typing import Any, Dict, List, Optional
 from datetime import datetime
 
-from fastapi import FastAPI, HTTPException, UploadFile, File
+from fastapi import FastAPI, HTTPException, UploadFile, File, Form
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 
@@ -174,6 +174,107 @@ def submit_single_ticket(ticket: TicketInput):
     pipeline = BreakdownPipeline(context_store=context_store)
     result = pipeline.process_ticket_queue(temp_path)
     return result
+
+@app.post("/api/tickets/analyze-document")
+async def analyze_ticket_document(
+    file: UploadFile = File(None),
+    raw_text: Optional[str] = Form(None),
+    question: Optional[str] = Form(None)
+):
+    """
+    Accepts ticket files in ANY format (JSON, CSV, TXT, Excel/Log) or raw text,
+    parses them through the drift adapter, executes the breakdown pipeline,
+    and runs the Local LLM to analyze the ticket and generate grounded resolutions.
+    """
+    upload_dir = Path("d:/meridian/data/uploads")
+    upload_dir.mkdir(parents=True, exist_ok=True)
+    records = []
+    drift_alerts = []
+    filename = "pasted_text.txt"
+
+    if file and file.filename:
+        filename = file.filename
+        file_path = upload_dir / filename
+        contents = await file.read()
+        with open(file_path, "wb") as f:
+            f.write(contents)
+        try:
+            records, drift_alerts = SurpriseDriftAdapter.adapt_file(file_path)
+        except Exception as e:
+            drift_alerts.append(f"Format adaptation notice: {str(e)}")
+    
+    if not records and raw_text and raw_text.strip():
+        # Try JSON parse first
+        try:
+            parsed = json.loads(raw_text)
+            if isinstance(parsed, list):
+                records = parsed
+            elif isinstance(parsed, dict):
+                records = [parsed]
+        except Exception:
+            # Fallback to single raw incident text
+            records = [{
+                "ticket_id": f"TKT-RAW-{datetime.now().strftime('%H%M%S')}",
+                "issue": raw_text.strip(),
+                "created_at": datetime.now().isoformat()
+            }]
+
+    if not records:
+        raise HTTPException(status_code=400, detail="Could not parse any valid incident or ticket records from the input.")
+
+    # Process records through the Breakdown Pipeline
+    temp_adapted = upload_dir / f"adapted_{datetime.now().strftime('%Y%m%d_%H%M%S')}_{filename}.json"
+    temp_adapted.write_text(json.dumps(records), encoding="utf-8")
+
+    pipeline = BreakdownPipeline(context_store=context_store)
+    pipeline_res = pipeline.process_ticket_queue(temp_adapted)
+
+    # Now run Local LLM Analysis for each ticket to provide deep contextual reasoning
+    processed_analyses = []
+    for i, t in enumerate(records):
+        tkt_id = t.get("ticket_id", f"TKT-{i+1}")
+        # Find matching work order or quarantine
+        matched_wo = next((w for w in pipeline_res.get("work_orders", []) if w.get("ticket_id") == tkt_id), None)
+        matched_quarantine = next((q for q in pipeline_res.get("quarantine", []) if q.get("ticket_id") == tkt_id), None)
+        matched_comms = next((c for c in pipeline_res.get("comms_pending", []) if c.get("ticket_id") == tkt_id), None)
+
+        rep_veh = matched_wo.get("replacement_vehicle") if matched_wo else None
+        
+        # Build prompt for LLM explanation
+        llm_prompt = (
+            f"A breakdown ticket was processed: Client: {t.get('client')}, Vehicle: {t.get('vehicle')}, "
+            f"Route: {t.get('origin_hub')} to {t.get('destination')}, Incident: {t.get('issue')}, "
+            f"Distance: {t.get('km_from_origin_hub')} km from origin.\n"
+        )
+        if rep_veh:
+            llm_prompt += f"System Assigned Replacement Truck: {rep_veh} at hub {matched_wo.get('assigned_hub')}. Rationale: {matched_wo.get('selection_rationale')}.\n"
+        elif matched_quarantine:
+            llm_prompt += f"Ticket Quarantined: Reason: {matched_quarantine.get('reason')}.\n"
+
+        llm_prompt += "Explain the dispatch resolution strategy, cite governing rules, verify SLA compliance, and provide operational instructions."
+
+        llm_res = local_llm.query(llm_prompt)
+
+        processed_analyses.append({
+            "ticket": t,
+            "work_order": matched_wo,
+            "quarantine": matched_quarantine,
+            "comms_pending": matched_comms,
+            "llm_analysis": llm_res.get("answer"),
+            "model_used": llm_res.get("model_used", "qwen2.5:3b"),
+            "citations": llm_res.get("citations", []),
+            "rule_code": llm_res.get("rule_code"),
+            "rule_name": llm_res.get("rule_name"),
+            "vehicle_data": llm_res.get("vehicle_data")
+        })
+
+    return {
+        "filename": filename,
+        "total_tickets": len(records),
+        "drift_alerts": drift_alerts,
+        "pipeline_result": pipeline_res,
+        "analyses": processed_analyses
+    }
 
 @app.post("/api/surprise/upload")
 async def upload_surprise_file(file: UploadFile = File(...)):
